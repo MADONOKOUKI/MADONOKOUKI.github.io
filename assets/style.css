@@ -1,56 +1,133 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Koki Madono</title>
-  <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-  <header class="wrap">
-    <nav class="nav">
-      <a href="./">Home</a>
-      <a href="publication.html">Publications</a>
-    </nav>
+:root {
+  --fg:#222;
+  --bg:#fff;
+  --link:#0a66c2;
+}
 
-    <!-- 写真（左） + テキスト（右） -->
-    <div class="hero">
-      <img src="images/citations.jpeg" alt="Koki Madono portrait" class="hero-img">
-      <div class="hero-text">
-        <h1>Koki Madono</h1>
-        <p class="muted">Assistant Professor @ Waseda University.<br>
-        Interests: Computer Graphics / Vision / HCI.</p>
+*{box-sizing:border-box}
+body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--fg);background:var(--bg)}
 
-        <!-- Scholar / Researchmap ボタン -->
-        <p class="hero-links">
-          <a href="https://scholar.google.co.jp/citations?user=nVgMK4kAAAAJ&hl=ja" target="_blank" class="btn">Google Scholar</a>
-          <a href="https://researchmap.jp/madorin0130" target="_blank" class="btn">researchmap</a>
-        </p>
-      </div>
-    </div>
-  </header>
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px}
+.nav a{margin-right:16px;text-decoration:none;color:var(--link)}
 
-  <main class="wrap">
-    <section class="section">
-      <h2>Short Bio</h2>
-      <p>Koki Madono is currently an assistant professor at Waseda University. He obtained degrees from Waseda University in 2019 (B.S.), 2021 (M.S), 2024 (Ph.D.). His general research interests are Computer Graphics for Application, Supporting Human Creation from both Computer Graphics and Human Computer Interaction.</p>
-    </section>
+h1,h2{line-height:1.25;margin:0.6em 0 0.3em}
 
-    <section class="section">
-      <h2>News</h2>
-      <ul>
-        <li>2025-09: 1 journal paper accepted to appear in <a href="https://www.computer.org/csdl/magazine/cg/5555/01/11108266/28UttnfPZEA">IEEE Computer Graphics and Applications</a></li>
-        <li>2023-08: 1 journal paper accepted to appear in <a href="https://diglib.eg.org/items/194d937f-f7c2-4980-bea7-0cd771e103ec">Pacific Graphics 2023</a></li>
-        <li>2023-08: 1 conference paper accepted to appear in <a href="https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d">Pacific Graphics 2023</a></li>
-      </ul>
-    </section>
+footer{border-top:1px solid #eee;margin-top:32px;padding-top:12px;font-size:14px;color:#666}
 
-    <section class="section">
-      <h2>Remarks</h2>
-      <p>Please check all of my paper lists from <a href="https://scholar.google.co.jp/citations?user=nVgMK4kAAAAJ&hl=ja">Google Scholar</a></p>
-    </section>
-  </main>
+/* ===== Hero セクション ===== */
+.hero {
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  align-items:center;
+  margin-top:16px;
+}
+.hero-img {
+  width:160px;
+  height:160px;
+  border-radius:50%; /* 丸く表示 */
+  object-fit:cover;
+}
+.hero-text {
+  text-align:center;
+}
+.hero-links {
+  margin-top:8px;
+}
+.hero-links .btn {
+  display:inline-block;
+  margin-right:8px;
+  padding:6px 12px;
+  border-radius:6px;
+  text-decoration:none;
+  background:var(--link);
+  color:#fff;
+  font-size:14px;
+}
+.hero-links .btn:hover {
+  background:#004182;
+}
+/* PCでは横並び */
+@media (min-width:768px){
+  .hero{flex-direction:row;align-items:center;text-align:left}
+  .hero-text{text-align:left;margin-left:20px}
+}
 
-  <footer class="wrap small">© Koki Madono</footer>
-</body>
-</html>
+/* ===== Publication items: 横並び ===== */
+.pub-item{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  margin:24px 0;
+  padding-bottom:16px;
+  border-bottom:1px solid #eee;
+}
+.pub-thumb{
+  width:160px;
+  height:110px;
+  object-fit:cover;
+  border-radius:6px;
+  flex-shrink:0;
+}
+.pub-info{
+  flex:1;
+  min-width:0;
+}
+.pub-title{margin:0.2em 0;font-weight:600}
+.pub-authors,.pub-venue{margin:0.2em 0;color:#555}
+.pub-links{margin-top:6px}
+
+/* バッジ */
+.pub-links .badge{
+  display:inline-block;
+  padding:2px 10px;
+  border:1px solid #ccc;
+  border-radius:999px;
+  font-size:12px;
+  margin-right:6px;
+  text-decoration:none;
+  background:#fff;
+  cursor:pointer;
+}
+.pub-links .badge:hover{background:#f6f6f6}
+
+/* dialog (Abstract / BibTeX) */
+.pub-dialog{
+  max-width:600px;
+  padding:20px;
+  border:none;
+  border-radius:8px;
+}
+.pub-dialog::backdrop{background:rgba(0,0,0,0.5)}
+.pub-dialog h3{margin-top:0}
+.pub-dialog pre{
+  white-space:pre-wrap;
+  font:13px/1.4 ui-monospace,monospace;
+  background:#fafafa;
+  border:1px solid #eee;
+  padding:8px;
+  border-radius:6px;
+  overflow-x:auto;
+}
+
+/* モバイル: 縦並び */
+@media (max-width:640px){
+  .pub-item{flex-direction:column}
+  .pub-thumb{width:100%;height:auto}
+}
+
+/* Publication filters */
+.pub-filters {margin:12px 0;}
+.pub-filters button {
+  margin-right:8px;
+  padding:4px 10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  background:#f9f9f9;
+  cursor:pointer;
+}
+.pub-filters button.active {
+  background:var(--link);
+  color:#fff;
+  border-color:var(--link);
+}
