@@ -51,7 +51,7 @@
     "abstract": "This paper proposes ScrambleMix, a novel privacy-preserving image processing for edge-cloud machine learning. ScrambleMix combines image scrambling and AugMix to improve visual information hiding. Specifically, to make two scrambled images from a single input image, each copy of the input image is scrambled using a different key every time. Then, the scrambled images are mixed with a randomly sampled mixing ratio. A self-teaching loss is introduced to improve the classification performance of ScrambleMix. In this study, we first evaluate the visual information hiding quantitatively using Learned Perceptual Image Patch Similarity (LPIPS). Then, the experiments with different settings demonstrate the proposed ScrambleMix outperforms the existing approaches for edge-cloud machine learning in terms of both classification accuracy and visual information hiding.",
     "bibtex": "@inproceedings{10.1007/978-981-97-0376-0_25,\n author = {Madono, Koki and Tanaka, Masayuki and Onishi, Masaki},\n title = {ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning},\n year = {2023},\n isbn = {978-981-97-0375-3},\n publisher = {Springer-Verlag},\n address = {Berlin, Heidelberg},\n url = {https://doi.org/10.1007/978-981-97-0376-0_25},\n doi = {10.1007/978-981-97-0376-0_25},\n booktitle = {Image and Video Technology: 11th Pacific-Rim Symposium, PSIVT 2023, Auckland, New Zealand, November 22–24, 2023, Proceedings},\n pages = {326–340},\n numpages = {15},\n keywords = {Image Processing, Cloud-based Machine Learning, Privacy-Preserving Machine Learning},\n location = {Auckland, New Zealand}}",
     "thumb": "images/psivt23.png"
-  }  
+  },
   {
     "year": 2022,
     "type": "conference",
