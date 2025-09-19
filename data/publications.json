@@ -9,7 +9,7 @@
       { "label": "PDF", "url": "https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d" }
     ],
     "abstract": "We present an interactive texture segmentation workflow for 3D scanned models. The system combines user guidance with geometric and appearance cues on the surface to produce clean, consistent regions suitable for editing and downstream processing. We evaluate on diverse real scans and report improvements in region accuracy and editing time.",
-    "bibtex": "@article{MadonoCGA2025,\\n  author  = {Koki Madono and Takeo Igarashi and Hiroharu Kato and Taisuke Hashimoto and Fabrice Matulic and Tsukasa Takagi and Keita Higuchi},\\n  title   = {Interactive Texture Segmentation of 3D Scanned Models},\\n  journal = {IEEE Computer Graphics and Applications},\\n  year    = {2025}\\n}",
+    "bibtex": "@article{MadonoCGA2025,\n  author  = {Koki Madono and Takeo Igarashi and Hiroharu Kato and Taisuke Hashimoto and Fabrice Matulic and Tsukasa Takagi and Keita Higuchi},\n  title   = {Interactive Texture Segmentation of 3D Scanned Models},\n  journal = {IEEE Computer Graphics and Applications},\n  year    = {2025}\n}",
     "thumb": "images/cga2025.jpg"
   },
   {
@@ -22,7 +22,7 @@
       { "label": "PDF", "url": "pdfs/pg2023.pdf" }
     ],
     "abstract": "We propose a data-driven approach to synthesize ink painting brushstrokes. Using example strokes, our method models stroke appearance and dynamics to generate plausible results that preserve characteristic textures and tapering while remaining controllable for design and illustration workflows.",
-    "bibtex": "@article{MadonoPG2023,\\n  author  = {Koki Madono and Edgar Simo-Serra},\\n  title   = {Data-Driven Ink Painting Brushstroke Rendering},\\n  journal = {Computer Graphics Forum},\\n  year    = {2023}\\n}",
+    "bibtex": "@article{MadonoPG2023,\n  author  = {Koki Madono and Edgar Simo-Serra},\n  title   = {Data-Driven Ink Painting Brushstroke Rendering},\n  journal = {Computer Graphics Forum},\n  year    = {2023}\n}",
     "thumb": "images/pg2023.jpg"
   }
 ]
