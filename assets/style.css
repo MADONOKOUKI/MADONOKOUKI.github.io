@@ -76,3 +76,19 @@ footer{border-top:1px solid #eee;margin-top:32px;padding-top:12px;font-size:14px
   .pub-item{flex-direction:column}
   .pub-thumb{width:100%;height:auto}
 }
+.pub-filters {
+  margin: 12px 0;
+}
+.pub-filters button {
+  margin-right: 8px;
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f9f9f9;
+  cursor: pointer;
+}
+.pub-filters button.active {
+  background: #0a66c2;
+  color: #fff;
+  border-color: #0a66c2;
+}

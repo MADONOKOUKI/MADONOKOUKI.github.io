@@ -20,6 +20,8 @@
       <button data-filter="all" class="active">All</button>
       <button data-filter="journal">Journal</button>
       <button data-filter="conference">Conference</button>
+      <button data-filter="selected">Selected</button>
+      <button data-filter="top-tier">Top-tier</button>
     </div>
   </header>
 
@@ -53,7 +55,12 @@
     function render(filter='all'){
       root.innerHTML = '';
       for(const y of years){
-        const items = byYear[y].filter(p => filter==='all' || p.type===filter);
+        const items = byYear[y].filter(p => {
+          if(filter==='all') return true;
+          if(filter==='journal' || filter==='conference') return p.type===filter;
+          if(p.tags && p.tags.includes(filter)) return true; // タグで選択
+          return false;
+        });
         if(items.length===0) continue;
 
         const h2 = document.createElement('h2');
@@ -74,7 +81,7 @@
             art.appendChild(img);
           }
 
-          // 右側の情報
+          // 右の情報
           const info = document.createElement('div');
           info.className = 'pub-info';
 
@@ -100,7 +107,7 @@
             const pLinks = document.createElement('p');
             pLinks.className = 'pub-links';
 
-            // PDF / CODE / DOI など
+            // リンク
             if(p.links?.length){
               for(const lk of p.links){
                 const a = document.createElement('a');
