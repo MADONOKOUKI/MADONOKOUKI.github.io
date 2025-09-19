@@ -6,12 +6,20 @@
     "authors": "Koki Madono, Takeo Igarashi, Hiroharu Kato, Taisuke Hashimoto, Fabrice Matulic, Tsukasa Takagi, Keita Higuchi",
     "venue": "IEEE Computer Graphics and Applications",
     "links": [
-      {"label":"PDF","url":"pdfs/cga2025.pdf"},
+      {"label":"PDF","url":"https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d"},
       {"label":"DOI","url":"https://doi.org/..."},
-      {"label":"code","url":"https://github.com/..."}
     ],
-    "abstract": "One-sentence summary…",
-    "bibtex": "@Article{MadonoCGA2025, ... }",
+    "abstract": "Automatic caricature generation is a challenging task that aims to emphasize the subject's facial characteristics while preserving its identity. Due to the complexity of the task, caricatures could exclusively be performed by a trained artist. Recent developments in deep learning have achieved promising results in capturing artistic styles. Despite the success, current methods still struggle to accurately capture the whimsical aspect of caricatures while preserving identity. In this work, we propose Parametric Caricature, the first parametric-based caricature generation that yields vectorized and animatable caricatures. We devise several hundred parameters to encode facial traits, which our method directly predicts instead of estimating the raster caricature like previous methods. To guide the attention of the method, we segment the different parts of the face and retrieve the most similar parts from an artist-made database of caricatures. Our method proposes visually appealing caricatures more adapted to use as avatars than existing methods, as demonstrated by our user study.",
+    "bibtex": "@inproceedings{10.2312:pg.20231271,
+booktitle = {Pacific Graphics Short Papers and Posters},
+editor = {Chaine, Raphaëlle and Deng, Zhigang and Kim, Min H.},
+title = {{Automatic Vector Caricature via Face Parametrization}},
+author = {Madono, Koki and Hold-Geoffroy, Yannick and Li, Yijun and Ito, Daichi and Echevarria, Jose and Smith, Cameron},
+year = {2023},
+publisher = {The Eurographics Association},
+ISBN = {978-3-03868-234-9},
+DOI = {10.2312/pg.20231271}
+}",
     "thumb": "images/cga2025.png"
   },
   {
