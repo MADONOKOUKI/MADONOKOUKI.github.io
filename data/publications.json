@@ -93,5 +93,19 @@
     "abstract": "The present study proposes the method to improve the perceptual information hiding in image scramble approaches. Image scramble approaches have been used to overcome the privacy issues on the cloud-based machine learning approach. The performance of image scramble approaches are depending on the scramble parameters; because it decides the performance of perceptual information hiding. However, in existing image scramble approaches, the performance by scrambling parameters has not been quantitatively evaluated. This may be led to show private information in public. To overcome this issue, a suitable metric is investigated to hide PIH, and then scrambling parameter generation is proposed to combine image scramble approaches. Experimental comparisons using several image quality assessment metrics show that Learned Perceptual Image Patch Similarity (LPIPS) is suitable for PIH. Also, the proposed scrambling parameter generation is experimentally confirmed effective to hide PIH while keeping the classification performance.",
     "bibtex": "@article{madono2021scrambling,\n title={Scrambling parameter generation to improve perceptual information hiding},\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},\n journal={Electronic Imaging},\n volume={33},\n pages={1--8},\n year={2021},\n publisher={Society for Imaging Science and Technology}}",
     "thumb": "images/ei21.png"
-  }  
+  },
+  {
+    "year": 2020,
+    "type": "conference",
+    "title": "Block-wise Scrambled Image Recognition Using Adaptation Network",
+    "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa",
+    "venue": "AAAI WS (Artificial Intelligence of Things)",
+    "links": [
+      { "label": "PDF",  "url": "https://arxiv.org/pdf/2001.07761" },
+      { "label": "CODE", "url": "https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition" }
+    ],
+    "abstract": "In this study, a perceptually hidden object-recognition method is investigated to generate secure images recognizable by humans but not machines. Hence, both the perceptual information hiding and the corresponding object recognition methods should be developed. Block-wise image scrambling is introduced to hide perceptual information from a third party. In addition, an adaptation network is proposed to recognize those scrambled images. Experimental comparisons conducted using CIFAR datasets demonstrated that the proposed adaptation network performed well in incorporating simple perceptual information hiding into DNN-based image classification.",
+    "bibtex": "@article{madono2020block,\n title={Block-wise scrambled image recognition using adaptation network},\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},\n journal={arXiv preprint arXiv:2001.07761},\n year={2020}}",
+    "thumb": "images/aaaiws20.png"
+  }    
 ]
