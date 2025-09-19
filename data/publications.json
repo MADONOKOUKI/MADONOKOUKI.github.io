@@ -14,7 +14,7 @@
   },
   {
     "year": 2023,
-    "type": "conference",
+    "type": "journal",
     "title": "Data-Driven Ink Painting Brushstroke Rendering",
     "authors": "Koki Madono, Edgar Simo-Serra",
     "venue": "Computer Graphics Forum (Pacific Graphics)",
@@ -25,4 +25,17 @@
     "bibtex": "@article{MadonoPG2023,\n  author  = {Koki Madono and Edgar Simo-Serra},\n  title   = {Data-Driven Ink Painting Brushstroke Rendering},\n  journal = {Computer Graphics Forum},\n  year    = {2023}\n}",
     "thumb": "images/pg2023_madono_tn.png"
   }
+  {
+    "year": 2023,
+    "type": "conference",
+    "title": "Automatic Vector Caricature via Face Parametrization",
+    "authors": "Koki Madono, Yannick Hold-Geoffroy, Yijun Li, Daichi Ito, Jose Echevarria, Cameron Smith",
+    "venue": "Pacific Graphics, Conference Proceedings,",
+    "links": [
+      { "label": "PDF", "url": "https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d" }
+    ],
+    "abstract": "Automatic caricature generation is a challenging task that aims to emphasize the subject's facial characteristics while preserving its identity. Due to the complexity of the task, caricatures could exclusively be performed by a trained artist. Recent developments in deep learning have achieved promising results in capturing artistic styles. Despite the success, current methods still struggle to accurately capture the whimsical aspect of caricatures while preserving identity. In this work, we propose Parametric Caricature, the first parametric-based caricature generation that yields vectorized and animatable caricatures. We devise several hundred parameters to encode facial traits, which our method directly predicts instead of estimating the raster caricature like previous methods. To guide the attention of the method, we segment the different parts of the face and retrieve the most similar parts from an artist-made database of caricatures. Our method proposes visually appealing caricatures more adapted to use as avatars than existing methods, as demonstrated by our user study.",
+    "bibtex": "@article{MadonoPG2023,\n  author  = {Koki Madono and Edgar Simo-Serra},\n  title   = {Data-Driven Ink Painting Brushstroke Rendering},\n  journal = {Computer Graphics Forum},\n  year    = {2023}\n}",
+    "thumb": "images/pg2023_madono_tn.png"
+  }  
 ]
