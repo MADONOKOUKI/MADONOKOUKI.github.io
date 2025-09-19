@@ -3,41 +3,39 @@
   <title>Koki Madono</title>
   <link rel="stylesheet" href="assets/style.css">
 </head><body>
-  <header>
-    <nav>
+  <header class="wrap">
+    <nav class="nav">
       <a href="./">Home</a>
       <a href="publication.html">Publications</a>
       <a href="projects/">Projects</a>
     </nav>
-    <h1>Koki Madono</h1>
-    <p>Assistant Professor @ Waseda University. Interests: Computer Graphics / Vision / HCI.</p>
+
+    <!-- 画像をいちばん上に -->
+    <div class="hero">
+      <img src="images/citations.jpeg" alt="Koki Madono portrait">
+      <div>
+        <h1>Koki Madono</h1>
+        <p class="muted">Assistant Professor @ Waseda University. Interests: Computer Graphics / Vision / HCI.</p>
+      </div>
+    </div>
   </header>
-  <main class="grid grid-2">
-    <section>
-      <p>
-  <img src="images/citations.jpeg"
-       alt="citations"
-       style="max-width:100%;height:auto;border-radius:8px">
-</p>
+
+  <main class="wrap">
+    <!-- Bio（必要なら追加の自己紹介文をここに） -->
+    <section class="section">
+      <h2>About</h2>
+      <p>Short bio goes here. Research topics, current focus, etc.</p>
     </section>
-    <section>
+
+    <!-- News だけ残す -->
+    <section class="section">
       <h2>News</h2>
       <ul>
         <li>2025-09: Paper accepted to …</li>
         <li>2025-08: Released code for …</li>
       </ul>
     </section>
-    <section>
-      <h2>Selected Projects</h2>
-      <ul>
-        <li><a href="projects/project-a.html">Project A</a> — one-liner.</li>
-        <li><a href="projects/project-b.html">Project B</a> — one-liner.</li>
-      </ul>
-    </section>
-    <section>
-      <h2>Contact</h2>
-      <p>Email: you [at] example.com</p>
-    </section>
   </main>
-  <footer>© Your Name</footer>
+
+  <footer class="wrap small">© Koki Madono</footer>
 </body></html>
