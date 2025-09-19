@@ -1,27 +1,48 @@
-:root { --fg:#222; --bg:#fff; --link:#0a66c2; }
-*{box-sizing:border-box} body{margin:0;font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; color:var(--fg); background:var(--bg)}
-header{max-width:980px;margin:0 auto;padding:28px 16px 0}
-nav a{margin-right:16px;text-decoration:none;color:var(--link)}
-main{max-width:980px;margin:0 auto;padding:24px 16px}
-h1,h2{line-height:1.25;margin:0.6em 0 0.3em}
-.grid{display:grid;gap:16px}
-@media(min-width:800px){.grid-2{grid-template-columns:1fr 1fr}}
-footer{max-width:980px;margin:48px auto 24px;padding:0 16px;font-size:14px;color:#666}
-
-/* レイアウトの共通ラッパー */
-.wrap{max-width:980px;margin:0 auto;padding:24px 16px}
-
-/* ナビの間隔 */
-.nav a{margin-right:16px;text-decoration:none}
-
-/* 画像を上、テキストを下（モバイル）→横並び（PC） */
-.hero{display:flex;flex-direction:column;gap:16px;align-items:flex-start;margin-top:16px}
-.hero img{width:140px;height:140px;border-radius:50%;object-fit:cover}
-@media (min-width:880px){
-  .hero{flex-direction:row;align-items:center}
+:root{
+  --fg:#222; --bg:#fff; --link:#0a66c2;
 }
 
-/* 文字色など（任意） */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font:16px/1.6 system-ui,-apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  color:var(--fg); background:var(--bg);
+}
+
+/* 共通ラッパ */
+.wrap{max-width:980px;margin:0 auto;padding:24px 16px}
+
+/* ヘッダーとフッターは .wrap に任せる（header/mainのmax-width指定は削除） */
+header, main, footer{}
+
+/* ナビ */
+.nav a{margin-right:16px;text-decoration:none;color:var(--link)}
+.nav a:hover{text-decoration:underline}
+
+/* 見出し */
+h1,h2{line-height:1.25;margin:0.6em 0 0.3em}
+
+/* ヒーロー：PCは横並び、モバイルは縦積み */
+.hero{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin-top:16px;
+}
+.hero img{
+  width:140px; height:140px; border-radius:50%; object-fit:cover; flex:0 0 auto;
+}
+.hero-text h1{margin:0 0 6px 0; line-height:1.2}
+.hero-text p{margin:0}
+
+@media (max-width: 880px){
+  .hero{flex-direction:column; align-items:flex-start}
+}
+
+/* ユーティリティ */
 .muted{color:#6b7280}
 .section{margin-top:28px}
 .small{font-size:14px}
+
+/* フッター */
+footer{border-top:1px solid #eee;margin-top:32px}
