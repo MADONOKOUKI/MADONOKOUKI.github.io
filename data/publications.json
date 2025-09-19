@@ -24,18 +24,18 @@
     "abstract": "Although digital painting has advanced much in recent years, there is still a significant divide between physically drawn paintings and purely digitally drawn paintings. These differences arise due to the physical interactions between the brush, ink, and paper, which are hard to emulate in the digital domain. Most ink painting approaches have focused on either using heuristics or physical simulation to attempt to bridge the gap between digital and analog, however, these approaches are still unable to capture the diversity of painting effects, such as ink fading or blotting, found in the real world. In this work, we propose a data-driven approach to generate ink paintings based on a semi-automatically collected high-quality real-world ink painting dataset. We use a multi-camera robot-based setup to automatically create a diversity of ink paintings, which allows for capturing the entire process in high resolution, including capturing detailed brush motions and drawing results. To ensure high-quality capture of the painting process, we calibrate the setup and perform occlusion-aware blending to capture all the strokes in high resolution in a robust and efficient way. Using our new dataset, we propose a recursive deep learning-based model to reproduce the ink paintings stroke by stroke while capturing complex ink painting effects such as bleeding and mixing. Our results corroborate the fidelity of the proposed approach to real hand-drawn ink paintings in comparison with existing approaches. We hope the availability of our dataset will encourage new research on digital realistic ink painting techniques.",
     "bibtex": "@article{MadonoPG2023,\n  author  = {Koki Madono and Edgar Simo-Serra},\n  title   = {Data-Driven Ink Painting Brushstroke Rendering},\n  journal = {Computer Graphics Forum},\n  year    = {2023}\n}",
     "thumb": "images/pg2023_madono_tn.png"
-  }
+  },
   {
     "year": 2023,
     "type": "conference",
     "title": "Automatic Vector Caricature via Face Parametrization",
     "authors": "Koki Madono, Yannick Hold-Geoffroy, Yijun Li, Daichi Ito, Jose Echevarria, Cameron Smith",
-    "venue": "Pacific Graphics, Conference Proceedings,",
+    "venue": "Pacific Graphics, Conference Proceedings",
     "links": [
       { "label": "PDF", "url": "https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d" }
     ],
-    "abstract": "Automatic caricature generation is a challenging task that aims to emphasize the subject's facial characteristics while preserving its identity. Due to the complexity of the task, caricatures could exclusively be performed by a trained artist. Recent developments in deep learning have achieved promising results in capturing artistic styles. Despite the success, current methods still struggle to accurately capture the whimsical aspect of caricatures while preserving identity. In this work, we propose Parametric Caricature, the first parametric-based caricature generation that yields vectorized and animatable caricatures. We devise several hundred parameters to encode facial traits, which our method directly predicts instead of estimating the raster caricature like previous methods. To guide the attention of the method, we segment the different parts of the face and retrieve the most similar parts from an artist-made database of caricatures. Our method proposes visually appealing caricatures more adapted to use as avatars than existing methods, as demonstrated by our user study.",
-    "bibtex": "@article{MadonoPG2023,\n  author  = {Koki Madono and Edgar Simo-Serra},\n  title   = {Data-Driven Ink Painting Brushstroke Rendering},\n  journal = {Computer Graphics Forum},\n  year    = {2023}\n}",
+    "abstract": "Automatic caricature generation is a challenging task that aims to emphasize the subject's facial characteristics while preserving identity. We propose Parametric Caricature, a parametric-based caricature generation method that yields vectorized and animatable caricatures. Several hundred parameters encode facial traits predicted from input faces, and part-aware retrieval from an artist-made caricature database guides stylization. The resulting caricatures are visually appealing and suitable as avatars, validated by a user study.",
+    "bibtex": "@inproceedings{MadonoPGShort2023,\n  author    = {Koki Madono and Yannick Hold-Geoffroy and Yijun Li and Daichi Ito and Jose Echevarria and Cameron Smith},\n  title     = {Automatic Vector Caricature via Face Parametrization},\n  booktitle = {Pacific Graphics (Short Papers / Posters / Proceedings)},\n  year      = {2023}\n}",
     "thumb": "images/pg2023_madono_tn.png"
-  }  
+  }
 ]
