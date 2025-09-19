@@ -35,7 +35,7 @@
       { "label": "PDF", "url": "https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d" }
     ],
     "abstract": "Automatic caricature generation is a challenging task that aims to emphasize the subject's facial characteristics while preserving identity. We propose Parametric Caricature, a parametric-based caricature generation method that yields vectorized and animatable caricatures. Several hundred parameters encode facial traits predicted from input faces, and part-aware retrieval from an artist-made caricature database guides stylization. The resulting caricatures are visually appealing and suitable as avatars, validated by a user study.",
-    "bibtex": "@inproceedings{MadonoPGShort2023,\n  author    = {Koki Madono and Yannick Hold-Geoffroy and Yijun Li and Daichi Ito and Jose Echevarria and Cameron Smith},\n  title     = {Automatic Vector Caricature via Face Parametrization},\n  booktitle = {Pacific Graphics (Short Papers / Posters / Proceedings)},\n  year      = {2023}\n}",
+    "bibtex": "@inproceedings{10.2312:pg.20231271,\n booktitle = {Pacific Graphics Short Papers and Posters},\n editor = {Chaine, Raphaëlle and Deng, Zhigang and Kim, Min H.},\n title = {{Automatic Vector Caricature via Face Parametrization}},\n author = {Madono, Koki and Hold-Geoffroy, Yannick and Li, Yijun and Ito, Daichi and Echevarria, Jose and Smith, Cameron},\n year = {2023},\n publisher = {The Eurographics Association},\n ISBN = {978-3-03868-234-9},\n DOI = {10.2312/pg.20231271}\n}", 
     "thumb": "images/pg2023_madono_tn.png"
   }
 ]
