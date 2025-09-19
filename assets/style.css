@@ -70,7 +70,12 @@ footer{border-top:1px solid #eee;margin-top:32px}
 .badge:hover{ background:#f6f6f6; text-decoration:none; }
 
 .pub-thumb{
-  width:120px; height:80px; object-fit:cover; border-radius:8px; margin:4px 12px 8px 0; float:right;
+  width:180px; height:120px; object-fit:cover; border-radius:8px; margin:4px 12px 8px 0; float:right;
+}
+
+/* モバイルでは少し小さく */
+@media (max-width: 720px){
+  .pub-thumb{ width: 150px; height: 100px; float:none; display:block; margin: 0 0 8px; }
 }
 
 .pub-abstract summary,
