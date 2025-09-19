@@ -3,7 +3,7 @@
     "year": 2025,
     "type": "journal",
     "title": "Interactive Texture Segmentation of 3D Scanned Models",
-    "authors": "Koki Madono, Takeo Igarashi, Hiroharu Kato, Taisuke. Hashimoto, Fabric Matulic, Tsukasa Takagi, Keita Higuchi",
+    "authors": "Koki Madono, Takeo Igarashi, Hiroharu Kato, Taisuke Hashimoto, Fabrice Matulic, Tsukasa Takagi, Keita Higuchi",
     "venue": "IEEE Computer Graphics and Applications",
     "links": [
       {"label":"PDF","url":"pdfs/cga2025.pdf"},
