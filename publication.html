@@ -16,17 +16,15 @@
     <h1>Publications</h1>
 
     <!-- フィルタボタン -->
-    <div class="pub-filters" role="tablist" aria-label="Publication filters">
-      <button data-filter="all" class="active" role="tab" aria-selected="true">All</button>
-      <button data-filter="journal" role="tab" aria-selected="false">Journal</button>
-      <button data-filter="conference" role="tab" aria-selected="false">Conference</button>
+    <div class="pub-filters">
+      <button data-filter="all" class="active">All</button>
+      <button data-filter="journal">Journal</button>
+      <button data-filter="conference">Conference</button>
     </div>
   </header>
 
   <main id="pub-root" class="wrap">
-    <noscript>
-      <p>Please enable JavaScript to view the publication list.</p>
-    </noscript>
+    <noscript><p>Please enable JavaScript to view the publication list.</p></noscript>
   </main>
 
   <footer class="wrap small">© Koki Madono</footer>
@@ -67,7 +65,7 @@
           const art = document.createElement('article');
           art.className = 'pub-item';
 
-          // サムネイル
+          // 左の画像
           if(p.thumb){
             const img = document.createElement('img');
             img.className = 'pub-thumb';
@@ -76,32 +74,33 @@
             art.appendChild(img);
           }
 
-          // タイトル
+          // 右側の情報
+          const info = document.createElement('div');
+          info.className = 'pub-info';
+
           const h3 = document.createElement('h3');
           h3.className = 'pub-title';
           h3.textContent = p.title;
-          art.appendChild(h3);
+          info.appendChild(h3);
 
-          // 著者
           const a1 = document.createElement('p');
           a1.className = 'pub-authors';
           a1.innerHTML = (p.authors || '')
             .replace(/K\.?\s*Madono/gi,'<strong>K. Madono</strong>')
             .replace(/Koki\s+Madono/gi,'<strong>Koki Madono</strong>');
-          art.appendChild(a1);
+          info.appendChild(a1);
 
-          // venue
           const a2 = document.createElement('p');
           a2.className = 'pub-venue';
           a2.textContent = `${p.venue || ''}, ${p.year}`;
-          art.appendChild(a2);
+          info.appendChild(a2);
 
           // バッジ行
           if(p.links?.length || p.abstract || p.bibtex){
             const pLinks = document.createElement('p');
             pLinks.className = 'pub-links';
 
-            // PDF / Code / DOI など
+            // PDF / CODE / DOI など
             if(p.links?.length){
               for(const lk of p.links){
                 const a = document.createElement('a');
@@ -151,9 +150,10 @@
               pLinks.appendChild(btn);
             }
 
-            art.appendChild(pLinks);
+            info.appendChild(pLinks);
           }
 
+          art.appendChild(info);
           root.appendChild(art);
         }
       }
@@ -161,9 +161,8 @@
 
     filters.forEach(b=>{
       b.addEventListener('click', ()=>{
-        filters.forEach(x=>{x.classList.remove('active'); x.setAttribute('aria-selected','false');});
+        filters.forEach(x=>x.classList.remove('active'));
         b.classList.add('active');
-        b.setAttribute('aria-selected','true');
         render(b.dataset.filter);
       });
     });
