@@ -23,7 +23,7 @@
     ],
     "abstract": "Although digital painting has advanced much in recent years, there is still a significant divide between physically drawn paintings and purely digitally drawn paintings. These differences arise due to the physical interactions between the brush, ink, and paper, which are hard to emulate in the digital domain. Most ink painting approaches have focused on either using heuristics or physical simulation to attempt to bridge the gap between digital and analog, however, these approaches are still unable to capture the diversity of painting effects, such as ink fading or blotting, found in the real world. In this work, we propose a data-driven approach to generate ink paintings based on a semi-automatically collected high-quality real-world ink painting dataset. We use a multi-camera robot-based setup to automatically create a diversity of ink paintings, which allows for capturing the entire process in high resolution, including capturing detailed brush motions and drawing results. To ensure high-quality capture of the painting process, we calibrate the setup and perform occlusion-aware blending to capture all the strokes in high resolution in a robust and efficient way. Using our new dataset, we propose a recursive deep learning-based model to reproduce the ink paintings stroke by stroke while capturing complex ink painting effects such as bleeding and mixing. Our results corroborate the fidelity of the proposed approach to real hand-drawn ink paintings in comparison with existing approaches. We hope the availability of our dataset will encourage new research on digital realistic ink painting techniques.",
     "bibtex": "@article{10.1111:cgf.14965,\n journal = {Computer Graphics Forum},\n title = {{Data-Driven Ink Painting Brushstroke Rendering}},\n author = {Madono, Koki and Simo-Serra, Edgar},\n year = {2023},\n publisher = {The Eurographics Association and John Wiley & Sons Ltd.},\n ISSN = {1467-8659},\n DOI = {10.1111/cgf.14965}\n}",
-    "thumb": "images/pg2023_madono_tn.png"
+    "thumb": "images/pg23_ink.png"
   },
   {
     "year": 2023,
@@ -36,6 +36,6 @@
     ],
     "abstract": "Automatic caricature generation is a challenging task that aims to emphasize the subject's facial characteristics while preserving identity. We propose Parametric Caricature, a parametric-based caricature generation method that yields vectorized and animatable caricatures. Several hundred parameters encode facial traits predicted from input faces, and part-aware retrieval from an artist-made caricature database guides stylization. The resulting caricatures are visually appealing and suitable as avatars, validated by a user study.",
     "bibtex": "@inproceedings{10.2312:pg.20231271,\n booktitle = {Pacific Graphics Short Papers and Posters},\n editor = {Chaine, Raphaëlle and Deng, Zhigang and Kim, Min H.},\n title = {{Automatic Vector Caricature via Face Parametrization}},\n author = {Madono, Koki and Hold-Geoffroy, Yannick and Li, Yijun and Ito, Daichi and Echevarria, Jose and Smith, Cameron},\n year = {2023},\n publisher = {The Eurographics Association},\n ISBN = {978-3-03868-234-9},\n DOI = {10.2312/pg.20231271}\n}", 
-    "thumb": "images/pg2023_madono_tn.png"
+    "thumb": "images/pg23_caricature.png"
   }
 ]
