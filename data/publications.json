@@ -39,6 +39,20 @@
     "thumb": "images/pg23_caricature.png"
   },
   {
+    "year": 2023,
+    "type": "conference",
+    "title": "ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning",
+    "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi",
+    "venue": "Pacific-Rim Symposium on Image and Video Technology (PSIVT)",
+    "links": [
+      { "label": "PDF",  "url": "https://link.springer.com/chapter/10.1007/978-981-97-0376-0_25" },
+      { "label": "CODE", "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix" }
+    ],
+    "abstract": "This paper proposes ScrambleMix, a novel privacy-preserving image processing for edge-cloud machine learning. ScrambleMix combines image scrambling and AugMix to improve visual information hiding. Specifically, to make two scrambled images from a single input image, each copy of the input image is scrambled using a different key every time. Then, the scrambled images are mixed with a randomly sampled mixing ratio. A self-teaching loss is introduced to improve the classification performance of ScrambleMix. In this study, we first evaluate the visual information hiding quantitatively using Learned Perceptual Image Patch Similarity (LPIPS). Then, the experiments with different settings demonstrate the proposed ScrambleMix outperforms the existing approaches for edge-cloud machine learning in terms of both classification accuracy and visual information hiding.",
+    "bibtex": "@inproceedings{10.1007/978-981-97-0376-0_25,\n author = {Madono, Koki and Tanaka, Masayuki and Onishi, Masaki},\n title = {ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning},\n year = {2023},\n isbn = {978-981-97-0375-3},\n publisher = {Springer-Verlag},\n address = {Berlin, Heidelberg},\n url = {https://doi.org/10.1007/978-981-97-0376-0_25},\n doi = {10.1007/978-981-97-0376-0_25},\n booktitle = {Image and Video Technology: 11th Pacific-Rim Symposium, PSIVT 2023, Auckland, New Zealand, November 22–24, 2023, Proceedings},\n pages = {326–340},\n numpages = {15},\n keywords = {Image Processing, Cloud-based Machine Learning, Privacy-Preserving Machine Learning},\n location = {Auckland, New Zealand}}",
+    "thumb": "images/psivt23.png"
+  }  
+  {
     "year": 2022,
     "type": "conference",
     "title": "Instance-wise Center Loss for Efficient Training of Deep Convolutional Neural Networks",
@@ -46,10 +60,10 @@
     "venue": "IEEE Global Conference on Consumer Electronics (GCCE)",
     "links": [
       { "label": "PDF",  "url": "https://ieeexplore-ieee-org.waseda.idm.oclc.org/document/10014037" },
-      { "label": "CODE", "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix" }
+      { "label": "CODE", "url": "https://github.com/MADONOKOUKI?tab=repositories" }
     ],
     "abstract": "Intermediate feature regularization is a critical technique in machine learning for computer vision applications. We propose an instance-wise center loss regularization with augmented images, enforcing logit consistency among augmentations of the same base image. Experiments show improvements over existing regularization techniques.",
     "bibtex": "@INPROCEEDINGS{10014037,\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki},\n booktitle={2022 IEEE 11th Global Conference on Consumer Electronics (GCCE)},\n title={Instance-wise Center Loss for Efficient Training of Deep Convolutional Neural Networks},\n year={2022},\n volume={},\n number={},\n pages={692-696},\n keywords={Training;Learning systems;Computer vision;Machine learning;Convolutional neural networks;Consumer electronics;Image classification},\n doi={10.1109/GCCE56475.2022.10014037}\n}",
-    "thumb": "images/psivt22.png"
+    "thumb": "images/gcce22.png"
   }
 ]
