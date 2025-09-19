@@ -5,23 +5,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Publications — Koki Madono</title>
   <link rel="stylesheet" href="assets/style.css">
-  <meta name="description" content="Publications by Koki Madono">
 </head>
 <body>
   <header class="wrap">
     <nav class="nav">
       <a href="./">Home</a>
       <a href="publication.html" aria-current="page">Publications</a>
+      <a href="projects/">Projects</a>
     </nav>
     <h1>Publications</h1>
 
-    <!-- Filters -->
+    <!-- フィルタボタン -->
     <div class="pub-filters" role="tablist" aria-label="Publication filters">
       <button data-filter="all" class="active" role="tab" aria-selected="true">All</button>
       <button data-filter="journal" role="tab" aria-selected="false">Journal</button>
       <button data-filter="conference" role="tab" aria-selected="false">Conference</button>
-      <button data-filter="thesis" role="tab" aria-selected="false">Thesis</button>
-      <button data-filter="japanese" role="tab" aria-selected="false">Japanese</button>
     </div>
   </header>
 
@@ -36,27 +34,22 @@
   <script>
   (async ()=>{
     const root = document.getElementById('pub-root');
-
-    // fetch JSON
     let data = [];
-    try{
+
+    try {
       const res = await fetch('data/publications.json', {cache:'no-store'});
-      if(!res.ok) throw new Error('Failed to load publications.json');
+      if(!res.ok) throw new Error('failed');
       data = await res.json();
-    }catch(err){
-      root.innerHTML = '<p>Failed to load publications. Please check <code>data/publications.json</code>.</p>';
-      console.error(err);
+    } catch(e) {
+      root.innerHTML = '<p>Failed to load publications. Please check data/publications.json.</p>';
       return;
     }
 
-    // group by year (desc)
+    // 年ごとにまとめる
     const byYear = {};
-    for(const p of data){
-      (byYear[p.year] ??= []).push(p);
-    }
+    for(const p of data){ (byYear[p.year] ??= []).push(p); }
     const years = Object.keys(byYear).map(Number).sort((a,b)=>b-a);
 
-    // filter buttons
     const filters = document.querySelectorAll('.pub-filters button');
 
     function render(filter='all'){
@@ -73,9 +66,8 @@
         for(const p of items){
           const art = document.createElement('article');
           art.className = 'pub-item';
-          art.dataset.type = p.type;
 
-          // optional thumb
+          // サムネイル
           if(p.thumb){
             const img = document.createElement('img');
             img.className = 'pub-thumb';
@@ -84,82 +76,92 @@
             art.appendChild(img);
           }
 
-          // title
+          // タイトル
           const h3 = document.createElement('h3');
           h3.className = 'pub-title';
-          h3.textContent = p.title || '';
+          h3.textContent = p.title;
           art.appendChild(h3);
 
-          // authors (bold your name)
+          // 著者
           const a1 = document.createElement('p');
           a1.className = 'pub-authors';
-          const authors = (p.authors || '').replace('K. Madono','<strong>K. Madono</strong>');
-          a1.innerHTML = authors;
+          a1.innerHTML = (p.authors || '')
+            .replace(/K\.?\s*Madono/gi,'<strong>K. Madono</strong>')
+            .replace(/Koki\s+Madono/gi,'<strong>Koki Madono</strong>');
           art.appendChild(a1);
 
-          // venue, year
+          // venue
           const a2 = document.createElement('p');
           a2.className = 'pub-venue';
-          a2.textContent = `${p.venue || ''}${p.year ? ', ' + p.year : ''}`;
+          a2.textContent = `${p.venue || ''}, ${p.year}`;
           art.appendChild(a2);
 
-          // badges
-          if(p.links?.length){
+          // バッジ行
+          if(p.links?.length || p.abstract || p.bibtex){
             const pLinks = document.createElement('p');
             pLinks.className = 'pub-links';
-            for(const lk of p.links){
-              const a = document.createElement('a');
-              a.className = 'badge';
-              a.href = lk.url;
-              a.textContent = lk.label;
-              a.target = /^https?:\/\//.test(lk.url) ? '_blank' : undefined;
-              if(a.target === '_blank') a.rel = 'noopener noreferrer';
-              pLinks.appendChild(a);
-              pLinks.appendChild(document.createTextNode(' '));
+
+            // PDF / Code / DOI など
+            if(p.links?.length){
+              for(const lk of p.links){
+                const a = document.createElement('a');
+                a.className = 'badge';
+                a.href = lk.url;
+                a.textContent = lk.label;
+                if(/^https?:/.test(lk.url)){
+                  a.target = '_blank';
+                  a.rel = 'noopener noreferrer';
+                }
+                pLinks.appendChild(a);
+              }
             }
+
+            // Abstract
+            if(p.abstract){
+              const btn = document.createElement('button');
+              btn.className = 'badge';
+              btn.textContent = 'Abstract';
+              btn.addEventListener('click', ()=>{
+                const dialog = document.createElement('dialog');
+                dialog.className = 'pub-dialog';
+                dialog.innerHTML = `<h3>Abstract</h3><p>${p.abstract}</p>
+                                    <form method="dialog"><button>Close</button></form>`;
+                document.body.appendChild(dialog);
+                dialog.showModal();
+                dialog.addEventListener('close', ()=>dialog.remove());
+              });
+              pLinks.appendChild(btn);
+            }
+
+            // BibTeX
+            if(p.bibtex){
+              const btn = document.createElement('button');
+              btn.className = 'badge';
+              btn.textContent = 'BibTeX';
+              btn.addEventListener('click', ()=>{
+                const bib = (p.bibtex||'').replace(/\\n/g,'\n');
+                const dialog = document.createElement('dialog');
+                dialog.className = 'pub-dialog';
+                dialog.innerHTML = `<h3>BibTeX</h3><pre>${bib}</pre>
+                                    <form method="dialog"><button>Close</button></form>`;
+                document.body.appendChild(dialog);
+                dialog.showModal();
+                dialog.addEventListener('close', ()=>dialog.remove());
+              });
+              pLinks.appendChild(btn);
+            }
+
             art.appendChild(pLinks);
-          }
-
-          // abstract
-          if(p.abstract){
-            const det = document.createElement('details');
-            det.className = 'pub-abstract';
-            const sum = document.createElement('summary');
-            sum.textContent = 'abstract';
-            det.appendChild(sum);
-            const pAbs = document.createElement('p');
-            pAbs.textContent = p.abstract;
-            det.appendChild(pAbs);
-            art.appendChild(det);
-          }
-
-          // bibtex
-          if(p.bibtex){
-            const det = document.createElement('details');
-            det.className = 'pub-bibtex';
-            const sum = document.createElement('summary');
-            sum.textContent = 'bibtex';
-            det.appendChild(sum);
-            const pre = document.createElement('pre');
-            pre.textContent = p.bibtex;
-            det.appendChild(pre);
-            art.appendChild(det);
           }
 
           root.appendChild(art);
         }
       }
-      if(!root.innerHTML.trim()){
-        root.innerHTML = '<p>No publications for this filter.</p>';
-      }
     }
 
     filters.forEach(b=>{
       b.addEventListener('click', ()=>{
-        filters.forEach(x=>{
-          x.classList.remove('active');
-          x.setAttribute('aria-selected','false');
-        });
+        filters.forEach(x=>{x.classList.remove('active'); x.setAttribute('aria-selected','false');});
         b.classList.add('active');
         b.setAttribute('aria-selected','true');
         render(b.dataset.filter);
