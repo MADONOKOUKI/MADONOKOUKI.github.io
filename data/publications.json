@@ -4,7 +4,7 @@
     "type": "journal",
     "title": "Interactive Texture Segmentation of 3D Scanned Models",
     "authors": "Koki Madono, Takeo Igarashi, Hiroharu Kato, Taisuke Hashimoto, Fabrice Matulic, Tsukasa Takagi, Keita Higuchi",
-    "venue": "IEEE Computer Graphics and Applications",
+    "venue": "IEEE Computer Graphics and Applications (also presented CHI 2025 LBW)",
     "links": [
       { "label": "PDF", "url": "https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d" }
     ],
@@ -65,5 +65,19 @@
     "abstract": "Intermediate feature regularization is a critical technique in machine learning for computer vision applications. We propose an instance-wise center loss regularization with augmented images, enforcing logit consistency among augmentations of the same base image. Experiments show improvements over existing regularization techniques.",
     "bibtex": "@INPROCEEDINGS{10014037,\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki},\n booktitle={2022 IEEE 11th Global Conference on Consumer Electronics (GCCE)},\n title={Instance-wise Center Loss for Efficient Training of Deep Convolutional Neural Networks},\n year={2022},\n volume={},\n number={},\n pages={692-696},\n keywords={Training;Learning systems;Computer vision;Machine learning;Convolutional neural networks;Consumer electronics;Image classification},\n doi={10.1109/GCCE56475.2022.10014037}\n}",
     "thumb": "images/gcce22.png"
+  },
+  {
+    "year": 2021,
+    "type": "journal",
+    "title": "SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network",
+    "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa",
+    "venue": "IEEE Access",
+    "links": [
+      { "label": "PDF",  "url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9537763" },
+      { "label": "CODE", "url": "https://github.com/MADONOKOUKI/SIA-GAN" }
+    ],
+    "abstract": "Intermediate feature regularization is a critical technique in machine learning for computer vision applications. We propose an instance-wise center loss regularization with augmented images, enforcing logit consistency among augmentations of the same base image. Experiments show improvements over existing regularization techniques.",
+    "bibtex": "@ARTICLE{9537763,\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},\n journal={IEEE Access},\n title={SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network},\n year={2021},\n volume={9},\n number={},\n pages={129385-129393},\n keywords={Training;Feature extraction;Visualization;Generators;Generative adversarial networks;Transforms;Machine learning;Artificial intelligence;machine learning;computer vision;visual information hiding;image scrambling},\n doi={10.1109/ACCESS.2021.3112684}}",
+    "thumb": "images/access2021.png"
   }
 ]
