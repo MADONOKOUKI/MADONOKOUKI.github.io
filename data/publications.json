@@ -38,4 +38,20 @@
     "bibtex": "@inproceedings{10.2312:pg.20231271,\n booktitle = {Pacific Graphics Short Papers and Posters},\n editor = {Chaine, Raphaëlle and Deng, Zhigang and Kim, Min H.},\n title = {{Automatic Vector Caricature via Face Parametrization}},\n author = {Madono, Koki and Hold-Geoffroy, Yannick and Li, Yijun and Ito, Daichi and Echevarria, Jose and Smith, Cameron},\n year = {2023},\n publisher = {The Eurographics Association},\n ISBN = {978-3-03868-234-9},\n DOI = {10.2312/pg.20231271}\n}", 
     "thumb": "images/pg23_caricature.png"
   }
+
+  {
+    "year": 2022,
+    "type": "conference",
+    "title": "Instance-wise Center Loss for Efficient Training of Deep Convolutional Neural Networks",
+    "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi",
+    "venue": "IEEE Global Conference on Consumer Electronics (GCCE),",
+    "links": [
+      { "label": "PDF", "url": "https://ieeexplore-ieee-org.waseda.idm.oclc.org/document/10014037",
+        "label": "CODE", "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix"
+      }
+    ],
+    "abstract": "—Intermediate feature regularization is a critical technique in machine learning for computer vision applications and regularization techniques have been developed. Such methods primarily focus on feature regularization, and we propose an efficient training strategy with augmented images. We focus on the logit consistency of images augmented from the same base image. The key concept is that the logit of images augmented from the same base image should be consistent. We introduce an instance-wise center loss regularization technique to realize this key concept. Experimental results demonstrate that the proposed instance-wise center loss regularization effectively improves over existing regularization techniques",
+    "bibtex": "@INPROCEEDINGS{10014037,\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki},\n booktitle={2022 IEEE 11th Global Conference on Consumer Electronics (GCCE)},\n  title={Instance-wise Center Loss for Efficient Training of Deep Convolutional Neural Networks},\n  year={2022},\n volume={},\n number={},\n pages={692-696},\n keywords={Training;Learning systems;Computer vision;Machine learning;Convolutional neural networks;Consumer electronics;Image classification},\n doi={10.1109/GCCE56475.2022.10014037}}",
+    "thumb": "images/psivt22.png"
+  }  
 ]
