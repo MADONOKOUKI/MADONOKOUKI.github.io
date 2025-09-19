@@ -1,0 +1,28 @@
+[
+  {
+    "year": 2025,
+    "type": "journal",
+    "title": "Interactive Texture Segmentation of 3D Scanned Models",
+    "authors": "K. Madono, T. Igarashi, H. Kato, T. Hashimoto, F. Matulic, T. Takagi, K. Higuchi",
+    "venue": "IEEE Computer Graphics and Applications",
+    "links": [
+      {"label":"PDF","url":"pdfs/cga2025.pdf"},
+      {"label":"DOI","url":"https://doi.org/..."},
+      {"label":"code","url":"https://github.com/..."}
+    ],
+    "abstract": "One-sentence summary…",
+    "bibtex": "@Article{MadonoCGA2025, ... }",
+    "thumb": "images/cga2025.jpg"
+  },
+  {
+    "year": 2023,
+    "type": "conference",
+    "title": "Data-Driven Ink Painting Brushstroke Rendering",
+    "authors": "K. Madono, E. Simo-Serra",
+    "venue": "Computer Graphics Forum (Pacific Graphics)",
+    "links": [
+      {"label":"PDF","url":"pdfs/pg2023.pdf"},
+      {"label":"DOI","url":"https://doi.org/..."}
+    ]
+  }
+]
