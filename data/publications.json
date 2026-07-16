@@ -6,7 +6,8 @@
     "authors": "Koki Madono, Takeo Igarashi, Hiroharu Kato, Taisuke Hashimoto, Fabrice Matulic, Tsukasa Takagi, Keita Higuchi",
     "venue": "IEEE Computer Graphics and Applications (also presented CHI 2025 LBW)",
     "links": [
-      { "label": "PDF", "url": "https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d" }
+      { "label": "Paper", "url": "https://doi.org/10.1109/MCG.2025.3595378" },
+      { "label": "CHI EA '25", "url": "https://dl.acm.org/doi/10.1145/3706599.3719697" }
     ],
     "abstract": "In 3D model scanning, the raw texture of a 3D model often requires segmentation into distinct regions to apply different material properties to each region. Current methods, such as manual segmentation, are labor-intensive, while automatic segmentation techniques lack user control. We propose an interactive tool that combines automatic segmentation with minimal manual intervention, striking an optimal balance between efficiency and control. Following a multiview automatic segmentation process that divides the texture into small subsegments, users cluster the subsegments into segments by drawing simple scribbles in the 3D model view. We show that our approach results in more detailed subsegments compared to automatic segmentation approaches. Furthermore, a user study confirms that our approach improves segmentation accuracy and quality compared to manual segmentation with standard 3D computer graphics software. This research paves the way to more efficient texture segmentation in 3D model scanning.",
     "bibtex": "@ARTICLE{11108266,\n author={Madono, Koki and Igarashi, Takeo and Kato, Hiroharu and Hashimoto, Taisuke and Matulic, Fabrice and Takagi, Tsukasa and Higuchi, Keita},\n journal={ IEEE Computer Graphics and Applications },\n title={{ Interactive Texture Segmentation of 3D Scanned Models Leveraging Multiview Automatic Segmentation }},\n year={2025},\n volume={},\n number={01},\n ISSN={1558-1756},\n pages={1-14},\n keywords={Three-dimensional displays;Image segmentation;Solid modeling;Manuals;Image color analysis;Computational modeling;Brushes;Cameras;Accuracy;Training},\n doi={10.1109/MCG.2025.3595378},\n url = {https://doi.ieeecomputersociety.org/10.1109/MCG.2025.3595378},\n publisher={IEEE Computer Society},\n address={Los Alamitos, CA, USA},\n month=aug}\n",
@@ -19,8 +20,9 @@
     "title": "Data-Driven Ink Painting Brushstroke Rendering",
     "authors": "Koki Madono, Edgar Simo-Serra",
     "venue": "Computer Graphics Forum (Pacific Graphics)",
+    "award": "IPSJ SIG-CGVI Best Research Presentation Award (Visual Computing 2022)",
     "links": [
-      { "label": "PDF", "url": "pdfs/pg2023.pdf" }
+      { "label": "Paper", "url": "https://doi.org/10.1111/cgf.14965" }
     ],
     "abstract": "Although digital painting has advanced much in recent years, there is still a significant divide between physically drawn paintings and purely digitally drawn paintings. These differences arise due to the physical interactions between the brush, ink, and paper, which are hard to emulate in the digital domain. Most ink painting approaches have focused on either using heuristics or physical simulation to attempt to bridge the gap between digital and analog, however, these approaches are still unable to capture the diversity of painting effects, such as ink fading or blotting, found in the real world. In this work, we propose a data-driven approach to generate ink paintings based on a semi-automatically collected high-quality real-world ink painting dataset. We use a multi-camera robot-based setup to automatically create a diversity of ink paintings, which allows for capturing the entire process in high resolution, including capturing detailed brush motions and drawing results. To ensure high-quality capture of the painting process, we calibrate the setup and perform occlusion-aware blending to capture all the strokes in high resolution in a robust and efficient way. Using our new dataset, we propose a recursive deep learning-based model to reproduce the ink paintings stroke by stroke while capturing complex ink painting effects such as bleeding and mixing. Our results corroborate the fidelity of the proposed approach to real hand-drawn ink paintings in comparison with existing approaches. We hope the availability of our dataset will encourage new research on digital realistic ink painting techniques.",
     "bibtex": "@article{10.1111:cgf.14965,\n journal = {Computer Graphics Forum},\n title = {{Data-Driven Ink Painting Brushstroke Rendering}},\n author = {Madono, Koki and Simo-Serra, Edgar},\n year = {2023},\n publisher = {The Eurographics Association and John Wiley & Sons Ltd.},\n ISSN = {1467-8659},\n DOI = {10.1111/cgf.14965}\n}",
@@ -34,11 +36,13 @@
     "authors": "Koki Madono, Yannick Hold-Geoffroy, Yijun Li, Daichi Ito, Jose Echevarria, Cameron Smith",
     "venue": "Pacific Graphics, Conference Proceedings",
     "links": [
-      { "label": "PDF", "url": "https://diglib.eg.org/items/9872e9ad-5498-499f-a10e-94a5f825a68d" }
+      { "label": "Paper", "url": "https://doi.org/10.2312/pg.20231271" },
+      { "label": "Patent", "url": "https://patents.google.com/patent/US20230140146A1/en" }
     ],
     "abstract": "Automatic caricature generation is a challenging task that aims to emphasize the subject's facial characteristics while preserving identity. We propose Parametric Caricature, a parametric-based caricature generation method that yields vectorized and animatable caricatures. Several hundred parameters encode facial traits predicted from input faces, and part-aware retrieval from an artist-made caricature database guides stylization. The resulting caricatures are visually appealing and suitable as avatars, validated by a user study.",
     "bibtex": "@inproceedings{10.2312:pg.20231271,\n booktitle = {Pacific Graphics Short Papers and Posters},\n editor = {Chaine, Raphaëlle and Deng, Zhigang and Kim, Min H.},\n title = {{Automatic Vector Caricature via Face Parametrization}},\n author = {Madono, Koki and Hold-Geoffroy, Yannick and Li, Yijun and Ito, Daichi and Echevarria, Jose and Smith, Cameron},\n year = {2023},\n publisher = {The Eurographics Association},\n ISBN = {978-3-03868-234-9},\n DOI = {10.2312/pg.20231271}\n}",
-    "thumb": "images/pg23_caricature.png"
+    "thumb": "images/pg23_caricature.png",
+    "tags": ["selected"]
   },
   {
     "year": 2023,
@@ -47,8 +51,9 @@
     "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi",
     "venue": "Pacific-Rim Symposium on Image and Video Technology (PSIVT)",
     "links": [
-      { "label": "PDF",  "url": "https://link.springer.com/chapter/10.1007/978-981-97-0376-0_25" },
-      { "label": "CODE", "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix" }
+      { "label": "Paper", "url": "https://doi.org/10.1007/978-981-97-0376-0_25" },
+      { "label": "PDF", "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix/blob/main/psivt.pdf" },
+      { "label": "Code", "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix" }
     ],
     "abstract": "This paper proposes ScrambleMix, a novel privacy-preserving image processing for edge-cloud machine learning. ScrambleMix combines image scrambling and AugMix to improve visual information hiding. Specifically, to make two scrambled images from a single input image, each copy of the input image is scrambled using a different key every time. Then, the scrambled images are mixed with a randomly sampled mixing ratio. A self-teaching loss is introduced to improve the classification performance of ScrambleMix. In this study, we first evaluate the visual information hiding quantitatively using Learned Perceptual Image Patch Similarity (LPIPS). Then, the experiments with different settings demonstrate the proposed ScrambleMix outperforms the existing approaches for edge-cloud machine learning in terms of both classification accuracy and visual information hiding.",
     "bibtex": "@inproceedings{10.1007/978-981-97-0376-0_25,\n author = {Madono, Koki and Tanaka, Masayuki and Onishi, Masaki},\n title = {ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning},\n year = {2023},\n isbn = {978-981-97-0375-3},\n publisher = {Springer-Verlag},\n address = {Berlin, Heidelberg},\n url = {https://doi.org/10.1007/978-981-97-0376-0_25},\n doi = {10.1007/978-981-97-0376-0_25},\n booktitle = {Image and Video Technology: 11th Pacific-Rim Symposium, PSIVT 2023, Auckland, New Zealand, November 22–24, 2023, Proceedings},\n pages = {326–340},\n numpages = {15},\n keywords = {Image Processing, Cloud-based Machine Learning, Privacy-Preserving Machine Learning},\n location = {Auckland, New Zealand}}",
@@ -61,8 +66,9 @@
     "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi",
     "venue": "IEEE Global Conference on Consumer Electronics (GCCE)",
     "links": [
-      { "label": "PDF",  "url": "https://ieeexplore-ieee-org.waseda.idm.oclc.org/document/10014037" },
-      { "label": "CODE", "url": "https://github.com/MADONOKOUKI?tab=repositories" }
+      { "label": "Paper", "url": "https://ieeexplore.ieee.org/document/10014037/" },
+      { "label": "PDF", "url": "https://ieeexplore.ieee.org/iel7/10013950/10014027/10014037.pdf" },
+      { "label": "Code", "url": "https://github.com/MADONOKOUKI/gcce2022_instancewise_center_loss" }
     ],
     "abstract": "Intermediate feature regularization is a critical technique in machine learning for computer vision applications. We propose an instance-wise center loss regularization with augmented images, enforcing logit consistency among augmentations of the same base image. Experiments show improvements over existing regularization techniques.",
     "bibtex": "@INPROCEEDINGS{10014037,\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki},\n booktitle={2022 IEEE 11th Global Conference on Consumer Electronics (GCCE)},\n title={Instance-wise Center Loss for Efficient Training of Deep Convolutional Neural Networks},\n year={2022},\n volume={},\n number={},\n pages={692-696},\n keywords={Training;Learning systems;Computer vision;Machine learning;Convolutional neural networks;Consumer electronics;Image classification},\n doi={10.1109/GCCE56475.2022.10014037}\n}",
@@ -75,10 +81,10 @@
     "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa",
     "venue": "IEEE Access",
     "links": [
+      { "label": "Paper", "url": "https://doi.org/10.1109/ACCESS.2021.3112684" },
       { "label": "PDF",  "url": "https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=9537763" },
-      { "label": "CODE", "url": "https://github.com/MADONOKOUKI/SIA-GAN" }
+      { "label": "Code", "url": "https://github.com/MADONOKOUKI/SIA-GAN" }
     ],
-    "abstract": "Intermediate feature regularization is a critical technique in machine learning for computer vision applications. We propose an instance-wise center loss regularization with augmented images, enforcing logit consistency among augmentations of the same base image. Experiments show improvements over existing regularization techniques.",
     "bibtex": "@ARTICLE{9537763,\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},\n journal={IEEE Access},\n title={SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network},\n year={2021},\n volume={9},\n number={},\n pages={129385-129393},\n keywords={Training;Feature extraction;Visualization;Generators;Generative adversarial networks;Transforms;Machine learning;Artificial intelligence;machine learning;computer vision;visual information hiding;image scrambling},\n doi={10.1109/ACCESS.2021.3112684}}",
     "thumb": "images/access2021.png"
   },
@@ -87,10 +93,11 @@
     "type": "conference",
     "title": "Scrambling parameter generation to improve perceptual information hiding",
     "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa",
-    "venue": "Electronic Imaging",
+    "venue": "Electronic Imaging (HVEI)",
     "links": [
+      { "label": "Paper", "url": "https://library.imaging.org/ei/articles/33/11/art00007" },
       { "label": "PDF",  "url": "https://library.imaging.org/admin/apis/public/api/ist/website/downloadArticle/ei/33/11/art00007" },
-      { "label": "CODE", "url": "https://github.com/MADONOKOUKI" }
+      { "label": "Code", "url": "https://github.com/MADONOKOUKI/SPG_EI2020" }
     ],
     "abstract": "The present study proposes the method to improve the perceptual information hiding in image scramble approaches. Image scramble approaches have been used to overcome the privacy issues on the cloud-based machine learning approach. The performance of image scramble approaches are depending on the scramble parameters; because it decides the performance of perceptual information hiding. However, in existing image scramble approaches, the performance by scrambling parameters has not been quantitatively evaluated. This may be led to show private information in public. To overcome this issue, a suitable metric is investigated to hide PIH, and then scrambling parameter generation is proposed to combine image scramble approaches. Experimental comparisons using several image quality assessment metrics show that Learned Perceptual Image Patch Similarity (LPIPS) is suitable for PIH. Also, the proposed scrambling parameter generation is experimentally confirmed effective to hide PIH while keeping the classification performance.",
     "bibtex": "@article{madono2021scrambling,\n title={Scrambling parameter generation to improve perceptual information hiding},\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},\n journal={Electronic Imaging},\n volume={33},\n pages={1--8},\n year={2021},\n publisher={Society for Imaging Science and Technology}}",
@@ -103,8 +110,9 @@
     "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa",
     "venue": "AAAI WS (Artificial Intelligence of Things)",
     "links": [
-      { "label": "PDF",  "url": "https://arxiv.org/pdf/2001.07761" },
-      { "label": "CODE", "url": "https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition" }
+      { "label": "Paper", "url": "https://arxiv.org/abs/2001.07761" },
+      { "label": "PDF",  "url": "https://aiotworkshop.github.io/2020/published/Block-wise%20Scrambled%20Image%20Recognition%20Using%20Adaptation%20Network.pdf" },
+      { "label": "Code", "url": "https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition" }
     ],
     "abstract": "In this study, a perceptually hidden object-recognition method is investigated to generate secure images recognizable by humans but not machines. Hence, both the perceptual information hiding and the corresponding object recognition methods should be developed. Block-wise image scrambling is introduced to hide perceptual information from a third party. In addition, an adaptation network is proposed to recognize those scrambled images. Experimental comparisons conducted using CIFAR datasets demonstrated that the proposed adaptation network performed well in incorporating simple perceptual information hiding into DNN-based image classification.",
     "bibtex": "@article{madono2020block,\n title={Block-wise scrambled image recognition using adaptation network},\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},\n journal={arXiv preprint arXiv:2001.07761},\n year={2020}}",
@@ -117,7 +125,8 @@
     "authors": "Koki Madono, Teppei Nakano, Tetsunori Kobayashi, Tetsuji Ogawa",
     "venue": "Asia-Pacific Signal and Information Processing Association (APSIPA)",
     "links": [
-      { "label": "PDF",  "url": "https://ieeexplore.ieee.org/abstract/document/9306353" }
+      { "label": "Paper", "url": "https://ieeexplore.ieee.org/document/9306353" },
+      { "label": "PDF", "url": "https://www.apsipa.org/proceedings/2020/pdfs/0001226.pdf" }
     ],
     "abstract": "The present study proposes a method for detecting objects with a high recall rate for human-supported video annotation. In recent years, automatic annotation techniques such as object detection and tracking have become more powerful; however, detection and tracking of occluded objects, small objects, and blurred objects are still difficult. In order to annotate such objects, manual annotation is inevitably required. For this reason, we envision a human-supported video annotation framework in which over-detected objects (i.e., false positives) are allowed to minimize oversight (i.e., false negatives) in automatic annotation and then the over-detected objects are removed manually. This study attempts to achieve human-in-the-loop object detection with an emphasis on suppressing the oversight for the former stage of processing in the aforementioned annotation framework: bi-directional deep SORT is proposed to reliably capture missed objects and annotation-free segment identification (AFSID) is proposed to identify video frames in which manual annotation is not required. These methods are reinforced each other, yielding an increase in the detection rate while reducing the burden of human intervention. Experimental comparisons using a pedestrian video dataset demonstrated that bi-directional deep SORT with AFSID was successful in capturing object candidates with a higher recall rate over the existing deep SORT while reducing the cost of manpower compared to manual annotation at regular intervals.",
     "bibtex": "@INPROCEEDINGS{9306353,\n author={Madono, Koki and Nakano, Teppei and Kobayashi, Tetsunori and Ogawa, Tetsuji},\n booktitle={2020 Asia-Pacific Signal and Information Processing Association Annual Summit and Conference (APSIPA ASC)},\n  title={Efficient Human-In-The-Loop Object Detection using Bi-Directional Deep SORT and Annotation-Free Segment Identification},\n  year={2020},\n volume={},\n number={},\n pages={1226-1233},\n keywords={Annotations;Manuals;Object detection;Bidirectional control;Image annotation;Object tracking;Kalman filters},\n doi={}}",
