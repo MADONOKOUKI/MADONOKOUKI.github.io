@@ -1,0 +1,38 @@
+name: Sync researchmap
+
+# Weekly check: if researchmap has papers this site doesn't, open a PR
+# with skeleton entries (fill in links/thumb/abstract before merging).
+on:
+  schedule:
+    - cron: "0 21 * * 0" # Monday 06:00 JST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check researchmap and add skeletons for new papers
+        run: python3 scripts/sync_researchmap.py --write
+
+      - name: Open PR if anything changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "Add new publications found on researchmap"
+          title: "researchmap sync: new publications"
+          body: |
+            The weekly researchmap check found publications that are not on the site yet
+            and added skeleton entries to `data/publications.json`.
+
+            Before merging, fill in for each new entry:
+            - [ ] links (PDF / code / dataset / project page)
+            - [ ] teaser image (`images/…` + `thumb`)
+            - [ ] abstract / bibtex
+            - [ ] remove the `_todo` marker
+          branch: researchmap-sync
+          delete-branch: true

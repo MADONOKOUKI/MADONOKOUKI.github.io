@@ -1,0 +1,145 @@
+% Curriculum Vitae — Koki Madono
+% Build: xelatex cv.tex  (twice)   → copy cv.pdf to the site root
+\documentclass[10pt,a4paper]{article}
+
+\usepackage[top=18mm,bottom=18mm,left=20mm,right=20mm]{geometry}
+\usepackage{fontspec}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\setmainfont{Helvetica Neue}
+\newfontfamily\jpfont{Hiragino Kaku Gothic ProN}
+\newcommand{\jp}[1]{{\jpfont #1}}
+
+\definecolor{accent}{HTML}{2E7FD0}
+\definecolor{lightblue}{HTML}{65B5FF}
+\definecolor{inkc}{HTML}{253746}
+\definecolor{mutedc}{HTML}{64798A}
+
+\hypersetup{colorlinks=true, urlcolor=accent, linkcolor=accent}
+\color{inkc}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+% — section heading: blue small caps + light rule —
+\newcommand{\cvsection}[1]{%
+  \vspace{9pt}%
+  {\large\bfseries\color{accent}#1}\\[-9pt]
+  {\color{lightblue}\rule{\textwidth}{0.9pt}}\\[2pt]%
+}
+
+% — dated line: gray date column + content —
+\newcommand{\cvline}[2]{%
+  \noindent\begin{minipage}[t]{3.15cm}\strut\small\color{mutedc}#1\end{minipage}%
+  \hspace{0.3cm}%
+  \begin{minipage}[t]{\dimexpr\textwidth-3.45cm\relax}\strut #2\end{minipage}\par\vspace{3.5pt}%
+}
+
+\begin{document}
+
+% ===================== Header =====================
+{\Huge\bfseries Koki Madono}\hspace{10pt}{\Large\color{mutedc}\jp{真殿 航輝}}\\[4pt]
+{\color{mutedc}Assistant Professor (non-tenure-track), School of Fundamental Science and Engineering, Waseda University, Tokyo}\\[2pt]
+{\small
+Email: madorin2work [at] gmail.com \;\textbar\;
+Web: \href{https://madonokouki.github.io}{madonokouki.github.io} \;\textbar\;
+ORCID: \href{https://orcid.org/0000-0002-5214-8539}{0000-0002-5214-8539}\\
+\href{https://scholar.google.com/citations?user=nVgMK4kAAAAJ}{Google Scholar} \;\textbar\;
+\href{https://github.com/MADONOKOUKI}{GitHub} \;\textbar\;
+\href{https://huggingface.co/madorin0130}{Hugging Face} \;\textbar\;
+\href{https://researchmap.jp/madorin0130}{researchmap} \;\textbar\;
+Bluesky: @madorin0130.bsky.social}\\[2pt]
+{\color{lightblue}\rule{\textwidth}{1.6pt}}
+
+\vspace{4pt}
+{\small My research interest is computer graphics for applications --- supporting human creation from both computer
+graphics and human--computer interaction. Recent projects include data-driven ink painting rendering, interactive
+texture segmentation of 3D scanned models, and generative AI for robotic drawing.}
+
+% ===================== Education =====================
+\cvsection{Education}
+\cvline{Apr.~2021 -- Mar.~2024}{\textbf{Ph.D.\ in Engineering}, Waseda University \\{\small\color{mutedc}Supervisor: Edgar Simo-Serra}}
+\cvline{Apr.~2019 -- Mar.~2021}{\textbf{M.S.}, Waseda University \quad {\small\color{mutedc}Supervisor: Tetsuji Ogawa}}
+\cvline{Apr.~2015 -- Mar.~2019}{\textbf{B.S.}, Waseda University \quad {\small\color{mutedc}Supervisor: Tetsuji Ogawa}}
+
+% ===================== Employment =====================
+\cvsection{Employment}
+\cvline{Apr.~2024 -- present}{\textbf{Assistant Professor} (non-tenure-track), School of Fundamental Science and Engineering, Waseda University \\{\small\color{mutedc}Concurrent Researcher, Waseda Research Institute for Science and Engineering (2024--2026)}}
+\cvline{Aug.~2023 -- present}{\textbf{Part-time Engineer / Internship}, Preferred Networks, Tokyo \\{\small\color{mutedc}Mainly mentored by Keita Higuchi}}
+\cvline{Jul.~2022 -- Oct.~2022}{\textbf{Research Internship}, Adobe Research, London (remote) \\{\small\color{mutedc}Mainly mentored by Niloy J. Mitra and Jakub Fišer}}
+\cvline{May~2021 -- Dec.~2021}{\textbf{Internship / Part-time Research Collaborator}, Adobe Research, San Jose (remote) \\{\small\color{mutedc}Mainly mentored by Daichi Ito, Yannick Hold-Geoffroy, and Yijun Li}}
+\cvline{Feb.~2019 -- Dec.~2023}{\textbf{Technical Staff / Research Assistant}, National Institute of Advanced Industrial Science and Technology (AIST), Tokyo \\{\small\color{mutedc}Mentored by Masayuki Tanaka and Masaki Onishi}}
+
+% ===================== Publications =====================
+\cvsection{Publications}
+\textbf{Journal}
+\begin{enumerate}[leftmargin=16pt,itemsep=2pt,parsep=0pt,topsep=2pt]
+  \item \textbf{Koki Madono}, Takeo Igarashi, Hiroharu Kato, Taisuke Hashimoto, Fabrice Matulic, Tsukasa Takagi, Keita Higuchi.
+        ``Interactive Texture Segmentation of 3D Scanned Models Leveraging Multiview Automatic Segmentation.''
+        \textit{IEEE Computer Graphics and Applications}, 2025. (also presented at CHI 2025 LBW)
+  \item \textbf{Koki Madono}, Edgar Simo-Serra.
+        ``Data-Driven Ink Painting Brushstroke Rendering.''
+        \textit{Computer Graphics Forum (Pacific Graphics)}, 42(7), 2023.
+  \item \textbf{Koki Madono}, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa.
+        ``SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network.''
+        \textit{IEEE Access}, 9, 2021.
+\end{enumerate}
+\textbf{Conference}
+\begin{enumerate}[leftmargin=16pt,itemsep=2pt,parsep=0pt,topsep=2pt,start=4]
+  \item \textbf{Koki Madono}, Yannick Hold-Geoffroy, Yijun Li, Daichi Ito, Jose Echevarria, Cameron Smith.
+        ``Automatic Vector Caricature via Face Parametrization.''
+        \textit{Pacific Graphics (Conference Proceedings)}, 2023.
+  \item \textbf{Koki Madono}, Masayuki Tanaka, Masaki Onishi.
+        ``ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning.''
+        \textit{Pacific-Rim Symposium on Image and Video Technology (PSIVT)}, 2023.
+  \item \textbf{Koki Madono}, Masayuki Tanaka, Masaki Onishi.
+        ``Instance-wise Center Loss for Efficient Training of Deep Convolutional Neural Networks.''
+        \textit{IEEE Global Conference on Consumer Electronics (GCCE)}, 2022.
+  \item \textbf{Koki Madono}, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa.
+        ``Scrambling Parameter Generation to Improve Perceptual Information Hiding.''
+        \textit{Electronic Imaging (HVEI)}, 2021.
+  \item \textbf{Koki Madono}, Masayuki Tanaka, Masaki Onishi, Tetsuji Ogawa.
+        ``Block-wise Scrambled Image Recognition Using Adaptation Network.''
+        \textit{AAAI-20 Workshop on Artificial Intelligence of Things}, 2020.
+  \item \textbf{Koki Madono}, Teppei Nakano, Tetsunori Kobayashi, Tetsuji Ogawa.
+        ``Efficient Human-In-The-Loop Object Detection using Bi-Directional Deep SORT and Annotation-Free Segment Identification.''
+        \textit{APSIPA Annual Summit and Conference}, 2020.
+\end{enumerate}
+
+% ===================== Awards =====================
+\cvsection{Awards}
+\cvline{Sep.~2024}{CyberAgent Company Award, Visual Computing 2024 \\{\small\color{mutedc}for ``Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation''}}
+\cvline{Mar.~2024}{Best Presentation Award, 13th Early Bird Program final report meeting, Waseda Research Institute for Science and Engineering}
+\cvline{2022}{CGVI Best Research Presentation Award (IPSJ SIG-CGVI), Visual Computing 2022 \\{\small\color{mutedc}for data-driven brushstroke rendering}}
+
+% ===================== Grants =====================
+\cvsection{Competitive Funding}
+\cvline{Apr.~2025 -- Mar.~2028}{\textbf{JSPS KAKENHI, Grant-in-Aid for Early-Career Scientists} (PI) --- JPY 3,700,000 \\{\small\color{mutedc}\jp{複雑な色表現を再現可能なロボット描画系列生成AIの構築} (robotic drawing-sequence generation AI reproducing complex color expression)}}
+\cvline{Oct.~2024 -- Mar.~2027}{\textbf{JST ACT-X} \jp{「次世代AIを築く数理・情報科学の革新」} (PI) --- JPY 4,500,000 \\{\small\color{mutedc}\jp{完成絵を分解可能な描画系列生成AIの構築} (drawing-sequence generation AI that can decompose finished paintings)}}
+\cvline{Jun.~2023 -- Mar.~2024}{\textbf{Early Bird Program} (13th), Waseda Research Institute for Science and Engineering --- JPY 800,000}
+\cvline{Jun.~2023 -- Mar.~2024}{\textbf{Waseda University Grant for Special Research Projects} --- JPY 300,000}
+\cvline{Oct.~2021 -- Mar.~2024}{\textbf{JST} \jp{次世代研究者挑戦的研究プログラム} (support for pioneering research initiated by the next generation) \\{\small\color{mutedc}JPY 200,000/month stipend + JPY 500,000/year research funds}}
+
+% ===================== Patent =====================
+\cvsection{Patent}
+\cvline{2023}{``Vectorized Caricature Avatar Generator,'' U.S. Patent Application US20230140146A1 \\{\small\color{mutedc}Daichi Ito, Yijun Li, Yannick Hold-Geoffroy, \textbf{Koki Madono}, Jose Ignacio Echevarria Vallespi, Cameron Younger Smith}}
+
+% ===================== Teaching =====================
+\cvsection{Teaching}
+\cvline{2024 -- present}{Waseda University: Science and Engineering Laboratory 1A / 1B; Introduction to Java Programming; Java Programming (Densei~1); C Programming (Densei~2)}
+
+% ===================== Service =====================
+\cvsection{Academic Service}
+\cvline{Conference}{Reviewer: BMVC 2021; WACV 2024 (Rounds 1 \& 2); IEEE PacificVis 2025 (Conference Track)}
+\cvline{Journal}{Reviewer: IEEE Access (2021); IEICE Transactions on Fundamentals A (2025)}
+
+% ===================== Media =====================
+\cvsection{Media}
+\cvline{Jul.~2024}{Featured in Waseda \textit{Campus Now}, July 2024 issue}
+\cvline{Apr.~2024}{Waseda Weekly, \jp{研究まっしぐら「水墨画をきれいに描けるデジタル技術の研究」}}
+
+\vspace{10pt}
+{\small\color{mutedc}Last updated: July 16, 2026 \;\textbar\; \href{https://madonokouki.github.io}{madonokouki.github.io}}
+
+\end{document}

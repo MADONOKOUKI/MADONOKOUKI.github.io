@@ -13,41 +13,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=7">
+  <link rel="stylesheet" href="assets/style.css?v=12">
 </head>
 <body>
 
   <nav class="site-nav" aria-label="Site">
     <div class="bar">
       <a class="brand" href="./">
-        <svg viewBox="0 0 260 140" aria-hidden="true"><path d="M16 74 C24 52 54 40 92 40 C134 40 164 50 188 58 C194 60 199 60 203 57 C208 44 217 34 229 29 C226 41 224 51 226 59 C227 62 227 64 226 66 C230 74 234 84 240 93 C228 88 214 78 206 68 C201 65 196 66 190 68 C162 80 128 88 94 88 C58 88 26 84 16 74 Z M78 84 C84 96 94 104 108 106 C100 96 92 86 86 80 Z"/></svg>
+        <span class="brand-mark" aria-hidden="true">🐳</span>
         Koki Madono
       </a>
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#news">News</a></li>
         <li><a href="#publications">Publications</a></li>
+        <li><a href="#grants">Misc</a></li>
+        <li><a href="cv.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h5L11.5 5v7.5h-8.5z"/><path d="M8 1.5V5h3.5"/></svg>CV</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
       </ul>
     </div>
   </nav>
 
   <header class="hero">
-    <svg class="hero-whale big" viewBox="0 0 260 140" aria-hidden="true">
-      <path d="M16 74 C24 52 54 40 92 40 C134 40 164 50 188 58 C194 60 199 60 203 57 C208 44 217 34 229 29 C226 41 224 51 226 59 C227 62 227 64 226 66 C230 74 234 84 240 93 C228 88 214 78 206 68 C201 65 196 66 190 68 C162 80 128 88 94 88 C58 88 26 84 16 74 Z M78 84 C84 96 94 104 108 106 C100 96 92 86 86 80 Z"/>
-    </svg>
-    <svg class="hero-whale calf" viewBox="0 0 260 140" aria-hidden="true">
-      <path d="M16 74 C24 52 54 40 92 40 C134 40 164 50 188 58 C194 60 199 60 203 57 C208 44 217 34 229 29 C226 41 224 51 226 59 C227 62 227 64 226 66 C230 74 234 84 240 93 C228 88 214 78 206 68 C201 65 196 66 190 68 C162 80 128 88 94 88 C58 88 26 84 16 74 Z M78 84 C84 96 94 104 108 106 C100 96 92 86 86 80 Z"/>
-    </svg>
-    <svg class="hero-fauna fauna-dolphin" viewBox="0 0 120 64" aria-hidden="true"><path d="M4 33 C8 29 14 26 22 24 C30 16.5 40 13 50 13 C52 8 56 3 62 2 C61 7 61 11 63 15 C74 17 84 21 92 27 C95 29 97 30 98 30 C102 26 106 21 112 16 C110 23 109 28 110 32 C109 36 110 41 112 48 C106 43 102 38 98 34 C96 34 93 35 90 36 C80 41 66 44 52 44 C36 44 16 40 4 33 Z M34 41 C37 48 42 53 49 55 C45 48 41 43 38 40 Z"/></svg>
-    <svg class="hero-fauna fauna-puffer" viewBox="0 0 84 64" aria-hidden="true"><circle cx="34" cy="34" r="20"/><path d="M50 30 C57 25 62 22 68 20 C66 27 66 39 68 46 C62 43 57 40 50 36 Z"/><path class="spikes" d="M34 10 L34 3 M19 16 L14 11 M11 32 L4 31 M15 49 L10 55 M32 57 L32 63 M49 49 L54 55 M56 21 L62 16"/></svg>
-    <svg class="hero-fauna fauna-school" viewBox="0 0 90 44" aria-hidden="true">
-      <path d="M0 6 C3 2.5 7 1 11 2 C13.5 3 15 4.5 16 6 C15 7.5 13.5 9 11 10 C7 11 3 9.5 0 6 Z M15.5 6 L20 2.5 C19 5 19 7 20 9.5 Z"/>
-      <path transform="translate(26,9)" d="M0 6 C3 2.5 7 1 11 2 C13.5 3 15 4.5 16 6 C15 7.5 13.5 9 11 10 C7 11 3 9.5 0 6 Z M15.5 6 L20 2.5 C19 5 19 7 20 9.5 Z"/>
-      <path transform="translate(54,3)" d="M0 6 C3 2.5 7 1 11 2 C13.5 3 15 4.5 16 6 C15 7.5 13.5 9 11 10 C7 11 3 9.5 0 6 Z M15.5 6 L20 2.5 C19 5 19 7 20 9.5 Z"/>
-      <path transform="translate(16,26)" d="M0 6 C3 2.5 7 1 11 2 C13.5 3 15 4.5 16 6 C15 7.5 13.5 9 11 10 C7 11 3 9.5 0 6 Z M15.5 6 L20 2.5 C19 5 19 7 20 9.5 Z"/>
-      <path transform="translate(46,24)" d="M0 6 C3 2.5 7 1 11 2 C13.5 3 15 4.5 16 6 C15 7.5 13.5 9 11 10 C7 11 3 9.5 0 6 Z M15.5 6 L20 2.5 C19 5 19 7 20 9.5 Z"/>
-    </svg>
-    <svg class="hero-fauna fauna-shark" viewBox="0 0 130 64" aria-hidden="true"><path d="M4 36 C12 30 24 25 38 23 C42 15 48 7 57 3 C56 11 55 17 56 22 C68 23 82 27 92 31 C95 32 97 32 99 33 C103 27 108 18 115 9 C113 18 112 26 110 33 C112 37 114 42 116 48 C110 44 105 40 101 37 C98 36 95 36 92 36 C78 42 58 44 42 42 C26 40 12 40 4 36 Z M40 42 C43 50 49 56 58 58 C53 50 47 44 44 40 Z"/></svg>
     <div class="bubbles" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 
     <div class="wrap">
@@ -64,12 +51,11 @@
             <li><a class="chip" style="--dot:#a6ce39" href="https://orcid.org/0000-0002-5214-8539" target="_blank" rel="noopener">ORCID</a></li>
             <li><a class="chip" style="--dot:#0085ff" href="https://bsky.app/profile/madorin0130.bsky.social" target="_blank" rel="noopener">Bluesky</a></li>
             <li><a class="chip" style="--dot:#ff9d00" href="https://huggingface.co/madorin0130" target="_blank" rel="noopener">Hugging Face</a></li>
-            <li><a class="chip solid" href="#publications"><svg viewBox="0 0 260 140" aria-hidden="true"><path d="M16 74 C24 52 54 40 92 40 C134 40 164 50 188 58 C194 60 199 60 203 57 C208 44 217 34 229 29 C226 41 224 51 226 59 C227 62 227 64 226 66 C230 74 234 84 240 93 C228 88 214 78 206 68 C201 65 196 66 190 68 C162 80 128 88 94 88 C58 88 26 84 16 74 Z M78 84 C84 96 94 104 108 106 C100 96 92 86 86 80 Z"/></svg>Publications</a></li>
+            <li><a class="chip solid" href="#publications"><span aria-hidden="true">🐳</span>Publications</a></li>
           </ul>
         </div>
         <div class="avatar-box">
           <img class="avatar" src="images/avatar.jpg" alt="Avatar of Koki Madono">
-          <p class="avatar-note">Icon generated with ChatGPT — my consistent identity within the research community.</p>
         </div>
       </div>
     </div>
@@ -95,7 +81,7 @@
         <li>Email (work): madorin2work [at] gmail.com</li>
         <li>Bluesky: <a href="https://bsky.app/profile/madorin0130.bsky.social" target="_blank" rel="noopener">@madorin0130.bsky.social</a> (I have no X account)</li>
         <li>From Akishima, Tokyo — hometown of the Akishima Whale, which inspired this site</li>
-        <li>Full CV: <a href="https://researchmap.jp/madorin0130" target="_blank" rel="noopener">researchmap</a> · <a href="https://w-rdb.waseda.jp/html/100004103_en.html" target="_blank" rel="noopener">Waseda Researchers DB</a></li>
+        <li>Full CV: <a href="cv.pdf" target="_blank" rel="noopener">PDF</a> · <a href="https://researchmap.jp/madorin0130" target="_blank" rel="noopener">researchmap</a> · <a href="https://w-rdb.waseda.jp/html/100004103_en.html" target="_blank" rel="noopener">Waseda Researchers DB</a></li>
       </ul>
     </section>
 
@@ -114,13 +100,43 @@
 
     <section id="publications" class="section">
       <h2>Publications</h2>
-      <div id="selected-pubs">
+      <div id="pub-root">
         <noscript><p>Please enable JavaScript to view the publication list, or see
           <a href="https://scholar.google.com/citations?user=nVgMK4kAAAAJ">Google Scholar</a>.</p></noscript>
       </div>
-      <div id="other-pubs"></div>
       <p class="section-note">The complete list is also on
         <a href="https://scholar.google.com/citations?user=nVgMK4kAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+    </section>
+
+    <section id="grants" class="section">
+      <h2>Grants &amp; Funding</h2>
+      <ul class="rows">
+        <li><span class="when">Apr. 2025 – Mar. 2028</span><span><strong>JSPS KAKENHI, Grant-in-Aid for Early-Career Scientists</strong> (PI) — ¥3,700,000<br><span class="sub">複雑な色表現を再現可能なロボット描画系列生成AIの構築</span></span></li>
+        <li><span class="when">Oct. 2024 – Mar. 2027</span><span><strong><a href="https://www.jst.go.jp/kisoken/act-x/" target="_blank" rel="noopener">JST ACT-X</a></strong> 「次世代AIを築く数理・情報科学の革新」 (PI) — ¥4,500,000<br><span class="sub">完成絵を分解可能な描画系列生成AIの構築</span></span></li>
+        <li><span class="when">Jun. 2023 – Mar. 2024</span><span><strong><a href="https://www.waseda.jp/fsci/wise/earlybird/program/#anc_8" target="_blank" rel="noopener">Early Bird Program</a></strong> (13th), Waseda Research Institute for Science and Engineering — ¥800,000</span></li>
+        <li><span class="when">Jun. 2023 – Mar. 2024</span><span><strong>Waseda University Grant for Special Research Projects</strong> — ¥300,000</span></li>
+        <li><span class="when">Oct. 2021 – Mar. 2024</span><span><strong><a href="https://www.jst.go.jp/jisedai/outline/index.html" target="_blank" rel="noopener">JST 次世代研究者挑戦的研究プログラム</a></strong><br><span class="sub">¥200,000/month stipend + ¥500,000/year research funds</span></span></li>
+      </ul>
+    </section>
+
+    <section id="awards" class="section">
+      <h2>Awards &amp; Patent</h2>
+      <ul class="rows">
+        <li><span class="when">Sep. 2024</span><span><strong><a href="https://visualcomputing.jp/vc2024/award/" target="_blank" rel="noopener">CyberAgent Company Award</a></strong>, Visual Computing 2024<br><span class="sub">“Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation”</span></span></li>
+        <li><span class="when">Mar. 2024</span><span><strong><a href="https://www.waseda.jp/fsci/wise/news/2024/03/25/9792/" target="_blank" rel="noopener">Best Presentation Award</a></strong>, 13th Early Bird Program final report meeting<br><span class="sub">joint work with 高野俊輔・田中優帆・中居詢子</span></span></li>
+        <li><span class="when">2022</span><span><strong><a href="https://cgvi.jp/info/bestpapers/" target="_blank" rel="noopener">CGVI Best Research Presentation Award</a></strong> (IPSJ SIG-CGVI), Visual Computing 2022<br><span class="sub">for data-driven brushstroke rendering</span></span></li>
+        <li><span class="when">2023</span><span><strong><a href="https://patents.google.com/patent/US20230140146A1/en" target="_blank" rel="noopener">Vectorized Caricature Avatar Generator</a></strong> — U.S. Patent Application US20230140146A1<br><span class="sub">Daichi Ito, Yijun Li, Yannick Hold-Geoffroy, <strong>Koki Madono</strong>, Jose Ignacio Echevarria Vallespi, Cameron Younger Smith</span></span></li>
+      </ul>
+    </section>
+
+    <section id="teaching" class="section">
+      <h2>Teaching &amp; Academic Service</h2>
+      <ul class="rows">
+        <li><span class="when">2024 – present</span><span><strong>Teaching, Waseda University</strong> — Science and Engineering Laboratory 1A / 1B · Introduction to Java Programming · Java Programming (Densei 1) · C Programming (Densei 2)</span></li>
+        <li><span class="when">Conference</span><span>Reviewer: BMVC 2021 · WACV 2024 (Rounds 1 &amp; 2) · IEEE PacificVis 2025 (Conference Track)</span></li>
+        <li><span class="when">Journal</span><span>Reviewer: IEEE Access (2021) · IEICE Transactions on Fundamentals A (2025)</span></li>
+        <li><span class="when">Media</span><span>Waseda <a href="https://www.waseda.jp/top/assets/uploads/2024/07/CN2407_web.pdf" target="_blank" rel="noopener">Campus Now, July 2024 issue</a> · <a href="https://www.waseda.jp/inst/weekly/news/2024/05/16/118450/" target="_blank" rel="noopener">早稲田ウィークリー 研究まっしぐら「水墨画をきれいに描けるデジタル技術の研究」</a> (Apr. 2024)</span></li>
+      </ul>
     </section>
 
   </main>
@@ -145,8 +161,8 @@
     </footer>
   </div>
 
-  <script src="assets/pubs.js?v=7"></script>
-  <script>renderPublications('selected-pubs', 'other-pubs');</script>
+  <script src="assets/pubs.js?v=12"></script>
+  <script>renderPublications('pub-root');</script>
   <script>
     // Scroll-spy: highlight the nav link of the section in view (drives a[aria-current]).
     (() => {
@@ -160,6 +176,28 @@
         }
       }, { rootMargin: '-25% 0px -65% 0px' });
       links.forEach((a, id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
+    })();
+  </script>
+  <script>
+    // Seasonal theme: auto-pick by month, cycle with the nav button, remember the choice.
+    (() => {
+      const SEASONS = ['spring', 'summer', 'autumn', 'winter'];
+      const EMOJI = { spring: '🌸', summer: '🌊', autumn: '🍁', winter: '⛄' };
+      const btn = document.getElementById('season-btn');
+      const byMonth = m => (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
+      let season = localStorage.getItem('season') || byMonth(new Date().getMonth() + 1);
+      if (!SEASONS.includes(season)) season = 'summer';
+      const apply = () => {
+        document.documentElement.dataset.season = season;
+        btn.textContent = EMOJI[season];
+        btn.title = 'Season: ' + season + ' — click to change';
+      };
+      btn.addEventListener('click', () => {
+        season = SEASONS[(SEASONS.indexOf(season) + 1) % SEASONS.length];
+        localStorage.setItem('season', season);
+        apply();
+      });
+      apply();
     })();
   </script>
 </body>

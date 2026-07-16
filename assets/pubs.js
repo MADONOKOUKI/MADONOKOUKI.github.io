@@ -1,10 +1,10 @@
-/* Publication list renderer (single-page site, ren-jing.com-inspired layout).
+/* Publication list renderer.
    Data lives in data/publications.json — edit that file to add papers.
-   - Papers tagged "selected" render with a teaser image (data "thumb" field).
-   - Everything else renders as a compact text entry, grouped by year.
-   - Link labels get icons automatically: Paper/PDF → document, Code → brackets,
-     Patent → medal, Project/Page → globe, Video → camera, Demo → laptop,
-     Dataset/Data → database. */
+   Each entry renders as text on the left and, when a "thumb" is set, a teaser
+   image on the right. Entries are grouped by year, newest first.
+   Link labels get icons automatically: Paper/PDF → document, Code → brackets,
+   Patent → medal, Project/Page → globe, Video → camera, Demo → laptop,
+   Dataset/Data → database. */
 
 const PUB_ICONS = {
   doc: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h5L11.5 5v7.5h-8.5z"/><path d="M8 1.5V5h3.5"/></svg>',
@@ -16,6 +16,7 @@ const PUB_ICONS = {
   video: '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="1.5" y="3.5" width="8" height="7" rx="1.5"/><path d="M9.5 6.3 12.5 4.5v5L9.5 7.7"/></svg>',
   laptop: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 3.5h9v6h-9z"/><path d="M1 11h12"/></svg>',
   db: '<svg viewBox="0 0 14 14" aria-hidden="true"><ellipse cx="7" cy="3.2" rx="5" ry="1.7"/><path d="M2 3.2v7.6c0 .95 2.2 1.7 5 1.7s5-.75 5-1.7V3.2"/><path d="M2 7c0 .95 2.2 1.7 5 1.7S12 7.95 12 7"/></svg>',
+  trophy: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M4.5 2h5v3.2c0 1.7-1 2.9-2.5 2.9S4.5 6.9 4.5 5.2z"/><path d="M4.5 3H2.8a2.1 2.1 0 0 0 2 2.7M9.5 3h1.7a2.1 2.1 0 0 1-2 2.7"/><path d="M7 8.1v2.1M4.8 11.7h4.4M5.6 10.2h2.8"/></svg>',
 };
 
 function pubIconFor(label) {
@@ -59,7 +60,7 @@ function showDialog(title, bodyEl) {
   dialog.addEventListener('close', () => dialog.remove());
 }
 
-function pubEntry(p, { withImage = false } = {}) {
+function pubEntry(p) {
   const art = document.createElement('article');
   art.className = 'pub-entry';
 
@@ -79,14 +80,15 @@ function pubEntry(p, { withImage = false } = {}) {
   const venue = document.createElement('p');
   venue.className = 'pub-venue';
   venue.textContent = `${p.venue || ''}, ${p.year}`;
-  content.appendChild(venue);
-
   if (p.award) {
     const award = document.createElement('span');
     award.className = 'pub-award';
-    award.textContent = p.award;
-    content.appendChild(award);
+    award.innerHTML = PUB_ICONS.trophy;
+    award.appendChild(document.createTextNode(p.award));
+    venue.appendChild(document.createTextNode(' '));
+    venue.appendChild(award);
   }
+  content.appendChild(venue);
 
   if (p.links?.length || p.abstract || p.bibtex) {
     const row = document.createElement('p');
@@ -136,8 +138,7 @@ function pubEntry(p, { withImage = false } = {}) {
 
   art.appendChild(content);
 
-  if (withImage && p.thumb) {
-    art.classList.add('featured');
+  if (p.thumb) {
     const media = document.createElement('div');
     media.className = 'pub-media';
     const img = document.createElement('img');
@@ -151,49 +152,31 @@ function pubEntry(p, { withImage = false } = {}) {
   return art;
 }
 
-/* Selected papers (teaser images) + the rest as a compact year-grouped text list. */
-async function renderPublications(selectedRootId, othersRootId) {
-  const selRoot = document.getElementById(selectedRootId);
-  const otherRoot = document.getElementById(othersRootId);
+/* Year-grouped list, newest first. */
+async function renderPublications(rootId) {
+  const root = document.getElementById(rootId);
   let data = [];
   try {
     data = await loadPublications();
   } catch (e) {
-    selRoot.innerHTML = '<p>Failed to load publications. Please check data/publications.json.</p>';
+    root.innerHTML = '<p>Failed to load publications. Please check data/publications.json.</p>';
     return;
   }
 
-  const isSelected = p => p.tags && p.tags.includes('selected');
-
-  /* — selected, newest first, with teasers — */
-  const selected = data.filter(isSelected).sort((a, b) => b.year - a.year);
-  const selList = document.createElement('div');
-  selList.className = 'pub-list featured-list';
-  for (const p of selected) selList.appendChild(pubEntry(p, { withImage: true }));
-  selRoot.replaceChildren(selList);
-
-  /* — everything else, year-grouped, text only — */
-  const others = data.filter(p => !isSelected(p));
   const byYear = {};
-  for (const p of others) (byYear[p.year] ??= []).push(p);
+  for (const p of data) (byYear[p.year] ??= []).push(p);
   const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 
-  otherRoot.innerHTML = '';
-  if (years.length > 0) {
-    const subhead = document.createElement('h3');
-    subhead.className = 'pub-subhead';
-    subhead.textContent = 'More Publications';
-    otherRoot.appendChild(subhead);
-  }
+  root.innerHTML = '';
   for (const y of years) {
-    const h4 = document.createElement('h4');
-    h4.className = 'pub-year';
-    h4.textContent = y;
-    otherRoot.appendChild(h4);
+    const h3 = document.createElement('h3');
+    h3.className = 'pub-year';
+    h3.textContent = y;
+    root.appendChild(h3);
 
     const list = document.createElement('div');
     list.className = 'pub-list';
     for (const p of byYear[y]) list.appendChild(pubEntry(p));
-    otherRoot.appendChild(list);
+    root.appendChild(list);
   }
 }

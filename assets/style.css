@@ -1,13 +1,13 @@
 /* ==========================================================================
    Koki Madono — personal site
-   Theme v3: "Akishima Whale" — light blue, wide & dense (ren-jing.com format)
+   Theme v3: "Akishima Whale" — light blue, wide & dense
    ========================================================================== */
 
 :root {
   --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Hiragino Kaku Gothic ProN", "Noto Sans JP", Helvetica, Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  --bg: #fafdff;
+  --bg: #ffffff;
   --surface: #ffffff;
   --ink: #253746;
   --muted: #64798a;
@@ -48,7 +48,7 @@ a { color: var(--accent-strong); text-decoration: none; }
 a:hover { text-decoration: underline; text-underline-offset: 3px; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
 
-.wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+.wrap { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
 
 /* ==========================================================================
    Navigation — frosted, light
@@ -68,7 +68,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   align-items: center;
   gap: 20px;
   padding: 10px 24px;
-  max-width: 1000px;
+  max-width: 1140px;
   margin: 0 auto;
 }
 .brand {
@@ -82,7 +82,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   white-space: nowrap;
 }
 .brand:hover { text-decoration: none; }
-.brand svg { width: 30px; height: auto; fill: var(--accent-strong); }
+.brand-mark { font-size: 21px; line-height: 1; }
 .site-nav ul {
   display: flex;
   gap: 5px;
@@ -91,7 +91,9 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   list-style: none;
 }
 .site-nav ul a {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 4.5px 12px;
   border-radius: 7px;
   background: color-mix(in srgb, var(--chip-bg) 60%, transparent);
@@ -99,6 +101,15 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
+}
+.site-nav ul a svg {
+  width: 11px;
+  height: 11px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .site-nav ul a:hover,
 .site-nav ul a[aria-current="page"] {
@@ -165,12 +176,6 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   border: 4px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 14px 34px rgba(23, 75, 115, 0.2);
 }
-.avatar-note {
-  margin: 8px 4px 0;
-  font-size: 11px;
-  line-height: 1.5;
-  color: var(--hero-sub);
-}
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 0; padding: 0; list-style: none; }
 .chip {
@@ -216,47 +221,8 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .chip.solid::before { display: none; }
 .chip.solid::after { content: "→"; opacity: 0.85; }
-.chip.solid svg { width: 20px; height: auto; fill: #ffffff; flex-shrink: 0; }
+.chip.solid span { font-size: 15px; line-height: 1; }
 .chip.solid:hover { filter: brightness(1.08); transform: translateY(-2px); }
-
-/* — whales — */
-.hero-whale {
-  position: absolute;
-  z-index: 1;
-  fill: var(--whale);
-  opacity: 0.55;
-  animation: whale-swim 11s ease-in-out infinite;
-}
-.hero-whale.big {
-  left: -3%;
-  bottom: 4%;
-  width: min(52vw, 600px);
-}
-.hero-whale.calf {
-  left: 47%;
-  top: 6%;
-  width: clamp(100px, 14vw, 150px);
-  opacity: 0.45;
-  animation-delay: -4s;
-  animation-duration: 9s;
-}
-
-@keyframes whale-swim {
-  0%, 100% { transform: translate(0, 0) rotate(0deg); }
-  50%      { transform: translate(-24px, -10px) rotate(-1.4deg); }
-}
-
-/* — more sea friends in the hero — */
-.hero-fauna { position: absolute; z-index: 1; fill: var(--whale); pointer-events: none; }
-.hero-fauna .spikes { fill: none; stroke: var(--whale); stroke-width: 3.4; stroke-linecap: round; }
-.fauna-dolphin { top: 8%; left: 21%; width: 88px; opacity: 0.5; animation: whale-swim 12s ease-in-out infinite; animation-delay: -3s; }
-.fauna-puffer  { top: 16%; right: 27%; width: 40px; opacity: 0.6; animation: bob 7s ease-in-out infinite; }
-.fauna-school  { bottom: 20%; left: 42%; width: 96px; opacity: 0.48; animation: school-drift 16s ease-in-out infinite; }
-.fauna-shark   { bottom: 9%; right: 2%; width: 120px; opacity: 0.42; animation: whale-swim 14s ease-in-out infinite; animation-delay: -8s; }
-@keyframes school-drift {
-  0%, 100% { transform: translate(0, 0); }
-  50%      { transform: translate(-30px, -6px); }
-}
 
 /* — bubbles — */
 .bubbles { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
@@ -304,8 +270,15 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
   font-weight: 700;
   letter-spacing: -0.01em;
   margin: 0 0 12px;
-  padding-bottom: 6px;
-  border-bottom: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.section > h2::after {
+  content: "";
+  display: block;
+  height: 6px;
+  margin-top: 7px;
+  background: color-mix(in srgb, var(--accent) 60%, transparent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 6'%3E%3Cpath d='M0 3 Q 5.5 0 11 3 T 22 3' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 22px 6px;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 6'%3E%3Cpath d='M0 3 Q 5.5 0 11 3 T 22 3' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 22px 6px;
 }
 .section-note { color: var(--muted); font-size: 12.5px; margin: 10px 0 0; }
 
@@ -349,29 +322,51 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
 /* — Publications — selected entries get a teaser image, the rest are text-only — */
 .pub-year {
   display: block;
-  font-size: 15.5px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--accent);
-  margin: 18px 0 7px;
-  padding-bottom: 2px;
-  border-bottom: 1px solid var(--line);
+  margin: 18px 0 9px;
 }
-.pub-list { display: flex; flex-direction: column; gap: 9px; }
+.pub-year::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 6px;
+  margin-top: 3px;
+  background: var(--accent);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 6'%3E%3Cpath d='M0 3 Q 5.5 0 11 3 T 22 3' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 22px 6px;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 6'%3E%3Cpath d='M0 3 Q 5.5 0 11 3 T 22 3' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left center / 22px 6px;
+}
+.pub-list { display: flex; flex-direction: column; gap: 14px; }
 .pub-title { margin: 0 0 1px; font-size: 14.5px; font-weight: 700; line-height: 1.4; letter-spacing: -0.005em; }
 .pub-authors { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; }
 .pub-authors strong { color: var(--ink); font-weight: 600; }
 .pub-venue { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.45; font-style: italic; }
 .pub-award {
-  display: inline-block;
-  margin: 4px 5px 0 0;
-  padding: 2px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4.5px;
+  margin-left: 5px;
+  padding: 1.5px 9px;
   border-radius: 999px;
   background: var(--gold-bg);
+  border: 1px solid #ecd9ac;
   color: var(--gold);
   font-size: 11px;
   font-weight: 600;
+  font-style: normal;
+  vertical-align: 1px;
 }
-.pub-award::before { content: "✦ "; }
+.pub-award svg {
+  width: 11px;
+  height: 11px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .pub-links { margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 5px; }
 .badge {
   display: inline-flex;
@@ -403,21 +398,20 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
   text-decoration: none;
 }
 
-/* — Featured (selected) entries: text left, teaser image right — */
-.featured-list { margin-top: 12px; gap: 16px; }
-.pub-entry.featured {
+/* — entry layout: text left, teaser image right — */
+.pub-entry {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 24px;
+  gap: 28px;
 }
-.pub-entry.featured .pub-content { flex: 1; min-width: 0; }
+.pub-entry .pub-content { flex: 1; min-width: 0; }
 .pub-media { flex-shrink: 0; }
 .pub-media img {
   display: block;
-  height: 86px;
+  height: 96px;
   width: auto;
-  max-width: min(280px, 36vw);
+  max-width: min(300px, 30vw);
   object-fit: contain;
   border-radius: 6px;
   border: 1px solid var(--line);
@@ -425,11 +419,87 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
   padding: 2px;
 }
 
-.pub-subhead {
-  margin: 26px 0 2px;
-  font-size: 15.5px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+/* — dated detail rows (grants / awards / service) — */
+.rows { margin: 10px 0 0; padding: 0; list-style: none; }
+.rows li {
+  display: grid;
+  grid-template-columns: 148px 1fr;
+  gap: 14px;
+  padding: 5px 0;
+  border-bottom: 1px dashed var(--line);
+  font-size: 13.5px;
+}
+.rows li:last-child { border-bottom: none; }
+.rows .when { font: 600 11.5px/1.7 var(--mono); color: var(--muted); white-space: nowrap; }
+.rows .sub { color: var(--muted); font-size: 12.5px; }
+
+/* — season switcher (nav) — */
+.season-btn {
+  border: none;
+  padding: 3.5px 10px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--chip-bg) 60%, transparent);
+  font-size: 14.5px;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.12s ease;
+}
+.season-btn:hover { background: var(--chip-bg); transform: translateY(-1px); }
+
+/* ==========================================================================
+   Seasons — the sea changes with the calendar (auto by month, manual toggle)
+   ========================================================================== */
+
+html[data-season="spring"] {
+  --hero-a: #fdf1f6;
+  --hero-b: #f6d3e0;
+  --hero-sub: #8a6478;
+  --whale: #eeb6ca;
+  --bubble: rgba(255, 255, 255, 0.9);
+}
+html[data-season="autumn"] {
+  --hero-a: #fdf5ea;
+  --hero-b: #f6ddb9;
+  --hero-sub: #8a7050;
+  --whale: #e7bc84;
+  --bubble: rgba(255, 255, 255, 0.9);
+}
+html[data-season="winter"] {
+  --hero-a: #f3f8fd;
+  --hero-b: #dcE9f5;
+  --hero-sub: #5d7891;
+  --whale: #b7d0e4;
+  --bubble: rgba(255, 255, 255, 0.95);
+}
+
+/* falling petals / leaves / snow replace the rising bubbles */
+@keyframes drift-fall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  10%  { opacity: 0.9; }
+  85%  { opacity: 0.6; }
+  100% { transform: translateY(46vh) translateX(-46px) rotate(300deg); opacity: 0; }
+}
+html[data-season="spring"] .bubbles span,
+html[data-season="autumn"] .bubbles span,
+html[data-season="winter"] .bubbles span {
+  top: -6%;
+  bottom: auto;
+  border: none;
+  animation-name: drift-fall;
+  animation-timing-function: linear;
+}
+html[data-season="spring"] .bubbles span {
+  background: #f6b8cd;
+  border-radius: 68% 32% 66% 34%;
+}
+html[data-season="autumn"] .bubbles span {
+  background: #e59a4b;
+  border-radius: 62% 6% 60% 8%;
+}
+html[data-season="winter"] .bubbles span {
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
 }
 
 /* ==========================================================================
@@ -531,12 +601,8 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
   .hero-grid { grid-template-columns: 1fr; gap: 24px; }
   .avatar-box { order: -1; }
   .avatar { max-width: 156px; border-radius: 15px; }
-  .hero-whale.big { width: 88vw; left: -22%; bottom: 2%; opacity: 0.45; }
-  .hero-whale.calf { left: 68%; top: 3%; }
-  .fauna-shark, .fauna-school, .fauna-puffer { display: none; }
-  .fauna-dolphin { width: 60px; top: 4%; left: 6%; }
   .news li { grid-template-columns: 78px 1fr; gap: 10px; }
-  .pub-entry.featured { flex-direction: column; gap: 10px; }
+  .pub-entry { flex-direction: column; gap: 10px; }
   .pub-media img { height: auto; width: 100%; max-width: 320px; }
   .site-nav ul { overflow-x: auto; scrollbar-width: none; }
   .site-nav ul::-webkit-scrollbar { display: none; }
@@ -544,6 +610,6 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .hero-whale, .hero-fauna, .bubbles span, .creatures svg, .creatures .lure { animation: none; }
+  .bubbles span, .creatures svg, .creatures .lure { animation: none; }
   .bubbles { display: none; }
 }
