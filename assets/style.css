@@ -409,14 +409,13 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
 .pub-media { flex-shrink: 0; }
 .pub-media img {
   display: block;
-  height: 96px;
-  width: auto;
-  max-width: min(300px, 30vw);
+  width: 180px;
+  height: 112px;
   object-fit: contain;
   border-radius: 6px;
   border: 1px solid var(--line);
   background: #ffffff;
-  padding: 2px;
+  padding: 3px;
 }
 
 /* — dated detail rows (grants / awards / service) — */
@@ -603,7 +602,7 @@ html[data-season="winter"] .bubbles span {
   .avatar { max-width: 156px; border-radius: 15px; }
   .news li { grid-template-columns: 78px 1fr; gap: 10px; }
   .pub-entry { flex-direction: column; gap: 10px; }
-  .pub-media img { height: auto; width: 100%; max-width: 320px; }
+  .pub-media img { width: 100%; max-width: 320px; height: auto; aspect-ratio: 180 / 112; }
   .site-nav ul { overflow-x: auto; scrollbar-width: none; }
   .site-nav ul::-webkit-scrollbar { display: none; }
 }
