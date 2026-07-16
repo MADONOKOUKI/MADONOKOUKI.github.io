@@ -202,31 +202,57 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   color: var(--hero-sub);
 }
 
-.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 0; padding: 0; list-style: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 9px; margin: 26px 0 0; padding: 0; list-style: none; }
 .chip {
-  display: inline-block;
-  padding: 7px 14px;
-  border: 1px solid color-mix(in srgb, var(--accent-strong) 30%, transparent);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 38%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
   color: var(--accent-strong);
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 13.5px;
+  font-weight: 600;
   backdrop-filter: blur(4px);
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease,
+              border-color 0.18s ease, box-shadow 0.18s ease;
 }
-.chip::after { content: "↗"; margin-left: 5px; font-size: 0.82em; opacity: 0.6; }
-.chip:hover { background: var(--surface); text-decoration: none; transform: translateY(-1px); }
-.chip.solid {
+.chip::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--dot, var(--accent));
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot, var(--accent)) 20%, transparent);
+}
+.chip::after { content: "↗"; font-size: 0.8em; opacity: 0.55; }
+.chip:hover {
   background: var(--accent);
   border-color: var(--accent);
   color: #ffffff;
-  font-weight: 600;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 38%, transparent);
+  text-decoration: none;
 }
+.chip:hover::before { background: #ffffff; box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3); }
+.chip.solid {
+  border: none;
+  padding: 9.5px 18px 9.5px 14px;
+  background: linear-gradient(135deg, #22b1de 0%, #0e7ba0 100%);
+  color: #ffffff;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 42%, transparent);
+}
+.chip.solid::before { display: none; }
 .chip.solid::after { content: "→"; opacity: 0.85; }
-.chip.solid:hover { background: var(--accent-strong); }
+.chip.solid svg { width: 22px; height: auto; fill: #ffffff; flex-shrink: 0; }
+.chip.solid:hover { filter: brightness(1.08); transform: translateY(-2px); }
 @media (prefers-color-scheme: dark) {
-  .chip.solid { color: #06222f; }
+  .chip:hover { color: #06222f; }
+  .chip:hover::before { background: #06222f; box-shadow: 0 0 0 3px rgba(6, 34, 47, 0.25); }
+  .chip.solid { background: linear-gradient(135deg, #5fd0ee 0%, #2b9fc4 100%); color: #06222f; }
+  .chip.solid svg { fill: #06222f; }
 }
 
 /* — whales — */
@@ -252,6 +278,20 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .hero.small .hero-whale.big { width: min(38vw, 400px); bottom: -6%; }
 .hero.small .hero-whale.calf { left: 60%; top: 10%; }
+
+/* — more sea friends in the hero — */
+.hero-fauna { position: absolute; z-index: 1; fill: var(--whale); pointer-events: none; }
+.hero-fauna .spikes { fill: none; stroke: var(--whale); stroke-width: 3.4; stroke-linecap: round; }
+.fauna-dolphin { top: 7%; left: 21%; width: 96px; opacity: 0.45; animation: whale-swim 12s ease-in-out infinite; animation-delay: -3s; }
+.fauna-puffer  { top: 15%; right: 28%; width: 44px; opacity: 0.55; animation: bob 7s ease-in-out infinite; }
+.fauna-school  { bottom: 19%; left: 42%; width: 104px; opacity: 0.42; animation: school-drift 16s ease-in-out infinite; }
+.fauna-shark   { bottom: 8%; right: 2%; width: 132px; opacity: 0.36; animation: whale-swim 14s ease-in-out infinite; animation-delay: -8s; }
+@keyframes school-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(-30px, -6px); }
+}
+.hero.small .fauna-shark, .hero.small .fauna-school { display: none; }
+.hero.small .fauna-puffer { right: 14%; top: 22%; }
 
 @keyframes whale-swim {
   0%, 100% { transform: translate(0, 0) rotate(0deg); }
@@ -357,84 +397,63 @@ main.wrap { padding-top: 6px; padding-bottom: 40px; }
 }
 .news .what { font-size: 14.5px; }
 
-/* — Publications — */
-.pub-list { display: flex; flex-direction: column; gap: 13px; margin-top: 20px; }
+/* — Publications (text-first layout, no thumbnails) — */
 .pub-year {
-  font-size: 19px;
+  display: inline-block;
+  font-size: 17px;
   font-weight: 700;
-  color: var(--muted);
-  margin: 30px 0 2px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
+  color: var(--accent-strong);
+  margin: 26px 0 14px;
+  padding-bottom: 3px;
+  border-bottom: 2.5px solid var(--chip-bg);
+  min-width: 54px;
 }
-.pub-year::after { content: ""; flex: 1; height: 1px; background: var(--line); }
-.pub-item {
-  display: flex;
-  gap: 18px;
-  align-items: flex-start;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 15px;
-  transition: border-color 0.15s ease;
-}
-.pub-item:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
-.pub-thumb {
-  width: 168px;
-  height: 112px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid var(--line);
-  flex-shrink: 0;
-  background: var(--chip-bg);
-}
-.pub-info { flex: 1; min-width: 0; }
-.pub-title { margin: 1px 0 4px; font-size: 15.5px; font-weight: 600; line-height: 1.45; }
-.pub-authors { margin: 0 0 2px; color: var(--muted); font-size: 13.5px; }
+.pub-list { display: flex; flex-direction: column; gap: 21px; }
+.pub-entry {}
+.pub-title { margin: 0 0 3px; font-size: 15.5px; font-weight: 700; line-height: 1.45; letter-spacing: -0.005em; }
+.pub-authors { margin: 0; color: var(--muted); font-size: 13.5px; }
 .pub-authors strong { color: var(--ink); font-weight: 600; }
-.pub-venue { margin: 0; color: var(--muted); font-size: 13.5px; font-style: italic; }
+.pub-venue { margin: 1px 0 0; color: var(--muted); font-size: 13.5px; font-style: italic; }
 .pub-award {
   display: inline-block;
-  margin: 7px 6px 0 0;
-  padding: 3px 11px;
+  margin: 6px 6px 0 0;
+  padding: 2.5px 10px;
   border-radius: 999px;
   background: var(--gold-bg);
   color: var(--gold);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
 }
 .pub-award::before { content: "✦ "; }
-.pub-links { margin: 9px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.pub-links { margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .badge {
-  display: inline-block;
-  padding: 3.5px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5.5px;
+  padding: 3.5px 10px;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  background: transparent;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--chip-bg) 50%, transparent);
   color: var(--accent-strong);
-  font-size: 12px;
-  font-weight: 500;
-  font-family: var(--sans);
+  font: 500 12px/1.4 var(--sans);
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition: background 0.12s ease, border-color 0.12s ease, transform 0.12s ease;
 }
-.badge:hover { background: var(--chip-bg); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); text-decoration: none; }
-
-.more-link { margin-top: 22px; }
-.more-link a {
-  display: inline-block;
-  padding: 9px 20px;
-  border-radius: 999px;
-  background: var(--accent);
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 14px;
-  transition: transform 0.15s ease, background 0.15s ease;
+.badge svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.more-link a:hover { background: var(--accent-strong); text-decoration: none; transform: translateY(-1px); }
-@media (prefers-color-scheme: dark) {
-  .more-link a { color: #06222f; }
+.badge:hover {
+  background: var(--chip-bg);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  transform: translateY(-1px);
+  text-decoration: none;
 }
 
 /* — Filters (publications page) — */
@@ -453,13 +472,14 @@ main.wrap { padding-top: 6px; padding-bottom: 40px; }
 }
 .pub-filters button:hover { border-color: var(--accent); color: var(--accent-strong); }
 .pub-filters button.active {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: linear-gradient(135deg, #22b1de 0%, #0e7ba0 100%);
+  border-color: transparent;
   color: #ffffff;
   font-weight: 600;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent) 35%, transparent);
 }
 @media (prefers-color-scheme: dark) {
-  .pub-filters button.active { color: #06222f; }
+  .pub-filters button.active { background: linear-gradient(135deg, #5fd0ee 0%, #2b9fc4 100%); color: #06222f; }
 }
 
 /* ==========================================================================
@@ -519,21 +539,31 @@ main.wrap { padding-top: 6px; padding-bottom: 40px; }
 }
 .creatures {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: clamp(22px, 6vw, 62px);
-  padding: 12px 0 24px;
+  gap: 8px clamp(18px, 4.5vw, 52px);
+  padding: 12px 16px 24px;
 }
 .creatures svg { fill: rgba(255, 255, 255, 0.52); animation: bob 6s ease-in-out infinite; }
 .creatures .spikes { fill: none; stroke: rgba(255, 255, 255, 0.52); stroke-width: 3.4; stroke-linecap: round; }
-.creatures svg:nth-child(1) { width: 84px; }
-.creatures svg:nth-child(2) { width: 56px; animation-delay: 1.2s; }
-.creatures svg:nth-child(3) { width: 62px; animation-delay: 2.4s; }
-.creatures svg:nth-child(4) { width: 60px; animation-delay: 3.6s; }
-.creatures svg:nth-child(5) { width: 40px; animation-delay: 4.8s; }
+.creatures .lure { fill: rgba(224, 246, 255, 0.9); animation: lure-glow 3.2s ease-in-out infinite; }
+.creatures .lure-stem { fill: none; stroke: rgba(255, 255, 255, 0.52); stroke-width: 2.6; stroke-linecap: round; }
+.creatures .tentacles { fill: none; stroke: rgba(255, 255, 255, 0.52); stroke-width: 3; stroke-linecap: round; }
+.creatures svg:nth-child(1) { width: 82px; }                        /* whale */
+.creatures svg:nth-child(2) { width: 54px; animation-delay: 0.9s; } /* dolphin */
+.creatures svg:nth-child(3) { width: 60px; animation-delay: 1.8s; } /* shark */
+.creatures svg:nth-child(4) { width: 64px; animation-delay: 2.7s; } /* anglerfish */
+.creatures svg:nth-child(5) { width: 58px; animation-delay: 3.6s; } /* kappa */
+.creatures svg:nth-child(6) { width: 38px; animation-delay: 4.5s; } /* pufferfish */
+.creatures svg:nth-child(7) { width: 34px; animation-delay: 5.4s; } /* jellyfish */
 @keyframes bob {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-7px); }
+}
+@keyframes lure-glow {
+  0%, 100% { opacity: 0.4; }
+  50%      { opacity: 1; }
 }
 .sea-footer .colophon { text-align: center; margin: 0; }
 .sea-footer .colophon .whale-note {
@@ -556,8 +586,8 @@ main.wrap { padding-top: 6px; padding-bottom: 40px; }
   .avatar { max-width: 168px; border-radius: 18px; }
   .hero-whale.big { width: 88vw; left: -22%; bottom: 2%; opacity: 0.4; }
   .hero-whale.calf { left: 68%; top: 3%; }
-  .pub-item { flex-direction: column; }
-  .pub-thumb { width: 100%; height: auto; aspect-ratio: 16 / 10; }
+  .fauna-shark, .fauna-school, .fauna-puffer { display: none; }
+  .fauna-dolphin { width: 64px; top: 4%; left: 6%; }
   .news li { grid-template-columns: 82px 1fr; gap: 10px; }
   .site-nav ul { overflow-x: auto; scrollbar-width: none; }
   .site-nav ul::-webkit-scrollbar { display: none; }
