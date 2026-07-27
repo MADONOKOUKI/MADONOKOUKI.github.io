@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Blog — Koki Madono</title>
+    <link>https://madonokouki.github.io/blog/</link>
+    <description>Notes on computer graphics, ink painting research, and the things I build.</description>
+    <language>ja</language>
+
+  </channel>
+</rss>

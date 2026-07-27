@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=13">
+  <link rel="stylesheet" href="assets/style.css?v=14">
 </head>
 <body>
 
@@ -28,6 +28,7 @@
         <li><a href="#news">News</a></li>
         <li><a href="#publications">Publications</a></li>
         <li><a href="#grants">Misc</a></li>
+        <li><a href="blog/">Blog</a></li>
         <li><a href="cv.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h5L11.5 5v7.5h-8.5z"/><path d="M8 1.5V5h3.5"/></svg>CV</a></li>
         <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
       </ul>
@@ -160,7 +161,7 @@
     </footer>
   </div>
 
-  <script src="assets/pubs.js?v=13"></script>
+  <script src="assets/pubs.js?v=14"></script>
   <script>renderPublications('pub-root');</script>
   <script>
     // Scroll-spy: highlight the nav link of the section in view (drives a[aria-current]).
@@ -177,27 +178,6 @@
       links.forEach((a, id) => { const s = document.getElementById(id); if (s) spy.observe(s); });
     })();
   </script>
-  <script>
-    // Seasonal theme: auto-pick by month, cycle with the nav button, remember the choice.
-    (() => {
-      const SEASONS = ['spring', 'summer', 'autumn', 'winter'];
-      const EMOJI = { spring: '🌸', summer: '🌊', autumn: '🍁', winter: '⛄' };
-      const btn = document.getElementById('season-btn');
-      const byMonth = m => (m >= 3 && m <= 5) ? 'spring' : (m >= 6 && m <= 8) ? 'summer' : (m >= 9 && m <= 11) ? 'autumn' : 'winter';
-      let season = localStorage.getItem('season') || byMonth(new Date().getMonth() + 1);
-      if (!SEASONS.includes(season)) season = 'summer';
-      const apply = () => {
-        document.documentElement.dataset.season = season;
-        btn.textContent = EMOJI[season];
-        btn.title = 'Season: ' + season + ' — click to change';
-      };
-      btn.addEventListener('click', () => {
-        season = SEASONS[(SEASONS.indexOf(season) + 1) % SEASONS.length];
-        localStorage.setItem('season', season);
-        apply();
-      });
-      apply();
-    })();
-  </script>
+  <script src="assets/season.js?v=14"></script>
 </body>
 </html>

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{DESC}}">
+  <meta property="og:title" content="{{OG_TITLE}}">
+  <meta property="og:description" content="{{DESC}}">
+  <meta property="og:type" content="{{OG_TYPE}}">
+  <meta property="og:url" content="{{CANONICAL}}">
+  <meta property="og:image" content="{{OG_IMAGE}}">
+  <link rel="canonical" href="{{CANONICAL}}">
+  <link rel="alternate" type="application/rss+xml" title="Koki Madono — Blog" href="feed.xml">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/style.css?v=14">
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../">
+        <span class="brand-mark" aria-hidden="true">🐳</span>
+        Koki Madono
+      </a>
+      <ul>
+        <li><a href="../#about">About</a></li>
+        <li><a href="../#news">News</a></li>
+        <li><a href="../#publications">Publications</a></li>
+        <li><a href="./" aria-current="page">Blog</a></li>
+        <li><a href="../cv.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h5L11.5 5v7.5h-8.5z"/><path d="M8 1.5V5h3.5"/></svg>CV</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wrap blog-main">
+{{BODY}}
+  </main>
+
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer">
+      <p class="colophon">© Koki Madono
+        <span class="whale-note">Site design inspired by a fossil gray whale unearthed from the river in my hometown. The kappa is here for the river, too.</span>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../assets/season.js?v=14"></script>
+</body>
+</html>
