@@ -1,0 +1,44 @@
+[
+  {
+    "year": 2024,
+    "type": "domestic",
+    "title": "Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation",
+    "authors": "Koki Madono, Mingcheng Yuan, Edgar Simo-Serra",
+    "venue": "Visual Computing 2024 (poster, P34), Tokyo",
+    "award": "CyberAgent Company Award",
+    "links": [
+      {
+        "label": "Award",
+        "url": "https://visualcomputing.jp/vc2024/award/"
+      }
+    ]
+  },
+  {
+    "year": 2022,
+    "type": "domestic",
+    "title": "Data-Driven Brushstroke Rendering for Real world nuance expression",
+    "authors": "Koki Madono, Edgar Simo-Serra",
+    "venue": "Visual Computing + VC Communications 2022 (oral), Kyoto",
+    "award": "IPSJ SIG-CGVI Best Research Presentation Award",
+    "links": [
+      {
+        "label": "Program",
+        "url": "https://visualcomputing.jp/vc2022/program/oral/"
+      }
+    ]
+  },
+  {
+    "year": 2019,
+    "type": "domestic",
+    "title": "学習可能な暗号化画像への敵対的学習に基づく攻撃",
+    "authors": "真殿航輝，田中正行，大西正輝，小川哲司",
+    "venue": "第22回画像の認識・理解シンポジウム (MIRU2019), ポスター発表 PS1-41"
+  },
+  {
+    "year": 2019,
+    "type": "domestic",
+    "title": "双方向時系列情報を利用した検出結果と正解情報付与による効率的なアノテーション手法",
+    "authors": "真殿航輝，中野鐵兵，小林哲則，小川哲司",
+    "venue": "第22回画像の認識・理解シンポジウム (MIRU2019), ポスター発表 PS2-5"
+  }
+]

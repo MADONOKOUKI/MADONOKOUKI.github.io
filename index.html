@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css?v=14">
+  <link rel="stylesheet" href="assets/style.css?v=15">
 </head>
 <body>
 
@@ -106,6 +106,12 @@
       </div>
       <p class="section-note">The complete list is also on
         <a href="https://scholar.google.com/citations?user=nVgMK4kAAAAJ" target="_blank" rel="noopener">Google Scholar</a>.</p>
+
+      <h3 class="pub-subhead" id="domestic">Domestic Presentations <span lang="ja">— 国内発表</span></h3>
+      <p class="pub-subnote">Non-refereed presentations at domestic symposia in Japan.</p>
+      <div id="domestic-root">
+        <noscript><p>Please enable JavaScript to view the presentation list.</p></noscript>
+      </div>
     </section>
 
     <section id="grants" class="section">
@@ -161,8 +167,11 @@
     </footer>
   </div>
 
-  <script src="assets/pubs.js?v=14"></script>
-  <script>renderPublications('pub-root');</script>
+  <script src="assets/pubs.js?v=15"></script>
+  <script>
+    renderPublications('pub-root');
+    renderPublications('domestic-root', 'data/domestic.json');
+  </script>
   <script>
     // Scroll-spy: highlight the nav link of the section in view (drives a[aria-current]).
     (() => {

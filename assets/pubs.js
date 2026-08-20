@@ -1,5 +1,7 @@
 /* Publication list renderer.
    Data lives in data/publications.json — edit that file to add papers.
+   Domestic (Japanese) symposium presentations live in data/domestic.json and
+   render through the same pipeline: renderPublications(rootId, jsonUrl).
    Each entry renders as text on the left and, when a "thumb" is set, a teaser
    image on the right. Entries are grouped by year, newest first.
    Link labels get icons automatically: Paper/PDF → document, Code → brackets,
@@ -30,9 +32,9 @@ function pubIconFor(label) {
   return PUB_ICONS.doc;
 }
 
-async function loadPublications() {
-  const res = await fetch('data/publications.json', { cache: 'no-store' });
-  if (!res.ok) throw new Error('failed to load publications.json');
+async function loadPublications(jsonUrl) {
+  const res = await fetch(jsonUrl, { cache: 'no-store' });
+  if (!res.ok) throw new Error('failed to load ' + jsonUrl);
   return res.json();
 }
 
@@ -43,7 +45,8 @@ function boldSelf(authors) {
     .replace(/>/g, '&gt;');
   return escaped
     .replace(/Koki\s+Madono/gi, '<strong>Koki Madono</strong>')
-    .replace(/K\.?\s*Madono/gi, '<strong>K. Madono</strong>');
+    .replace(/K\.?\s*Madono/gi, '<strong>K. Madono</strong>')
+    .replace(/(真殿\s*航輝)/g, '<strong>$1</strong>');
 }
 
 function showDialog(title, bodyEl) {
@@ -153,13 +156,13 @@ function pubEntry(p) {
 }
 
 /* Year-grouped list, newest first. */
-async function renderPublications(rootId) {
+async function renderPublications(rootId, jsonUrl = 'data/publications.json') {
   const root = document.getElementById(rootId);
   let data = [];
   try {
-    data = await loadPublications();
+    data = await loadPublications(jsonUrl);
   } catch (e) {
-    root.innerHTML = '<p>Failed to load publications. Please check data/publications.json.</p>';
+    root.innerHTML = '<p>Failed to load the publication list.</p>';
     return;
   }
 
