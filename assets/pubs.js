@@ -155,6 +155,66 @@ function pubEntry(p) {
   return art;
 }
 
+/* Compact flat list (no year headings) for domestic presentations:
+   two lines per entry — title, then authors + venue + year with the award
+   pill and plain links inline. */
+async function renderCompactPublications(rootId, jsonUrl) {
+  const root = document.getElementById(rootId);
+  let data = [];
+  try {
+    data = await loadPublications(jsonUrl);
+  } catch (e) {
+    root.innerHTML = '<p>Failed to load the publication list.</p>';
+    return;
+  }
+
+  const ul = document.createElement('ul');
+  ul.className = 'pub-compact';
+  for (const p of data) {
+    const li = document.createElement('li');
+
+    const title = document.createElement('span');
+    title.className = 'pc-title';
+    title.textContent = p.title;
+    li.appendChild(title);
+    li.appendChild(document.createElement('br'));
+
+    const meta = document.createElement('span');
+    meta.className = 'pc-meta';
+    meta.innerHTML = boldSelf(p.authors) + '. ';
+    const venue = document.createElement('em');
+    venue.textContent = `${p.venue || ''}, ${p.year}.`;
+    meta.appendChild(venue);
+    li.appendChild(meta);
+
+    if (p.award) {
+      const award = document.createElement('span');
+      award.className = 'pub-award';
+      award.innerHTML = PUB_ICONS.trophy;
+      award.appendChild(document.createTextNode(p.award));
+      li.appendChild(document.createTextNode(' '));
+      li.appendChild(award);
+    }
+
+    for (const lk of p.links || []) {
+      const a = document.createElement('a');
+      a.className = 'pc-link';
+      a.href = lk.url;
+      a.textContent = lk.label;
+      if (/^https?:/.test(lk.url)) {
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+      }
+      li.appendChild(document.createTextNode(' '));
+      li.appendChild(a);
+    }
+
+    ul.appendChild(li);
+  }
+  root.innerHTML = '';
+  root.appendChild(ul);
+}
+
 /* Year-grouped list, newest first. */
 async function renderPublications(rootId, jsonUrl = 'data/publications.json') {
   const root = document.getElementById(rootId);
