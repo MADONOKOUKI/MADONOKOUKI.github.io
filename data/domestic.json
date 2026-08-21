@@ -1,5 +1,44 @@
 [
   {
+    "year": 2026,
+    "type": "domestic",
+    "title": "水彩表現におけるにじみ過程のデータ駆動型モデリング",
+    "authors": "野田紫苑，真殿航輝，Edgar Simo-Serra",
+    "venue": "Visual Computing 2026 (poster, PS1-10), Sapporo",
+    "links": [
+      {
+        "label": "Program",
+        "url": "https://visualcomputing.jp/vc2026/program/poster/"
+      }
+    ]
+  },
+  {
+    "year": 2026,
+    "type": "domestic",
+    "title": "実世界での水墨画制作再現に向けた人間描画過程データセットの構築",
+    "authors": "真殿航輝，Edgar Simo-Serra",
+    "venue": "Visual Computing 2026 (poster, PS1-12), Sapporo",
+    "links": [
+      {
+        "label": "Program",
+        "url": "https://visualcomputing.jp/vc2026/program/poster/"
+      }
+    ]
+  },
+  {
+    "year": 2026,
+    "type": "domestic",
+    "title": "3Dアセットテクスチャを用いた法線マップ生成データセットの構築と基礎検討",
+    "authors": "吉瀬柊馬，真殿航輝，Edgar Simo-Serra",
+    "venue": "Visual Computing 2026 (poster, PS2-23), Sapporo",
+    "links": [
+      {
+        "label": "Program",
+        "url": "https://visualcomputing.jp/vc2026/program/poster/"
+      }
+    ]
+  },
+  {
     "year": 2024,
     "type": "domestic",
     "title": "Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation",
