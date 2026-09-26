@@ -1,5 +1,29 @@
 [
   {
+    "year": 2026,
+    "type": "journal",
+    "title": "Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation",
+    "authors": "Koki Madono, Yuan Mingcheng, Edgar Simo-Serra",
+    "venue": "IEEE Transactions on Visualization and Computer Graphics (TVCG)",
+    "links": [
+      {
+        "label": "Paper",
+        "url": "https://doi.org/10.1109/TVCG.2026.3738401"
+      },
+      {
+        "label": "Library (PyPI)",
+        "url": "https://pypi.org/project/hintauc/"
+      }
+    ],
+    "abstract": "Line art colorization is an important design application that has been extensively studied in recent years. Focusing on usability, most approaches have been developed for interactive use where colors are specified using user hints. However, collecting a large dataset of user hints for training is challenging. As a result, a variety of approaches have emerged for generating hints for both training and evaluation, such as color dots and scribbles. Furthermore, the lack of a common evaluation framework, differences in hint generation implementations, and limited code availability reduce reproducibility. For these reasons, highly stochastic neural network-based algorithms have made it challenging to fairly evaluate and compare different approaches. In this paper, we introduce a novel evaluation framework for line art colorization algorithms that leverages deterministic region-based hints inspired by human drawing behavior. Our framework enables in-depth, fair comparisons with existing colorization models. Moreover, the same generated hints can be incorporated into training a colorization model to significantly improve the quality of the colorization results, as shown in evaluations using both deterministically and randomly sampled hints. Our evaluation is consistent with the overall human-preference results, and training with the generated hints improves colorization quality. Code, models and the reproduction package: coming soon.",
+    "bibtex": "@ARTICLE{madono2026hintauc,\n author={Madono, Koki and Mingcheng, Yuan and Simo-Serra, Edgar},\n journal={IEEE Transactions on Visualization and Computer Graphics},\n title={{Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation}},\n year={2026},\n doi={10.1109/TVCG.2026.3738401}\n}",
+    "thumb": "images/tvcg26_hintauc.png",
+    "tags": [
+      "selected",
+      "top-tier"
+    ]
+  },
+  {
     "year": 2025,
     "type": "journal",
     "title": "Interactive Texture Segmentation of 3D Scanned Models Leveraging Multiview Automatic Segmentation",
