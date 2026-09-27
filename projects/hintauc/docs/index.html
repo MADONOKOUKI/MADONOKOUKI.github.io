@@ -107,25 +107,14 @@ paper's FilFinder path can move a few pixels between runs, the <code>geodesic</c
 (<a href="detail-explanation.html#what-is-exact-and-what-is-not">details</a>).</p>
 <h2 id="getting-started">Getting started</h2>
 <ul>
-<li><strong>Demo, no data (10 s)</strong> — <code>pip install hintauc &amp;&amp; hintauc demo</code>. The numbers are recorded in
-  <code>examples/expected_numbers.json</code> and checked in CI.</li>
-<li><strong>Quick start on CPU</strong> — <code>python examples/quickstart_cpu.py</code> (<code>--fast</code>: under a minute) writes hints, a reference
-  colorization per ratio, the curves and the Hint-AUC; expected numbers in the script header.</li>
-<li><strong>Evaluate your own model</strong> — <a href="evaluate-your-model.html">docs/evaluate_your_model.md</a>: images per ratio
-  (<code>hintauc curve</code>) or a Python function (<code>hintauc.evaluate_colorizer</code>). Inputs are checked before scoring; every
-  result carries a protocol record (grid, metric backend, versions).</li>
-<li><strong>Installation</strong> — <a href="setup.html">docs/setup.md</a>. The library is <code>pip install hintauc</code>; DetFill and the
-  reproduction scripts use a conda environment that the scripts create.</li>
-<li><strong>Model zoo</strong> — <a href="model-zoo.html">checkpoints/README.md</a>: every released file with size, SHA-256, link and
-  paper item.</li>
-<li><strong>Reproducing the paper</strong> — <a href="reproducing.html">reproduce/README.md</a>: Fig. 9 with one command, the Hint-AUC
-  tables from the released metrics (322 of 324 cells), the example suite (eight of the paper's experiments on the
-  nine example images; the coverage table lists what each item needs), full table rows, training.</li>
-<li><strong>Replicability Stamp</strong> — <code>bash replicability/run.sh</code> reproduces Fig. 9 from a fresh checkout with no arguments;
-  <a href="replicability.html">replicability/README.md</a>, submission sheet
-  <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/blob/main/replicability/GRSI_SUBMISSION.txt">GRSI_SUBMISSION.txt</a>.</li>
-<li><strong>Reference</strong> — <a href="api.html">API reference</a> (every function and command with an example),
-  <a href="added-features.html">added features since the paper</a>, <a href="detail-explanation.html">how it works</a>.</li>
+<li><strong>Demo, no data</strong> — <code>pip install hintauc &amp;&amp; hintauc demo</code> (about 10 s; the numbers are checked in CI).</li>
+<li><strong>Quick start on CPU</strong> — <code>python examples/quickstart_cpu.py</code> (<code>--fast</code>: under a minute); expected numbers in the script header.</li>
+<li><strong>Evaluate your own model</strong> — <a href="evaluate-your-model.html">docs/evaluate_your_model.md</a>: images per ratio (<code>hintauc curve</code>) or a Python function (<code>hintauc.evaluate_colorizer</code>).</li>
+<li><strong>Install</strong> — <a href="setup.html">docs/setup.md</a>.</li>
+<li><strong>Model zoo</strong> — <a href="model-zoo.html">checkpoints/README.md</a>: every released file, its hash and its paper item.</li>
+<li><strong>Reproduce the paper</strong> — <a href="reproducing.html">reproduce/README.md</a>: Fig. 9 in one command, tables from the released metrics, the example suite, full table rows, training; a coverage table per paper item.</li>
+<li><strong>Replicability Stamp</strong> — <code>bash replicability/run.sh</code> (<a href="replicability.html">replicability/README.md</a>, <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/blob/main/replicability/GRSI_SUBMISSION.txt">submission sheet</a>).</li>
+<li><strong>Reference</strong> — <a href="api.html">API</a> · <a href="added-features.html">added features since the paper</a> · <a href="detail-explanation.html">how it works</a>.</li>
 </ul>
 <h2 id="quick-start">Quick start</h2>
 <pre><code class="language-bash">pip install hintauc            # &quot;hintauc[paper]&quot; adds torchvision + torchmetrics 1.4.0, the paper's metric backend
@@ -148,15 +137,15 @@ print(evaluator(&quot;colorized.png&quot;, &quot;ground_truth.png&quot;))       
 <li>Fig. 9 from a fresh checkout: <code>bash replicability/run.sh</code> (3 minutes on a GPU after a one-time setup of 10–20 minutes).</li>
 </ul>
 <h2 id="repository-structure">Repository structure</h2>
-<pre><code>docs/              setup, evaluate your own model, API reference, added features, detailed explanation
-replicability/     one-command reproduction of Fig. 9 (Replicability-Stamp entry point)
-reproduce/         reproduction package: scripts/, examples/, expected/ (released metrics), data/, paper_experiments/
-hintauc/           the library: hints.py, longest_path.py, metrics.py, auc.py, evaluate.py, demo.py, cli.py
-detfill/           the DetFill model (BBDM fork): training, inference, configs
-hint_generation/   original research scripts behind the library
+<pre><code>hintauc/           the library (hints, metrics, Hint-AUC, evaluation, CLI)
+detfill/           the DetFill model: training, inference, configs (BBDM fork)
+reproduce/         reproduction package: scripts, example suite, released metrics, data, paper launchers
+replicability/     one-command Fig. 9 (Replicability Stamp entry point)
+checkpoints/       model zoo
+hint_generation/   original hint-generation scripts
 evaluation/        original evaluation scripts
-checkpoints/       model zoo: inventory of all released files with hashes
-assets/            images for this page; representative image for the Replicability Stamp
+docs/              documentation
+assets/            images
 </code></pre>
 <h2 id="license">License</h2>
 <p>MIT License (<a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/blob/main/LICENSE">LICENSE</a>); third-party components in <a href="third-party-notices.html">THIRD_PARTY_NOTICES.md</a>.
