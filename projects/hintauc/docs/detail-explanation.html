@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Detailed explanation — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Detailed explanation.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/detail-explanation.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html" aria-current="page">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>docs/detail_explanation.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="detailed-explanation">Detailed explanation</h1>
+<p>Companion to the README. Sections: <a href="#pipeline">pipeline</a> · <a href="#library">library</a> · <a href="#detfill">DetFill</a> ·
+<a href="#hint-auc">Hint-AUC</a> · <a href="#reproduction">reproduction</a> · <a href="#what-is-exact-and-what-is-not">determinism</a> ·
+<a href="#environment">environment</a> · <a href="#releases">releases</a> · <a href="#added-features-since-the-paper">added features</a>.</p>
+<h2 id="pipeline">Pipeline</h2>
+<p>Deterministic hint generation (DHT) turns one illustration into a fixed set of colour hints:</p>
+<ol>
+<li><strong>Region segmentation</strong> — Felzenszwalb (scale 100, σ 0.5, min size 100) on the 512×512 illustration; region maps are
+   stored at 64×64 (nearest-neighbour downsampling), which is the paper's hint resolution.</li>
+<li><strong>Skeleton</strong> — Zhang–Suen thinning of each region, then a 3×3 dilation.</li>
+<li><strong>Longest path</strong> — the longest path of the skeleton of each region (FilFinder2D 1.7.2 in the paper, branch and
+   skeleton thresholds 3 px); the path is intersected with its region.</li>
+<li><strong>Scribble hint</strong> — the path pixels, coloured with the region's mean colour.</li>
+<li><strong>Dot hint</strong> — one pixel per region: the in-region path pixel with the smallest total Manhattan distance to the other
+   in-region path pixels (first index on ties). This is the rule behind the released maps; the paper's text describes a
+   truncated mean of the path coordinates (available as <code>dot_method="mean"</code>).</li>
+<li><strong>Hint ratio α</strong> — at evaluation time the hints of the largest ⌊α·n⌋ regions are kept (Table II protocol); the
+   Table III protocol keeps the first ⌊α·n⌋ regions in ascending label order instead ("fixed random order").</li>
+</ol>
+<p>What the library produces for one illustration:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Input</th>
+<th style="text-align: center;">Region map</th>
+<th style="text-align: center;">Flatten (region mean)</th>
+<th style="text-align: center;">Scribble hints</th>
+<th style="text-align: center;">Dot hints</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><img alt="input" src="assets/assets/readme/demo_input.png" /></td>
+<td style="text-align: center;"><img alt="region" src="assets/assets/readme/demo_region.png" /></td>
+<td style="text-align: center;"><img alt="flatten" src="assets/assets/readme/demo_flatten.png" /></td>
+<td style="text-align: center;"><img alt="scribble" src="assets/assets/readme/demo_scribble100.png" /></td>
+<td style="text-align: center;"><img alt="dot" src="assets/assets/readme/demo_dot100.png" /></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">α = 1 %</th>
+<th style="text-align: center;">α = 10 %</th>
+<th style="text-align: center;">α = 50 %</th>
+<th style="text-align: center;">α = 100 %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><img alt="r1" src="assets/assets/readme/demo_scribble_r1.png" /></td>
+<td style="text-align: center;"><img alt="r10" src="assets/assets/readme/demo_scribble_r10.png" /></td>
+<td style="text-align: center;"><img alt="r50" src="assets/assets/readme/demo_scribble_r50.png" /></td>
+<td style="text-align: center;"><img alt="r100" src="assets/assets/readme/demo_scribble_r100.png" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="library">Library</h2>
+<p><code>hintauc</code> (<code>pip install hintauc</code>; <code>pip install "hintauc[perceptual]"</code> adds the perceptual metrics) exposes:</p>
+<ul>
+<li><code>hintauc.generate_hints(image, size=64, path_method="filfinder", dot_method="medoid", segmenter="felzenszwalb")</code>
+  → <code>HintResult</code> with <code>.at_ratio(alpha, hint_type="scribble"|"dot", tie_break="default"|"stable")</code> (returns colour and
+  mask arrays in OpenCV BGR order) and <code>.save(prefix)</code> (writes the six canonical files <code>*_region64</code>, <code>*_scribble_col64</code>,
+  <code>*_scribble_mask64</code>, <code>*_dot_col64</code>, <code>*_dot_mask64</code> and <code>*_flatten_img64</code> used by the DetFill loader).</li>
+<li><code>hintauc.Evaluator(metrics=(...))</code> — MSE, PSNR, SSIM (256×256, values in [0, 1]), LPIPS (AlexNet), OpenCLIP
+  (ViT-B-32, laion2b), DINOv2-base, DreamSim; the same formulas as the paper's <code>evaluation/eval_single_run.py</code>.</li>
+<li>Metrics added after the paper (opt-in, never used for a published number): <code>mae</code>, <code>ms_ssim</code> (torchmetrics),
+  <code>deltae</code> (mean CIEDE2000 colour difference in CIELAB via scikit-image — a direct colour-fidelity measure),
+  <code>lpips_vgg</code>, <code>dists</code> (DISTS_pytorch), and the set-level <code>hintauc.evaluate_set(pred_dir, gt_dir, metrics=("fid", "kid"))</code>
+  (Inception features via torchmetrics + torch-fidelity; KID is the better choice for small sets). <code>hintauc.ALL_METRICS</code>
+  lists the per-image metrics, <code>hintauc.SET_METRICS</code> the set-level ones; <code>LOWER_IS_BETTER</code> gives each metric's direction.</li>
+<li><code>hintauc.hint_auc</code>, <code>hintauc.evaluate_hint_curve</code> — trapezoidal integration over α ∈ [0, 1];
+  <code>hintauc.DEFAULT_ALPHAS</code> is the paper grid {0, 0.01, 0.03, 0.05, 0.10, 0.25, 0.50, 1.00}.</li>
+<li>Command line: <code>hintauc generate image.png --ratio 0.1 [--path_method geodesic] [--dot_method mean]</code>,
+  <code>hintauc eval pred_dir gt_dir --metrics mse psnr ssim</code>.</li>
+</ul>
+<p>Two longest-path implementations:</p>
+<table>
+<thead>
+<tr>
+<th><code>path_method</code></th>
+<th>Method</th>
+<th>Dependencies</th>
+<th>Deterministic?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filfinder</code> (paper)</td>
+<td>3×3 dilation, then FilFinder2D medial axis, pruning by length, longest path</td>
+<td><code>fil_finder</code>, <code>astropy</code></td>
+<td>up to FilFinder's unseeded medial-axis tie-breaking (a few pixels may move between environments)</td>
+</tr>
+<tr>
+<td><code>geodesic</code></td>
+<td>longest shortest path (geodesic diameter) of the 8-connected skeleton, no corner cutting, raster-order ties</td>
+<td>NumPy only</td>
+<td>yes, bit-exact</td>
+</tr>
+</tbody>
+</table>
+<p>Do not mix maps produced with different methods in one evaluation; the paper's numbers and the released stored maps
+correspond to <code>filfinder</code>. On 20 stored test maps (16,098 regions, of which FilFinder returns a path for 15,684) the
+two methods return an identical path in 91.8 % of those regions (mean IoU 0.969) and the dot coincides in 95.5 %.</p>
+<h2 id="detfill">DetFill</h2>
+<ul>
+<li>A pixel-space Brownian Bridge diffusion model (<a href="https://github.com/xuekt98/BBDM">BBDM</a> fork) conditioned on the line
+  art and the hint maps. State: 5 channels (line art, hint mask, RGB); condition: 5 channels (line art, hint mask,
+  masked RGB hints); U-Net input 10 channels. Scribble model: 96 base channels; dot model: 64 base channels; 200 epochs,
+  effective batch 20 (10 GPUs × batch 1 × gradient accumulation 2), seed 1234, 200 sampling steps at inference.</li>
+<li>Data layout, configs, training and inference commands: <a href="detfill.html">detfill/README.md</a>.
+  <code>detfill/run_inference.sh</code> runs the ratio grid; <code>dataset_config.hint_order</code> selects the Table II (<code>area</code>) or Table III
+  (<code>label</code>) protocol; <code>--gpu_ids -1</code> runs on CPU.</li>
+<li>Training-time hint sampling follows the paper (p = ⌊n·u⌋, u ~ U[0, 1), so the fully hinted case is never seen in
+  training); <code>dataset_config.include_full_hint: true</code> changes this. The released checkpoints use the paper setting.</li>
+</ul>
+<h2 id="hint-auc">Hint-AUC</h2>
+<p><img alt="Hint-AUC overview" src="assets/assets/readme/hintauc_overview.png" /></p>
+<p>For each ratio α of the grid the model colorizes the test set with the deterministic hints at that ratio; the per-ratio
+mean of each metric is integrated over α with the trapezoidal rule (the α range has length 1, so the integral is the
+range-normalised value). Tables report the mean ± sample standard deviation of the Hint-AUC over the three line-art
+sources (XDoG, sketch simplification, SketchKeras), never over random seeds — the protocol is deterministic.</p>
+<p>DetFill colorizations for one sketch as the scribble hint ratio grows:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Input sketch</th>
+<th style="text-align: center;">Ground truth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><img alt="sketch" src="assets/assets/readme/ex_sketch.png" /></td>
+<td style="text-align: center;"><img alt="gt" src="assets/assets/readme/ex_gt.png" /></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;"></th>
+<th style="text-align: center;">α = 1 %</th>
+<th style="text-align: center;">α = 10 %</th>
+<th style="text-align: center;">α = 50 %</th>
+<th style="text-align: center;">α = 100 %</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Scribble hints</td>
+<td style="text-align: center;"><img alt="h1" src="assets/assets/readme/ex_hint_r1.png" /></td>
+<td style="text-align: center;"><img alt="h10" src="assets/assets/readme/ex_hint_r10.png" /></td>
+<td style="text-align: center;"><img alt="h50" src="assets/assets/readme/ex_hint_r50.png" /></td>
+<td style="text-align: center;"><img alt="h100" src="assets/assets/readme/ex_hint_r100.png" /></td>
+</tr>
+<tr>
+<td style="text-align: left;">DetFill</td>
+<td style="text-align: center;"><img alt="d1" src="assets/assets/readme/ex_detfill_r1.png" /></td>
+<td style="text-align: center;"><img alt="d10" src="assets/assets/readme/ex_detfill_r10.png" /></td>
+<td style="text-align: center;"><img alt="d50" src="assets/assets/readme/ex_detfill_r50.png" /></td>
+<td style="text-align: center;"><img alt="d100" src="assets/assets/readme/ex_detfill_r100.png" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="reproduction">Reproduction</h2>
+<p>Four layers, documented in <a href="reproducing.html">reproduce/README.md</a>:</p>
+<ul>
+<li><strong>A. Tables from released metrics</strong> — <code>reproduce/scripts/A1_tables_from_released_metrics.py</code> rebuilds Table II
+  (DetFill scribble row), Table III (DetFill scribble row) and the supplementary α-grid, segmentation-dependency,
+  seed-sensitivity and Diffusart-retrain tables from the per-ratio metric files in <code>reproduce/expected/</code>, checking every
+  printed cell (322 of 324 match; the two exceptions are the SSIM rounding and the Diffusart-retrain SSIM provenance gap
+  listed in <code>reproduce/README.md</code>). <code>A2_userstudy_glmm.py</code> rebuilds Tables IV/V and the GLMM statistics from the anonymised trial
+  table (all values match).</li>
+<li><strong>B. Example suite</strong> — <code>reproduce/examples/run_examples.sh</code> (no arguments) re-runs each experiment on example
+  illustrations (4 by default, 12 with <code>EXAMPLES_MODE=full</code>) with the released checkpoints and compares with the authors' reference run and with the paper's
+  archived outputs of the same images; <a href="examples.html">reproduce/examples/README.md</a>.</li>
+<li><strong>C. Verbatim launchers</strong> — <code>reproduce/paper_experiments/</code>.</li>
+<li><strong>D. Full-scale rows</strong> — <code>reproduce/scripts/run_hauc_pipeline.sh</code> + <code>eval_per_ratio.py</code> (needs the Danbooru2021
+  originals; line art and hint maps are released).</li>
+<li><strong>Fig. 9</strong> — <code>replicability/run.sh</code> (<a href="replicability.html">replicability/README.md</a>).</li>
+</ul>
+<h2 id="what-is-exact-and-what-is-not">What is exact and what is not</h2>
+<ul>
+<li><strong>Exact:</strong> the table recomputation (A), the user-study numbers, the metric evaluator (to ~1e-6 with the pinned
+  packages; SSIM to 5e-5), the region selection at every ratio (given the stored maps and the pinned NumPy).</li>
+<li><strong>Deterministic per machine, not bit-exact across machines:</strong> DetFill inference is seeded, but CUDA kernels differ
+  between GPU generations and CPU, so re-generated outputs of the same image agree with the paper's archived outputs
+  only approximately (about 25–30 dB PSNR between the two images in our checks). Per-image metrics therefore move a
+  little; we have not re-run a complete table row on different hardware, so expect small differences in the last printed
+  digit of a re-run table.</li>
+<li><strong>Deterministic per environment:</strong> FilFinder longest paths (medial-axis tie-breaking is unseeded); use the stored
+  maps to compare with printed numbers. The <code>geodesic</code> method is bit-exact everywhere.</li>
+<li><strong>Not covered by released per-ratio data:</strong> baseline rows (PaintsTorch, Diffusart, ColorizeDiffusion), the DetFill
+  dot rows of Tables II/III, the ImageNet tables and the earlier per-source tables; they can be regenerated with layer D
+  and the respective code, except the ColorizeDiffusion fine-tuned weights, which were not preserved.</li>
+</ul>
+<h2 id="environment">Environment</h2>
+<p><strong>Hardware behind the timings.</strong> Machine A: NVIDIA RTX A6000 (48 GB), 2 × AMD EPYC 9124 (32 threads), 377 GB RAM.
+Machine B: NVIDIA GeForce RTX 2080 Ti (11 GB), 2 × Intel Xeon Gold 6226R (32 threads), 187 GB RAM. Both Ubuntu 22.04,
+driver 535, CUDA 12.2. Fig. 9: 3 min on A, 4–5 min on B, 30 min on the CPUs of A (16 threads). Example suite and the
+full-scale estimates: measured on B; an A6000-class GPU is roughly twice as fast.</p>
+<ul>
+<li><code>replicability/environment.yml</code> (used by <code>replicability/run.sh</code> and <code>reproduce/examples/run_examples.sh</code>): Python 3.9,
+  PyTorch 2.5.1 + CUDA 12.4 wheels (run on CPU too), NumPy 1.26.4, scikit-image, OpenCV, FilFinder 1.7.2 + astropy 5.3.4,
+  pytorch-lightning 1.9.3, torchmetrics 1.4.0.</li>
+<li><code>reproduce/requirements-metrics.txt</code>: open_clip_torch 3.3.0, dreamsim 0.2.1, transformers 4.57.6, lpips 0.1.4,
+  torchmetrics 1.4.0 (the perceptual metrics download their weights on first use, ~2 GB).</li>
+<li><code>detfill/environment.yml</code>: the paper's training/inference environment (NumPy 2.0.2). The order of equal-area regions
+  in the hint selection follows NumPy's default <code>argsort</code>, which can differ between NumPy builds; <code>tie_break="stable"</code>
+  removes this dependence (the published results used NumPy 2.0.2 with the default order).</li>
+</ul>
+<h2 id="releases">Releases</h2>
+<table>
+<thead>
+<tr>
+<th>Release</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v1.0</td>
+<td>paper checkpoints (scribble 96-ch, dot 64-ch), stored test-split hint maps</td>
+</tr>
+<tr>
+<td>v1.1</td>
+<td>DanbooRegion- and SLIC-trained scribble models</td>
+</tr>
+<tr>
+<td>v1.2</td>
+<td>Diffusart-retrain models (our Diffusart re-implementation), later 96-channel ImageNet DetFill models, ImageNet test hint maps</td>
+</tr>
+<tr>
+<td>v1.3</td>
+<td>test-split line art (SketchKeras / sketch simplification / XDoG), DanbooRegion / SLIC / Felzenszwalb test hint maps, example bundle, user-study stimuli</td>
+</tr>
+<tr>
+<td>v1.4</td>
+<td>the paper's natural-image (ImageNet) models, the earlier-submission scribble model, 32 / 64-channel scribble models, archived configs</td>
+</tr>
+</tbody>
+</table>
+<p>Sizes and SHA-256 of every file: <a href="model-zoo.html">checkpoints/README.md</a>.</p>
+<h2 id="added-features-since-the-paper">Added features since the paper</h2>
+<ul>
+<li><code>hintauc</code> library + CLI; <code>path_method="geodesic"</code>; <code>dot_method</code> and <code>tie_break</code> options; <code>hint_order</code> protocol switch;
+  <code>include_full_hint</code> training option; CPU inference; flat user-configurable data layout; deterministic region-id colours;
+  segmenter options in the generator; metrics beyond the paper's seven (MAE, MS-SSIM, CIEDE2000, LPIPS-VGG, DISTS,
+  set-level FID / KID); the replicability script; the reproduction package; releases v1.1–v1.4.</li>
+<li>A few minor issues of the original implementation were fixed along the way to make the library more usable; what is
+  bit-exact with respect to the published numbers and what is not is listed in
+  <a href="reproducing.html#known-deviations-and-gaps-honest-list">reproduce/README.md</a>.</li>
+</ul>
+<p>Third-party components and their licenses: <a href="third-party-notices.html">THIRD_PARTY_NOTICES.md</a>.</p>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

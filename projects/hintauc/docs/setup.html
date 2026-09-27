@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Setup — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Setup.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/setup.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html" aria-current="page">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>docs/setup.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="setup">Setup</h1>
+<p>Everything in this repository runs on Linux (tested on Ubuntu 22.04). An NVIDIA GPU with 4 GB or more is recommended
+for DetFill; the <code>hintauc</code> library and all evaluation code also run on CPU.</p>
+<h2 id="1-the-hintauc-library-deterministic-hints-metrics-hint-auc">1. The <code>hintauc</code> library (deterministic hints, metrics, Hint-AUC)</h2>
+<pre><code class="language-bash">pip install hintauc                 # hint generation, the pixel metrics, Hint-AUC      (PyPI: https://pypi.org/project/hintauc/)
+pip install &quot;hintauc[perceptual]&quot;   # + the perceptual metrics (LPIPS / OpenCLIP / DINOv2 / DreamSim)
+</code></pre>
+<ul>
+<li>Python 3.9–3.12; wheels exist for all dependencies, no compiler is needed.</li>
+<li>Latest development version: <code>pip install git+https://github.com/MADONOKOUKI/DetFill-with-DHT.git</code>
+  (or <code>pip install -e .</code> inside a checkout).</li>
+<li>The perceptual metrics download their weights on first use (DreamSim into <code>~/.cache/hintauc</code>, override with
+  <code>HINTAUC_CACHE_DIR</code>; OpenCLIP and DINOv2 into their own Hugging Face caches; LPIPS ships with its package).</li>
+<li>On a minimal Ubuntu server image OpenCV needs two system libraries: <code>sudo apt-get install -y libgl1 libglib2.0-0</code>.</li>
+<li>Check the install: <code>python -c "import hintauc; print(hintauc.__version__)"</code> and <code>hintauc --help</code>.</li>
+</ul>
+<h2 id="2-detfill-and-the-reproduction-scripts-conda-environment">2. DetFill and the reproduction scripts (conda environment)</h2>
+<pre><code class="language-bash">conda env create -f replicability/environment.yml   # Python 3.9, PyTorch 2.5.1, CUDA 12.4 (runs on CPU too)
+conda activate detfill-grsi
+pip install -e .                                     # the library from this checkout
+</code></pre>
+<ul>
+<li><code>replicability/run.sh</code> and <code>reproduce/examples/run_examples.sh</code> create this environment themselves; <code>run.sh</code> also
+  installs Miniconda into <code>~/miniconda3</code> when no conda is found (disable with <code>GRSI_NO_AUTO_CONDA=1</code>).</li>
+<li>The paper's inference and evaluation environment is <code>detfill/environment.yml</code> (<code>conda env create -f detfill/environment.yml</code>).</li>
+<li>Without a GPU, pass <code>--gpu_ids -1</code> to <code>detfill/main.py</code>; <code>replicability/run.sh</code> and <code>reproduce/examples/run_examples.sh</code>
+  fall back to the CPU automatically when no CUDA device is found (slow: about 30 minutes for Fig. 9).</li>
+</ul>
+<h2 id="3-checkpoints-and-data">3. Checkpoints and data</h2>
+<ul>
+<li>All checkpoints and data files are attached to the GitHub releases; the <a href="model-zoo.html">Model zoo</a> lists
+  every file with its size, SHA-256 and the paper item it belongs to.</li>
+<li><code>replicability/fetch_checkpoints.sh</code> downloads the two paper models and verifies their hashes;
+  <code>reproduce/examples/run_examples.sh</code> downloads what each experiment needs.</li>
+<li>The illustrations come from <a href="https://gwern.net/danbooru2021">Danbooru2021</a> and the natural images from an
+  <a href="https://www.image-net.org/download.php">ImageNet</a> subset; neither is redistributed. The split lists are in
+  <code>reproduce/data/splits/</code> and <code>detfill/configs/{illust,real}/</code>, the data layout in <a href="detfill.html">detfill/README.md</a>.</li>
+</ul>
+<h2 id="4-hardware-and-run-times">4. Hardware and run times</h2>
+<table>
+<thead>
+<tr>
+<th>Machine</th>
+<th>GPU</th>
+<th>CPU</th>
+<th>RAM</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>NVIDIA RTX A6000, 48 GB</td>
+<td>2 × AMD EPYC 9124 (32 threads)</td>
+<td>377 GB</td>
+</tr>
+<tr>
+<td>B</td>
+<td>NVIDIA GeForce RTX 2080 Ti, 11 GB</td>
+<td>2 × Intel Xeon Gold 6226R (32 threads)</td>
+<td>187 GB</td>
+</tr>
+</tbody>
+</table>
+<p>Both run Ubuntu 22.04, driver 535, CUDA 12.2. Fig. 9 (<code>replicability/run.sh</code>): 3 min on A, 4–5 min on B, 30 min on
+the CPUs of A (16 threads), plus the one-time environment setup and downloads (10–20 min, ≈ 3 GB of packages and
+1.5 GB of checkpoints). The example suite was measured on B. Full-scale DetFill inference: about 35 min per (hint
+ratio, line-art source) cell of 3,000 images on A with the 96-channel scribble model, i.e. ≈ 14 GPU-hours for a
+Table II row on A (about twice that on B).</p>
+<h2 id="5-known-pitfalls">5. Known pitfalls</h2>
+<ul>
+<li><code>torchmetrics</code> must be 1.4.0 for the published SSIM values (1.8.x differs by up to 0.04 per image); the environment
+  file pins it.</li>
+<li>The DetFill test loader drops an incomplete last batch. The released configs use batch 5 (scribble) / 8 (dot), which
+  divide 3,000; for small image sets set <code>TEST_BATCH=1</code> (<code>run_hauc_pipeline.sh</code>) or <code>BATCH_SIZE_OVERRIDE=1</code> (<code>main.py</code>).</li>
+<li>Sampling is seeded (<code>--seed 1234</code>) but not bit-exact across GPU generations or between GPU and CPU; metric
+  differences of a few hundredths are expected, see <a href="detail-explanation.html#what-is-exact-and-what-is-not">Detailed explanation</a>.</li>
+<li>OpenCLIP weights are used in fp16 as in the archived runs (differences ≤ 8e-4); DreamSim runs on CPU-only hosts.</li>
+</ul>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

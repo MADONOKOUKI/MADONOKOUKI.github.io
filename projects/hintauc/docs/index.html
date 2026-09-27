@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Overview — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Overview.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/index.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html" aria-current="page">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>README.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="detfill-with-dht-deterministic-hints-and-hint-auc-for-line-art-colorization">DetFill-with-DHT: Deterministic Hints and Hint-AUC for Line Art Colorization</h1>
+<p><a href="https://doi.org/10.1109/TVCG.2026.3738401"><img alt="IEEE TVCG 2026" src="https://img.shields.io/badge/IEEE%20TVCG-2026-blue" /></a>
+<a href="https://doi.org/10.1109/TVCG.2026.3738401"><img alt="DOI" src="https://img.shields.io/badge/DOI-10.1109%2FTVCG.2026.3738401-blue" /></a>
+<a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg" /></a>
+<a href="setup.html"><img alt="Python 3.9+" src="https://img.shields.io/badge/python-3.9%2B-blue" /></a>
+<a href="setup.html"><img alt="PyTorch 2.5" src="https://img.shields.io/badge/PyTorch-2.5-ee4c2c" /></a>
+<a href="https://pypi.org/project/hintauc/"><img alt="PyPI" src="https://img.shields.io/pypi/v/hintauc" /></a>
+<a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/releases"><img alt="Releases" src="https://img.shields.io/github/v/release/MADONOKOUKI/DetFill-with-DHT" /></a>
+<a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/actions/workflows/tests.yml"><img alt="tests" src="https://github.com/MADONOKOUKI/DetFill-with-DHT/actions/workflows/tests.yml/badge.svg" /></a></p>
+<p>Official implementation of <strong>"Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization
+Evaluation"</strong>, IEEE Transactions on Visualization and Computer Graphics (TVCG), 2026.</p>
+<p><a href="https://madonokouki.github.io/">Koki Madono</a> · <a href="https://esslab.jp/en/members/">Yuan Mingcheng</a> · <a href="https://esslab.jp/~ess/">Edgar Simo-Serra</a> — Waseda University</p>
+<p><a href="https://doi.org/10.1109/TVCG.2026.3738401">Paper</a> · <a href="https://pypi.org/project/hintauc/">Library on PyPI</a> · <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/releases">Checkpoints and data</a></p>
+<p><img alt="Deterministic hint generation pipeline" src="assets/assets/readme/dht_pipeline.png" /></p>
+<p>Hint-based line art colorization is usually evaluated with randomly sampled colour hints, so the scores change from
+run to run. This repository provides <strong>DHT</strong>, a deterministic hint generator that turns an illustration into the same
+scribble and dot hints every time; <strong>Hint-AUC</strong>, one score over the whole range of hint ratios, from no hints to fully
+hinted; and <strong>DetFill</strong>, a pixel-space diffusion colorization model trained with these hints. All checkpoints, the
+evaluation inputs and the scripts that reproduce the paper are released.</p>
+<h2 id="getting-started">Getting started</h2>
+<ul>
+<li><strong>Replicability Stamp</strong> — <code>bash replicability/run.sh</code> reproduces Fig. 9 of the paper from a fresh checkout with no
+  arguments; see <a href="replicability.html">replicability/README.md</a> and the submission sheet
+  <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/blob/main/replicability/GRSI_SUBMISSION.txt">replicability/GRSI_SUBMISSION.txt</a>.</li>
+<li><strong>Quick start on CPU (a few minutes; <code>--fast</code> under a minute)</strong> — <code>python examples/quickstart_cpu.py</code> writes hint
+  images, a reference colorization at every hint ratio, the metric curves and the Hint-AUC to
+  <code>examples/output/quickstart/</code>; the expected numbers are in the script's header.</li>
+<li><strong>Evaluate your own model</strong> — see <a href="evaluate-your-model.html">Evaluate your own model</a>: hand in images per hint
+  ratio (<code>hintauc curve</code>) or plug in a Python function (<code>hintauc.evaluate_colorizer</code>); every result carries a protocol
+  record (grid, metric settings, versions).</li>
+<li><strong>Installation</strong> — see <a href="setup.html">Setup</a>. The library is one command (<code>pip install hintauc</code>); DetFill and
+  the reproduction scripts use a conda environment that the scripts create for you.</li>
+<li><strong>Model zoo</strong> — see <a href="model-zoo.html">Model zoo</a>: every released checkpoint and data file with its size,
+  SHA-256, download link and the paper item it belongs to.</li>
+<li><strong>Reproducing the paper</strong> — see <a href="reproducing.html">Reproducing the paper</a>: Fig. 9 with one command (the
+  Replicability-Stamp script), every table rebuilt from the released metrics, every experiment re-run on example
+  images, full table rows, and training.</li>
+<li><strong>API reference</strong> — see <a href="api.html">API reference</a>: every function and command of the library with its role,
+  arguments and an input/output example.</li>
+<li><strong>Added features (since the paper) for improving our library</strong> — see <a href="added-features.html">Added features</a>.</li>
+<li><strong>How it works</strong> — see <a href="detail-explanation.html">Detailed explanation</a>: each component, what is bit-exact and
+  what is not.</li>
+</ul>
+<h2 id="quick-start">Quick start</h2>
+<pre><code class="language-python">import hintauc
+
+hints = hintauc.generate_hints(&quot;illustration.png&quot;, size=64)        # image -&gt; deterministic hints
+color, mask = hints.at_ratio(0.10, hint_type=&quot;scribble&quot;)           # hints of the largest 10 % of the regions
+hints.save(&quot;out/illustration&quot;)                                     # files in the DetFill data layout
+
+evaluator = hintauc.Evaluator(metrics=(&quot;psnr&quot;, &quot;lpips&quot;, &quot;dreamsim&quot;))  # lpips / dreamsim need pip install &quot;hintauc[perceptual]&quot;
+print(evaluator(&quot;colorized.png&quot;, &quot;ground_truth.png&quot;))              # the paper's metrics
+</code></pre>
+<ul>
+<li>Command line: <code>hintauc generate image.png --ratio 0.1</code> and <code>hintauc eval pred_dir gt_dir --metrics mse psnr ssim</code>.</li>
+<li>DetFill inference over the hint-ratio grid: <code>cd detfill &amp;&amp; GPU=0 bash run_inference.sh scribble</code>
+  (data layout and options in <a href="detfill.html">detfill/README.md</a>).</li>
+<li>Fig. 9 of the paper from a fresh checkout: <code>bash replicability/run.sh</code> (about 3 minutes of compute on a GPU after a
+  one-time environment setup and download of 10–20 minutes).</li>
+</ul>
+<h2 id="repository-structure">Repository structure</h2>
+<pre><code>docs/              setup, added features, detailed explanation
+replicability/     one-command reproduction of Fig. 9 (Replicability-Stamp entry point)
+reproduce/         reproduction package: scripts/, examples/, expected/ (released metrics), data/, paper_experiments/
+hintauc/           the library: hints.py, metrics.py, auc.py, cli.py
+detfill/           the DetFill model (BBDM fork): training, inference, configs
+hint_generation/   original research scripts behind the library
+evaluation/        original evaluation scripts
+checkpoints/       model zoo: inventory of all released files with hashes
+assets/            images for this page; representative image for the Replicability Stamp
+</code></pre>
+<h2 id="license">License</h2>
+<p>MIT License (<a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/blob/main/LICENSE">LICENSE</a>); third-party components are listed in <a href="third-party-notices.html">THIRD_PARTY_NOTICES.md</a>.
+<code>detfill/</code> is built on <a href="https://github.com/xuekt98/BBDM">BBDM</a> (MIT). The few Danbooru2021-derived images in this
+repository and in the releases (example bundle, user-study stimuli, figure grids) are listed in
+<a href="third-party-notices.html">THIRD_PARTY_NOTICES.md</a> and are provided for non-commercial research use only.</p>
+<h2 id="contributing">Contributing</h2>
+<p>Contributions are welcome. See <a href="contributing.html">contributing</a> and the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/blob/main/CODE_OF_CONDUCT.md">code of conduct</a>.</p>
+<h2 id="citing">Citing</h2>
+<p>GitHub's "Cite this repository" button uses <code>CITATION.cff</code>; the BibTeX entry:</p>
+<pre><code class="language-bibtex">@article{madono2026hintauc,
+  title   = {Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation},
+  author  = {Madono, Koki and Mingcheng, Yuan and Simo-Serra, Edgar},
+  journal = {IEEE Transactions on Visualization and Computer Graphics},
+  year    = {2026},
+  doi     = {10.1109/TVCG.2026.3738401}
+}
+</code></pre>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

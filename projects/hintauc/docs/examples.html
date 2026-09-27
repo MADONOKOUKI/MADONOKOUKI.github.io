@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Example suite — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Example suite.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/examples.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html" aria-current="page">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>reproduce/examples/README.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="reproduce-every-experiment-on-example-images">Reproduce every experiment on example images</h1>
+<p><code>run_examples.sh</code> re-runs each experiment of the paper and its supplement on a few test illustrations with the
+released checkpoints, using the same inference program (<code>detfill/main.py</code>) and the same evaluator (the <code>hintauc</code>
+library) as the full-scale experiments. It needs no data preparation: the checkpoints and the 12-image example bundle
+(release v1.3, <code>examples_data.tar.gz</code>) are downloaded automatically and checked against their SHA-256.</p>
+<pre><code class="language-bash">bash reproduce/examples/run_examples.sh                       # default: &quot;quick&quot; (4 images, 4 ratios)  ≈ 45–60 min on one GPU (2080 Ti class)
+EXAMPLES_MODE=smoke bash reproduce/examples/run_examples.sh   # 1 image, 2 ratios, scribble model only    ≈ 5 min on a GPU
+EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments, 12 images, 8 ratios      several GPU-hours
+</code></pre>
+<p>Options: <code>GRSI_GPU=&lt;id&gt;</code> (default 0; <code>-1</code> = CPU, roughly 10× slower), <code>GRSI_ENV=&lt;conda env&gt;</code> to reuse an environment,
+<code>GRSI_CKPT_DIR=&lt;dir&gt;</code> if the checkpoints were downloaded by hand.</p>
+<h2 id="what-you-get">What you get</h2>
+<ul>
+<li><code>output/grids/&lt;experiment&gt;*.png</code> — one labelled image grid per experiment: ground truth, line art, the hints
+  actually given to the model at each ratio, and the model outputs.</li>
+<li><code>output/metrics/&lt;experiment&gt;.json</code> — the seven metrics (MSE, PSNR, SSIM, LPIPS, OpenCLIP, DINOv2, DreamSim) per
+  image and averaged, and Hint-AUC when the full ratio grid was run.</li>
+<li>A printed comparison (<code>compare_with_expected.py</code>) with <code>expected/metrics/</code>, the authors' run of the same script,
+  and — for the Table II protocol — the PSNR between every new output and the paper's archived output of the same
+  image (<code>expected/paper_outputs/</code>).</li>
+</ul>
+<h2 id="the-experiments">The experiments</h2>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Paper item</th>
+<th>Images</th>
+<th>What is run</th>
+<th>How to read the result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E1</strong> Table II protocol</td>
+<td>Table II, Fig. 8</td>
+<td>12 test images (4 in quick mode)</td>
+<td>scribble (96-ch) and dot (64-ch) models, size-ordered hints, ratio grid, SketchKeras line art</td>
+<td>quality improves monotonically with the hint ratio; per-image metrics and the Hint-AUC of the examples are in the JSON; <code>psnr_vs_paper_outputs_dB</code> says how close each re-generated image is to the paper's own output</td>
+</tr>
+<tr>
+<td><strong>E2</strong> Table III protocol</td>
+<td>Table III</td>
+<td>same</td>
+<td>scribble model with the fixed random (ascending-label) region order</td>
+<td>lower scores than E1 at the same ratio, as in Table III vs. Table II</td>
+</tr>
+<tr>
+<td><strong>E3</strong> Segmentation dependency</td>
+<td>supp. table and figures "robustness to the region segmenter"</td>
+<td>1019016, 1023016 (the figure's images)</td>
+<td>the three scribble models (trained on Felzenszwalb / DanbooRegion / SLIC hints) each evaluated with each segmenter's hints</td>
+<td>the evaluation segmenter dominates (SLIC hints hurt every model), as in the supplement</td>
+</tr>
+<tr>
+<td><strong>E4</strong> Seed sensitivity</td>
+<td>supp. table "size-ordered vs. random selection"</td>
+<td>3 images</td>
+<td>size-ordered selection vs. the paper's seeded uniformly random selection (seeds 1–3) at the intermediate ratios</td>
+<td>size-ordered wins at every intermediate ratio; the spread over seeds is small</td>
+</tr>
+<tr>
+<td><strong>E5</strong> Dense ratio curve</td>
+<td>supp. α-grid study</td>
+<td>2 images</td>
+<td>23 ratios from 0 to 1</td>
+<td>the metric curve is smooth; Hint-AUC on the dense grid and on the paper grid are close</td>
+</tr>
+<tr>
+<td><strong>E8</strong> Channel ablation</td>
+<td>supp. channel-ablation figure</td>
+<td>3421016, 4417016 (the figure's images)</td>
+<td>32 / 64 / 96 base-channel scribble models at α = 10 %</td>
+<td>the 32-channel model loses colour fidelity, as in the figure</td>
+</tr>
+<tr>
+<td><strong>E9</strong> Hint regeneration</td>
+<td>Sec. IV, supp. Sec. I</td>
+<td>12 images</td>
+<td><code>hintauc.generate_hints</code> re-run on the illustrations vs. the stored maps</td>
+<td>the regenerated maps agree with the stored ones up to FilFinder's environment-dependent tie-breaking (the JSON gives the mask IoU and pixel counts)</td>
+</tr>
+<tr>
+<td><strong>E11</strong> Earlier checkpoint</td>
+<td>provenance</td>
+<td>4 images</td>
+<td>the scribble model of the earlier submission (release v1.4)</td>
+<td>the current 96-channel model produces sharper colours; the earlier model is sampled with 1,000 steps as in its archived config</td>
+</tr>
+</tbody>
+</table>
+<p>Not part of the automatic run (the ids E6, E7 and E10 of <code>make_examples.py</code> are reserved for them): the Diffusart-retrain models (v1.2; their inference needs the separate Diffusart code
+base and <code>diffusers</code>, see <code>reproduce/paper_experiments/diffusart_retrain/code/README.md</code>) and the natural-image
+models (v1.4, and the later 96-channel generation in v1.2; the ImageNet originals cannot be redistributed — point <code>run_hauc_pipeline.sh</code> at your own ImageNet copy).</p>
+<h2 id="authors-reference-run">Authors' reference run</h2>
+<p><code>expected/</code> holds the grids and metrics of the authors' <code>full</code> run (NVIDIA GeForce RTX 2080 Ti 11 GB, 2 × Intel Xeon Gold 6226R,
+environment of <code>replicability/environment.yml</code>) and the paper's archived outputs of the 12 example images for the
+Table II protocol. Because the diffusion sampler is seeded but not bit-exact across GPU generations, your outputs will
+differ from both at the pixel level; <code>compare_with_expected.py</code> flags metric differences beyond a generous tolerance
+(PSNR 0.6 dB, LPIPS 0.02, DreamSim 0.015). A few flagged cells on a different GPU generation or on CPU are expected
+and do not indicate a problem as long as the trends described in the table above hold.</p>
+<h2 id="files">Files</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>run_examples.sh</code></td>
+<td>no-argument driver: environment → downloads → <code>make_examples.py</code> → comparison</td>
+</tr>
+<tr>
+<td><code>make_examples.py</code></td>
+<td>the experiments (<code>--mode smoke|quick|full</code>, <code>--only E1 E9 …</code>, <code>--ids …</code>, <code>--gpu</code>)</td>
+</tr>
+<tr>
+<td><code>compare_with_expected.py</code></td>
+<td>compares <code>output/metrics/</code> with <code>expected/metrics/</code></td>
+</tr>
+<tr>
+<td><code>test_image_ids.txt</code></td>
+<td>the 3,000 test ids (the seeded random selection of E4 uses an image's index in this list, as the paper did)</td>
+</tr>
+<tr>
+<td><code>expected/</code></td>
+<td>authors' grids and metrics; <code>paper_outputs/</code> = the paper's archived outputs of the example images</td>
+</tr>
+<tr>
+<td><code>data/</code>, <code>checkpoints/</code>, <code>output/</code></td>
+<td>created by the driver (git-ignored)</td>
+</tr>
+</tbody>
+</table>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

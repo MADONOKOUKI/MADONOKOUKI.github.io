@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reproducing the paper — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Reproducing the paper.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/reproducing.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html" aria-current="page">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>reproduce/README.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="reproducing-the-papers-results">Reproducing the paper's results</h1>
+<p>This directory is the reproduction package for</p>
+<blockquote>
+<p>Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation
+(IEEE TVCG 2026, DOI 10.1109/TVCG.2026.3738401). Main paper: Tables II–V and Fig. 9. Supplement: the
+hint-ratio-grid (α-grid) study, the segmentation-dependency study, the seed-sensitivity study, the additional
+training comparisons, the natural-image tables and the user study.</p>
+</blockquote>
+<h2 id="quick-index">Quick index</h2>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Command</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fig. 9</strong> end to end (the Replicability-Stamp script)</td>
+<td><code>bash replicability/run.sh</code></td>
+<td>GPU ≈ 3 min, CPU ≈ 30 min</td>
+</tr>
+<tr>
+<td><strong>Every table</strong> rebuilt from the released metric files</td>
+<td><code>python reproduce/scripts/A1_tables_from_released_metrics.py</code> (322/324 cells match)<br><code>python reproduce/scripts/A2_userstudy_glmm.py</code> (all values match)</td>
+<td>&lt; 2 min, CPU</td>
+</tr>
+<tr>
+<td><strong>Every experiment</strong> re-run on example illustrations (default: E1–E4 and E9 on 4 images; <code>EXAMPLES_MODE=full</code>: all eight experiments on 12 images)</td>
+<td><code>bash reproduce/examples/run_examples.sh</code></td>
+<td>smoke ≈ 5 min, default ≈ 45–60 min, full = hours</td>
+</tr>
+<tr>
+<td><strong>A whole table row</strong> on the 3,000 test images</td>
+<td><code>DATA_ROOT=… bash reproduce/scripts/run_hauc_pipeline.sh</code></td>
+<td>≈ 14 GPU-h per row</td>
+</tr>
+<tr>
+<td><strong>Training</strong> from scratch</td>
+<td><code>bash reproduce/scripts/B9_train_detfill.sh</code></td>
+<td>days, 10 GPUs</td>
+</tr>
+</tbody>
+</table>
+<p><code>replicability/run.sh</code> and <code>reproduce/examples/run_examples.sh</code> fetch what they need from the releases (SHA-256 verified)
+and compare their results with the paper's numbers, the paper's archived images of the same examples and the authors'
+reference run; the full-scale and training scripts expect the data and checkpoints to be in place. Requirements and hardware:
+<a href="setup.html">docs/setup.md</a>. The Replicability-Stamp submission sheet is <code>replicability/GRSI_SUBMISSION.txt</code>.</p>
+<h2 id="the-four-layers">The four layers</h2>
+<p>It has four layers, from cheapest to most expensive. Everything runs from this repository plus the files attached to
+its GitHub releases (see <code>checkpoints/README.md</code>); nothing else is needed except the Danbooru2021 originals for
+layer D.</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>What it does</th>
+<th>Needs</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Recompute the tables from the released metric files</strong></td>
+<td>Rebuilds every Hint-AUC table of the paper from the per-ratio metric files and the user-study trial table shipped in <code>expected/</code> and <code>data/</code>, and checks each printed cell</td>
+<td>numpy, pandas, statsmodels (CPU)</td>
+<td>&lt; 2 min</td>
+</tr>
+<tr>
+<td><strong>B. Example-based re-run of every experiment</strong></td>
+<td>Runs the released checkpoints on example illustrations (4 by default, 12 in <code>full</code> mode) for each experiment of the paper and the supplement, writes labelled image grids and per-image metrics, and compares them with the authors' run and with the paper's archived outputs</td>
+<td>one GPU (CPU possible but slow); assets are downloaded automatically</td>
+<td>5 min (smoke) / ≈ 1 h (default) / hours (full)</td>
+</tr>
+<tr>
+<td><strong>C. Verbatim experiment launchers</strong> (<code>paper_experiments/</code>)</td>
+<td>The scripts that were actually run for the paper and its revision, kept as example code (cluster paths hard-coded)</td>
+<td>our cluster</td>
+<td>days</td>
+</tr>
+<tr>
+<td><strong>D. Full-scale re-run of a table row</strong></td>
+<td>Colorizes the 3,000 test images at every hint ratio and recomputes the seven metrics and Hint-AUC</td>
+<td>GPU + the Danbooru2021 originals + the released line art, hint maps and checkpoints</td>
+<td>≈ 14 GPU-hours per row</td>
+</tr>
+</tbody>
+</table>
+<p><code>../replicability/run.sh</code> (Fig. 9, one command, ≈ 3 min on a GPU) is the Graphics-Replicability-Stamp entry point and
+is independent of this directory.</p>
+<p><strong>Hardware behind the timings.</strong> Machine A: NVIDIA RTX A6000 (48 GB), 2 × AMD EPYC 9124 (32 threads), 377 GB RAM.
+Machine B: NVIDIA GeForce RTX 2080 Ti (11 GB), 2 × Intel Xeon Gold 6226R (32 threads), 187 GB RAM. Both Ubuntu 22.04,
+driver 535, CUDA 12.2. Fig. 9: 3 min on A, 4–5 min on B, 30 min on the CPUs of A (16 threads). Example suite: measured
+on B. Full-scale inference: about 35 min per (ratio, line-art source) cell of 3,000 images on A with the 96-channel
+scribble model, i.e. ≈ 14 GPU-hours per table row on A (about twice that on B).</p>
+<hr />
+<h2 id="a-recompute-the-tables-from-the-released-metric-files-no-gpu">A. Recompute the tables from the released metric files (no GPU)</h2>
+<pre><code class="language-bash">conda env create -f replicability/environment.yml &amp;&amp; conda activate detfill-grsi   # or any env with numpy, pandas, statsmodels
+python reproduce/scripts/A1_tables_from_released_metrics.py   # Tables II/III (DetFill rows) + supplementary tables
+python reproduce/scripts/A2_userstudy_glmm.py                 # Tables IV/V + the GLMM statistics of Sec. VII
+</code></pre>
+<p><code>A1_tables_from_released_metrics.py</code> writes Markdown tables to <code>reproduce/output/tables/</code> and a cell-by-cell comparison
+with the numbers printed in the paper (<code>check_report.csv</code>). Reference copies of both scripts' outputs are in
+<code>expected/recomputed_tables/</code>.</p>
+<p>Result of the authors' run: <strong>A1 rebuilds 322 of the 324 compared cells to the printed precision</strong>;
+<strong>A2 reproduces all 30 percentages of Tables IV/V (the 6 pairwise and the 24 per-ratio values) exactly and the three GLMM statistics</strong> (z = 30.18;
+χ²(7) = 618.33, p = 2.75e-129; χ²(14) = 324.04, p = 1.12e-60). The two A1 exceptions are a rounding artefact and one
+provenance gap, both listed under "Known deviations" below; neither changes a conclusion.</p>
+<p>What each table is rebuilt from (the rule is always the paper's: Hint-AUC = trapezoidal integral of the per-ratio
+metric over the hint ratio α ∈ {0, 1, 3, 5, 10, 25, 50, 100} %, computed per line-art source and reported as
+mean ± sample standard deviation over the three sources — XDoG, sketch simplification, SketchKeras):</p>
+<table>
+<thead>
+<tr>
+<th>Paper item</th>
+<th>Where in A1</th>
+<th>Released input under <code>reproduce/expected/</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Table II, DetFill scribble row (7 metrics)</td>
+<td>part 1</td>
+<td><code>alpha_grid/B_dense_curve/B_dense_curve__per_ratio_summary*.csv</code> — per-source, per-ratio means of the released 96-channel scribble model; the dense hint-ratio sweep contains the eight paper ratios</td>
+</tr>
+<tr>
+<td>Supp. table "sensitivity of Hint-AUC to the α grid" (5 grids)</td>
+<td>part 2</td>
+<td>the same dense sweep, re-integrated on each grid (linear interpolation where a grid point was not measured)</td>
+</tr>
+<tr>
+<td>Supp. table "segmentation dependency" (3 training × 3 evaluation segmenters)</td>
+<td>part 3</td>
+<td><code>segmenter_dependency/hauc_7m/&lt;training segmenter&gt;_model__on_&lt;evaluation segmenter&gt;/per_ratio_summary.csv</code>, plus the dense sweep for the Felzenszwalb → Felzenszwalb cell</td>
+</tr>
+<tr>
+<td>Table III, DetFill scribble row (fixed random region order)</td>
+<td>part 4</td>
+<td><code>table3_scribble/hauc7_scribble.json</code></td>
+</tr>
+<tr>
+<td>Supp. table "additional training comparisons", Diffusart-retrain row (PSNR / SSIM / LPIPS)</td>
+<td>part 5</td>
+<td><code>additional_training/diffusart_retrain_R3-2/hauc_runs_v3_*/hauc_summary.json</code> (see the NOTE.md next to it)</td>
+</tr>
+<tr>
+<td>Supp. table "size-ordered vs. random selection" (10 seeds, 300 images)</td>
+<td>part 6</td>
+<td><code>seed_sensitivity/metrics_felz96/seed*_alpha_*/per_ratio_summary.csv</code> (random rows) and <code>seed_sensitivity/aggregated_sort.csv</code> (size-ordered row); α = 0 % and 100 % do not depend on the seed and were measured once</td>
+</tr>
+<tr>
+<td>Tables IV and V (user study)</td>
+<td>A2</td>
+<td><code>data/userstudy/glmm_trials.csv</code> — 32 participants × 192 forced-choice trials, anonymised</td>
+</tr>
+<tr>
+<td>GLMM statistics (Sec. VII)</td>
+<td>A2</td>
+<td>same file; <code>statsmodels</code> <code>BinomialBayesMixedGLM</code> (variational Bayes) with random intercepts for participant and image; model A = intercept only, model B = opponent × ratio (sum coding), diagonal Wald χ²</td>
+</tr>
+</tbody>
+</table>
+<p><code>expected/</code> also contains the analyses written for the review response that are not printed in the paper
+(<code>userstudy_rank_stability/</code>, <code>segmenter_sensitivity/</code>, <code>alpha_grid/A-5/</code>), with their scripts under <code>paper_experiments/</code>.</p>
+<h2 id="b-example-based-re-run-of-every-experiment-one-gpu-no-data-preparation">B. Example-based re-run of every experiment (one GPU, no data preparation)</h2>
+<pre><code class="language-bash">bash reproduce/examples/run_examples.sh                       # default &quot;quick&quot; set (≈ 1 h on one GPU)
+EXAMPLES_MODE=smoke bash reproduce/examples/run_examples.sh   # 1 image, 2 ratios, scribble model only (≈ 5 min)
+EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments, 12 images, 8 ratios (several GPU-hours)
+</code></pre>
+<p>The script creates (or reuses) the conda environment of <code>replicability/run.sh</code>, downloads the checkpoints and the
+12-image example bundle from the releases (SHA-256 verified), runs each experiment with the same <code>detfill/main.py</code>
+entry point and the same <code>hintauc</code> evaluator as the full-scale experiments, and writes:</p>
+<ul>
+<li><code>reproduce/examples/output/grids/*.png</code> — one labelled image grid per experiment (ground truth, line art, hints,
+  outputs per hint ratio / per model),</li>
+<li><code>reproduce/examples/output/metrics/*.json</code> — per-image and mean values of the seven metrics, and Hint-AUC where the
+  full ratio grid was run,</li>
+<li>a printed comparison with <code>reproduce/examples/expected/</code> (the authors' run of the same script) and, for the
+  Table II protocol, the PSNR between each new output and the paper's archived output of the same image.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Experiment</th>
+<th>Paper item</th>
+<th>What the example shows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1 Table II protocol</td>
+<td>Table II, Fig. 8</td>
+<td>scribble (96-ch) and dot (64-ch) models with size-ordered hints over the ratio grid</td>
+</tr>
+<tr>
+<td>E2 Table III protocol</td>
+<td>Table III</td>
+<td>the scribble model with the fixed random (ascending-label) region order</td>
+</tr>
+<tr>
+<td>E3 Segmentation dependency</td>
+<td>supp. segmentation-dependency table and figures</td>
+<td>scribble models trained on Felzenszwalb / DanbooRegion / SLIC hints, each evaluated with each segmenter's hints</td>
+</tr>
+<tr>
+<td>E4 Seed sensitivity</td>
+<td>supp. "size-ordered vs. random" table and figure</td>
+<td>size-ordered selection vs. the paper's seeded random selection at the same ratios</td>
+</tr>
+<tr>
+<td>E5 Dense ratio curve</td>
+<td>supp. α-grid study</td>
+<td>per-image metric curves on a fine ratio grid and the Hint-AUC on the dense vs. the paper grid</td>
+</tr>
+<tr>
+<td>E8 Channel ablation</td>
+<td>supp. channel-ablation figure</td>
+<td>32 / 64 / 96 base-channel scribble models on the two images of that figure</td>
+</tr>
+<tr>
+<td>E9 Hint regeneration</td>
+<td>Sec. IV, supp. Sec. I</td>
+<td>the deterministic hint generator re-run with the <code>hintauc</code> library vs. the stored maps</td>
+</tr>
+<tr>
+<td>E11 Earlier checkpoint</td>
+<td>(provenance)</td>
+<td>the scribble model of the earlier submission on the same images</td>
+</tr>
+</tbody>
+</table>
+<p><code>reproduce/examples/README.md</code> documents each experiment, the images used and the authors' numbers.</p>
+<h2 id="c-the-verbatim-launchers">C. The verbatim launchers</h2>
+<p><code>paper_experiments/README.md</code> lists, per experiment, the shell and Python files that were actually run for the paper
+and the revision (with our cluster's paths and environment names). They are not runnable as-is elsewhere; the
+runnable equivalents are the scripts in <code>scripts/</code> and <code>examples/</code>.</p>
+<h2 id="d-full-scale-re-run-of-a-table-row">D. Full-scale re-run of a table row</h2>
+<h3 id="d1-data">D.1 Data</h3>
+<ol>
+<li><strong>Test images.</strong> The test split is the 3,000 Danbooru2021 images listed in <code>data/splits/test.txt</code> (ids ending in
+   <code>016</code>). Obtain them from the Danbooru2021 distribution (https://gwern.net/danbooru2021 — the page documents the rsync
+   mirror; we do not redistribute the images) and store them as
+   <code>&lt;DATA_ROOT&gt;/segmentations/originals/&lt;id&gt;.image.png</code> (512 × 512; the preprocessing of <code>hint_generation/canonical/all_segmentations.py</code>).</li>
+<li><strong>Line art.</strong> Release v1.3 ships the exact line-art files used for every reported number
+   (<code>test_split_sketch_{sketchkeras,pysimp,XDoG}.tar.gz</code> → <code>&lt;DATA_ROOT&gt;/sketch/&lt;extractor&gt;/&lt;id&gt;.png</code>). The wrappers
+   that generated them are in <code>scripts/sketch_tools/</code> (XDoG draws its σ/k jitter from an unseeded generator, so
+   regenerated XDoG line art is not bit-identical).</li>
+<li><strong>Deterministic hints.</strong> Release v1.0 ships the stored maps (<code>test_split_hint_maps_64.tar.gz</code> →
+   <code>&lt;DATA_ROOT&gt;/hint_from_regions_64_rev/</code> and <code>region64/*</code> → <code>&lt;DATA_ROOT&gt;/hint_from_regions_256/</code>). They are the
+   exact inputs of every reported number.</li>
+<li><strong>Checkpoints.</strong> <code>checkpoints/README.md</code>.</li>
+</ol>
+<h3 id="d2-one-table-row-one-command">D.2 One table row = one command</h3>
+<pre><code class="language-bash"># Table II, DetFill scribble row (default), 7 metrics, Hint-AUC over the paper grid
+DATA_ROOT=/data/danbooru_test GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
+# Table II, DetFill dot row
+DATA_ROOT=/data/danbooru_test HINT=dot GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
+# Table III (fixed random region order = ascending label order of the stored region map)
+DATA_ROOT=/data/danbooru_test HINT_ORDER=label GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
+# supplementary α-grid study: dense sweep, then integrate on the alternative grids
+DATA_ROOT=/data/danbooru_test RATIOS=&quot;$(seq -f %.2f 0 0.02 1 | tr '\n' ' ') 0.01 0.03 0.05 0.075 0.15 0.25&quot; TAG=dense \
+    bash reproduce/scripts/run_hauc_pipeline.sh
+python reproduce/paper_experiments/alpha_grid/B_auc_grid_sensitivity_7m.py \
+    --summary reproduce/output/dense/metrics/per_ratio_summary.csv --out_dir reproduce/output/dense/auc
+# smoke test of the pipeline: point DATA_ROOT at a copy that holds only a few test images (the loader colorizes every
+# image it finds; TEST_BATCH=1 for image counts that the config's batch size does not divide)
+DATA_ROOT=/data/danbooru_small TEST_BATCH=1 TYPES=&quot;2&quot; GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
+</code></pre>
+<p>The inference loader drops the last incomplete batch (batch size 5 for the scribble config, 8 for dot), so the number
+of images must be divisible by it — 3,000 is; for other subsets set <code>TEST_BATCH=1</code>.</p>
+<p><code>run_hauc_pipeline.sh</code> = <code>detfill/main.py --sample_to_eval</code> for every (ratio, line-art source) followed by
+<code>scripts/eval_per_ratio.py</code>, which uses the released evaluator <code>hintauc.metrics.Evaluator</code> (the paper's
+<code>evaluation/eval_single_run.py</code>: 256 × 256, MSE/PSNR/SSIM on [0, 1]; LPIPS-Alex; OpenCLIP ViT-B-32 laion2b;
+DINOv2-base; DreamSim) and writes <code>per_ratio_summary.csv</code> in the same format as the files in <code>expected/</code>, plus
+<code>hauc.json</code>. The perceptual metrics need <code>pip install -r reproduce/requirements-metrics.txt</code>.</p>
+<p>Expected agreement (checked on 160 image pairs of the archived paper outputs): with <code>requirements-metrics.txt</code> the
+evaluator reproduces the archived per-image values to numerical precision for MSE, PSNR, LPIPS, DINO and DreamSim
+(max |Δ| ≤ 3e-6), SSIM to 5e-5 with the pinned <code>torchmetrics==1.4.0</code> (torchmetrics 1.8 changed the SSIM
+implementation: per-image |Δ| up to 0.04, so the pin matters), and OpenCLIP within 8e-4 (the archived run scored
+OpenCLIP in half precision). Inference is seeded and the stored hint maps remove the hint-generation variance, but
+the diffusion sampler is not bit-exact across GPU generations or on CPU: re-generated outputs of the same image agree with
+the paper's archived outputs only approximately (about 25–30 dB PSNR in our checks, see <code>reproduce/examples/</code>). We have
+not re-run a complete table row on different hardware; expect small differences in the last printed digit.</p>
+<h3 id="d3-other-studies-at-full-scale">D.3 Other studies at full scale</h3>
+<ul>
+<li><strong>Seed sensitivity (supp.)</strong> — <code>paper_experiments/seed_sensitivity/gen_seeded_random_hints.py</code> bakes a seeded
+  uniformly random region order into 64 × 64 hint maps (10 seeds × 6 intermediate ratios; α = 0 % and 100 % are
+  seed-independent); each (seed, α) set is then run through the pipeline above at <code>RATIOS=1.00</code> with <code>DATA_ROOT</code>
+  pointing at a data root whose <code>hint_from_regions_64_rev/</code> holds that seed's maps, evaluated on the first 300 test
+  ids with SketchKeras line art, and aggregated exactly as in A1 part 6. <code>examples/</code> does this for three images.</li>
+<li><strong>Segmentation dependency (supp.)</strong> — release v1.3 ships the DanbooRegion and SLIC hint maps of the test split,
+  release v1.1 the two retrained models; run the pipeline with <code>CKPT=&lt;v1.1 file&gt;</code> and <code>DATA_ROOT</code> pointing at a copy
+  of the data root whose hint maps were replaced by the segmenter's maps. Regeneration of the maps for other images:
+  <code>paper_experiments/segmenter_dependency/r2-2_scripts/</code> (<code>D_danbooregion_seg.py</code>, <code>D_retrain_gen_hints.py</code>,
+  <code>D_danboo_hints.py</code>) and <code>hint_generation/generate_hints.py --segmenter slic</code>. Training of the two models:
+  <code>D_train_launch.sh</code> / <code>D_stage_train.sh</code> (200 epochs, same protocol as <code>scripts/B9_train_detfill.sh</code>).</li>
+<li><strong>Training DetFill from scratch</strong> — <code>scripts/B9_train_detfill.sh</code> (the paper's <code>train.sh</code> with the released config
+  names; ~4–5 days on 10 GPUs).</li>
+<li><strong>Diffusart-retrain (supp.)</strong> — <code>paper_experiments/diffusart_retrain/code/</code> (our Diffusart re-implementation:
+  training loop, deterministic-hint loader, inference and evaluation; README inside) with the two released EMA
+  checkpoints of release v1.2.</li>
+<li><strong>ColorizeDiffusion fine-tuning (Table II/III "200ep", supp. "7ep")</strong> — <code>paper_experiments/coldiff_finetune/</code>
+  (launchers for the official ColorizeDiffusion v1/v2 code; the fine-tuned weights were not preserved).</li>
+</ul>
+<h2 id="known-deviations-and-gaps-honest-list">Known deviations and gaps (honest list)</h2>
+<ul>
+<li><strong>Dot placement rule.</strong> Sec. IV-A describes the dot as the truncated mean of the longest-path pixels; the stored
+  hint maps (training data and the released test maps) were produced with the medoid rule (<code>dot_method="medoid"</code>,
+  the library default; verified on the released maps). All reported numbers use the stored maps, so results are
+  unaffected; <code>dot_method="mean"</code> reproduces the text's rule.</li>
+<li><strong>Table II, DetFill scribble SSIM</strong> is printed as 0.724; the value is 0.72348 (printed as 0.7235 in the
+  supplementary α-grid table). A rounding artefact in the main-table typesetting.</li>
+<li><strong>Diffusart-retrain SSIM.</strong> The recovered per-ratio record of that run reproduces PSNR 19.457 and LPIPS 0.177
+  exactly but gives SSIM 0.7085 where the table prints 0.717 ± 0.066; the seven-metric evaluation the other cells were
+  taken from was not recovered (<code>expected/additional_training/diffusart_retrain_R3-2/NOTE.md</code>).</li>
+<li><strong>SSIM depends on the torchmetrics version.</strong> The published SSIM values were computed with torchmetrics 1.4.0; use
+  the pinned version (<code>requirements-metrics.txt</code>, <code>replicability/environment.yml</code>) — 1.8.x gives per-image SSIM values
+  that differ by up to 0.04 (all other metrics are unaffected).</li>
+<li><strong>Line-art source labels.</strong> The DetFill data loader maps <code>sketch_type</code> 0 / 1 / 2 to sketch simplification / XDoG /
+  SketchKeras; the archived per-ratio files name index 0 "XDoG" and 1 "pysimp" (a label swap in the old evaluation
+  script). Every published value is a mean ± SD over the three sources, so no number depends on this; the per-source
+  tables written by A1 use the loader's mapping.</li>
+<li><strong>Dot rows.</strong> The DetFill dot rows date from the original submission and have no released per-ratio record. Re-running
+  the released dot checkpoint on the released maps (300 test images, SketchKeras line art, <code>run_hauc_pipeline.sh</code>
+  protocol) gives PSNR Hint-AUC 17.46 against 17.94 printed and LPIPS 0.24 against 0.18, i.e. the same model within
+  the spread expected from a subset and a different sampling batch composition, not a bit-exact reproduction.</li>
+<li><strong>Not covered by released per-ratio data:</strong> the Table II/III <em>dot</em> rows of DetFill, all baseline rows
+  (PaintsTorch, Diffusart, ColorizeDiffusion v1/v2), the natural-image (ImageNet) tables and the legacy per-source
+  tables of the supplement (earlier checkpoints). The dot row and the baselines can be regenerated with layer D and the
+  respective official code (the ColorizeDiffusion fine-tuned weights were not preserved). The natural-image DetFill
+  models behind the printed ImageNet tables are the 64-channel models of release v1.4 (our re-evaluation on 24 test
+  images matches the printed Hint-AUC within 0.7 dB; the 96-channel models of v1.2 are a later generation), and the
+  ImageNet test hint maps are in v1.2; without the archived per-image record those tables remain "same protocol",
+  not bit-exact, reproductions.</li>
+<li><strong>User study.</strong> The released trial table is anonymised and reproduces Tables IV/V and the GLMM exactly; the stimuli
+  of three of the four methods are released (v1.3), the ColorizeDiffusion-v2 stimuli were not preserved. The
+  response-letter analyses in <code>paper_experiments/userstudy_rank_stability/</code> read the raw per-participant CSVs through
+  <code>common/ab_loader.py</code>, which are not released.</li>
+</ul>
+<h2 id="layout">Layout</h2>
+<pre><code>reproduce/
+  scripts/            A1_tables_from_released_metrics.py  A2_userstudy_glmm.py  eval_per_ratio.py
+                      run_hauc_pipeline.sh  B9_train_detfill.sh  sketch_tools/
+  examples/           run_examples.sh  make_examples.py  compare_with_expected.py  expected/  README.md
+  expected/           released per-ratio metric files and JSON summaries (inputs of A1), recomputed_tables/
+  data/               userstudy/glmm_trials.csv, splits/{train,valid,test}.txt
+  paper_experiments/  verbatim launchers and analysis scripts of the paper and the revision (README.md there)
+  requirements-metrics.txt   perceptual-metric packages (pinned)
+  output/             created by the scripts (git-ignored)
+</code></pre>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

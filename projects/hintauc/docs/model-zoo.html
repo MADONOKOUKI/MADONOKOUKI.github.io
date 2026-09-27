@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Model zoo — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Model zoo.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/model-zoo.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html" aria-current="page">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>checkpoints/README.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="model-zoo-released-checkpoints-and-data">Model zoo: released checkpoints and data</h1>
+<p>Everything needed to run or re-evaluate the paper's models is attached to the GitHub releases of this repository.
+Each release carries a <code>SHA256SUMS.txt</code>; the tables below repeat the hashes so a downloaded file can be checked
+with <code>sha256sum -c</code>. Sizes are approximate.</p>
+<h2 id="v10-the-papers-models-danbooru2021-illustrations-and-their-evaluation-inputs">v1.0 — the paper's models (Danbooru2021 illustrations) and their evaluation inputs</h2>
+<p>Release: https://github.com/MADONOKOUKI/DetFill-with-DHT/releases/tag/v1.0</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>SHA-256</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detfill_scribble_illust_200ep.pth</code></td>
+<td>1.08 GB</td>
+<td><code>fa85d6838a28b853e82f16ce28e3f5d9e6452879685b1313d84be11431226ee4</code></td>
+<td>DetFill <strong>scribble-hint</strong> model, 96 base channels, 200 epochs. Behind every scribble result of the paper (Table II, Table III, Fig. 9 scribble row, the supplementary α-grid and seed studies, the "Felzenszwalb" training row of the segmentation-dependency table).</td>
+</tr>
+<tr>
+<td><code>detfill_dot_illust_200ep.pth</code></td>
+<td>0.48 GB</td>
+<td><code>b4779946f24b5f52cdf640418c73bef67925c845e50c8f36610aeac7d50f212b</code></td>
+<td>DetFill <strong>dot-hint</strong> model, 64 base channels, 200 epochs. Behind every dot result of the paper (Table II, Table III, Fig. 9 dot row).</td>
+</tr>
+<tr>
+<td><code>test_split_hint_maps_64.tar.gz</code></td>
+<td>60 MB</td>
+<td><code>01c0aa92ae976d9e0a5c48a02881c7ed9db9f0e98d77fd14e44c396471ac0dfd</code></td>
+<td>The stored 64×64 deterministic hint maps (scribble and dot, colour + mask) and region maps of the 3,000 test images: the exact evaluation inputs of the scribble results. The dot rows were computed for the original submission; re-running the released dot model on these maps reproduces the SketchKeras dot row within 0.5 dB (PSNR Hint-AUC 17.46 vs. 17.94 printed, LPIPS 0.24 vs. 0.18, on a 300-image subset).</td>
+</tr>
+</tbody>
+</table>
+<p>Where the DetFill launchers expect the two models (<code>detfill/run_inference.sh</code> and <code>reproduce/scripts/run_hauc_pipeline.sh</code>
+default to this path; <code>replicability/run.sh</code> and <code>reproduce/examples/run_examples.sh</code> download into their own
+<code>checkpoints/</code> directories; any location works with <code>--resume_model &lt;file&gt;</code> / <code>CKPT=&lt;file&gt;</code>):</p>
+<pre><code class="language-bash">BASE=https://github.com/MADONOKOUKI/DetFill-with-DHT/releases/download/v1.0
+mkdir -p detfill/results/dataset_name/BrownianBridge_scribble_illust/checkpoint detfill/results/dataset_name/BrownianBridge_dot_illust/checkpoint
+curl -L $BASE/detfill_scribble_illust_200ep.pth -o detfill/results/dataset_name/BrownianBridge_scribble_illust/checkpoint/latest_model_200.pth
+curl -L $BASE/detfill_dot_illust_200ep.pth      -o detfill/results/dataset_name/BrownianBridge_dot_illust/checkpoint/latest_model_200.pth
+</code></pre>
+<p>Notes
+- Both checkpoints hold the EMA weights saved by the training loop at epoch 200; DetFill is a pixel-space model, so no
+  VQGAN or latent-diffusion weights are needed.
+- Configuration: <code>detfill/configs/scribble_illust.yaml</code> (96 channels) for the scribble model, <code>detfill/configs/dot_illust.yaml</code>
+  (64 channels) for the dot model. Inference is seeded (<code>--seed 1234</code>, the default of <code>detfill/main.py</code>).
+- The hint maps in <code>test_split_hint_maps_64.tar.gz</code> are the reference inputs. Regenerating them from the images with the
+  <code>hintauc</code> library gives the same maps up to the unseeded tie-breaking inside the skeleton extraction (see
+  <code>hint_generation/README.md</code>), so use the stored maps whenever you want to compare with the printed numbers.
+- Metric backbones (LPIPS, OpenCLIP, DINOv2, DreamSim) are downloaded by their pip packages on first use and are not
+  part of the releases.</p>
+<h2 id="v11-scribble-models-trained-with-other-region-segmenters">v1.1 — scribble models trained with other region segmenters</h2>
+<p>Release: https://github.com/MADONOKOUKI/DetFill-with-DHT/releases/tag/v1.1 — the "DanbooRegion" and "SLIC" <em>training</em>
+rows of the supplementary segmentation-dependency table (same protocol and training split as the v1.0 scribble model,
+96 base channels, 200 epochs; only the segmenter that produced the training hints differs).</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>SHA-256</th>
+<th>Training segmenter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detfill_scribble_illust_danbooregion_200ep.pth</code></td>
+<td>1.08 GB</td>
+<td><code>1770cd61bb496060b4ff9bd8c2ec2e72b549fa99187a0429912100628cad9a78</code></td>
+<td>DanbooRegion</td>
+</tr>
+<tr>
+<td><code>detfill_scribble_illust_slic_200ep.pth</code></td>
+<td>1.08 GB</td>
+<td><code>eb25667c1955584f46f34abf98db10eef6d702e4c1078fe3cff388f646cf4217</code></td>
+<td>SLIC</td>
+</tr>
+</tbody>
+</table>
+<p>Use them with <code>detfill/configs/scribble_illust.yaml</code> and <code>--resume_model &lt;file&gt;</code>; the evaluation data root must
+contain hint maps from the matching segmenter (release v1.3, <code>test_split_hint_maps_64_{danbooregion,slic}.tar.gz</code>).</p>
+<h2 id="v12-diffusart-retrain-models-later-natural-image-imagenet-models-and-the-imagenet-hint-maps">v1.2 — Diffusart-retrain models, later natural-image (ImageNet) models and the ImageNet hint maps</h2>
+<p>Release: https://github.com/MADONOKOUKI/DetFill-with-DHT/releases/tag/v1.2</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>SHA-256</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>diffusart_retrain_scribble_dethint_200ep_ema.pth</code></td>
+<td>373 MB</td>
+<td><code>03ed65e385cab3947e52f9bbdf00c709d84af1ec7d05631624d2266dc40fb15b</code></td>
+<td>Diffusart (our re-implementation, <code>reproduce/paper_experiments/diffusart_retrain/code/</code>) retrained with the deterministic scribble hints, 200 epochs, EMA weights. The <strong>Diffusart-retrain</strong> scribble row of the supplementary "additional training comparisons" table; its PSNR 19.457 / LPIPS 0.177 are reproduced from the per-ratio record shipped in <code>reproduce/expected/</code>.</td>
+</tr>
+<tr>
+<td><code>diffusart_retrain_dot_dethint_200ep_ema.pth</code></td>
+<td>373 MB</td>
+<td><code>8c78717ac73f111ca31e00b43f4c7686e618c4191ce5ea38a437f2ed6b8964d1</code></td>
+<td>Same for dot hints (the dot row of that table; same training batch).</td>
+</tr>
+<tr>
+<td><code>detfill_scribble_imagenet_96ch_200ep.pth</code></td>
+<td>1.08 GB</td>
+<td><code>0f8514000110be43927b9031912b4331e2753e3028ea8a0ab680630857d1d329</code></td>
+<td>DetFill scribble model on natural images with <strong>96 base channels</strong>: a later training generation that is <strong>not</strong> behind the printed ImageNet tables (those come from the 64-channel models of v1.4). Config: <code>detfill/configs/scribble_real.yaml</code> with <code>model_channels: 96</code>.</td>
+</tr>
+<tr>
+<td><code>detfill_dot_imagenet_96ch_200ep.pth</code></td>
+<td>1.08 GB</td>
+<td><code>1fdf881981c9a4e415711a8bdb6bab36c3e0251243e5d04544e7fc6b9811fd2e</code></td>
+<td>Same for dot hints (96 base channels, later generation; about 3 dB above the printed dot values at every hint ratio). Config: <code>detfill/configs/dot_real.yaml</code> with <code>model_channels: 96</code>.</td>
+</tr>
+<tr>
+<td><code>test_split_hint_maps_64_imagenet.tar.gz</code></td>
+<td>40 MB</td>
+<td><code>870db22dd7526c2fb3fe7d9bd5d3b7d10b90c9fa776ac901c1b04ab52bf01847</code></td>
+<td>The stored 64×64 hint maps (scribble/dot colour + mask) and region maps of 2,999 of the 3,000 ImageNet test images in <code>detfill/configs/real/test.txt</code> (<code>n02667379_7324</code> has no stored map), i.e. the evaluation inputs of the supplementary ImageNet tables.</td>
+</tr>
+</tbody>
+</table>
+<p>The Diffusart-retrain models take the <strong>64 × 64 deterministic hint maps of v1.0</strong>, upsampled to 256 × 256 with
+nearest-neighbour interpolation inside the inference script — this is how the paper's Diffusart-retrain record was
+produced. Inference: <code>reproduce/paper_experiments/diffusart_retrain/code/infer_det_proposed.py</code> (PyTorch 2.5 and
+<code>diffusers</code> 0.32; see the README in that directory).</p>
+<p>Natural-image models: two training generations exist. The 64-channel models (release v1.4) reproduce the printed
+ImageNet values (24 test images, SketchKeras line art: PSNR Hint-AUC 15.0 dot / 18.4 scribble against 15.7 / 18.0 printed),
+whereas the 96-channel models released here score 2–3 dB higher at every hint ratio; the printed supplementary
+ImageNet tables therefore come from the 64-channel models, and the 96-channel ones are a later, stronger
+generation that is not in the paper. The <code>*_real.yaml</code> configs use the split-based layout (<code>dataset_path</code> plus the
+relative lists in <code>detfill/configs/real/</code>, run <code>main.py</code> from <code>detfill/</code>); the ImageNet images themselves are not
+redistributed.</p>
+<h2 id="v13-data-for-full-scale-and-example-based-reproduction">v1.3 — data for full-scale and example-based reproduction</h2>
+<p>Release: https://github.com/MADONOKOUKI/DetFill-with-DHT/releases/tag/v1.3 (all files derived from the Danbooru2021
+test split; the originals are not included — they are available from https://gwern.net/danbooru2021 by id; non-commercial
+research use).</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>SHA-256</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_split_sketch_sketchkeras.tar.gz</code></td>
+<td>441 MB</td>
+<td><code>6c121c523bca26546e87436514a5c8aae827e583dbde51c09e4596da7b4a895a</code></td>
+<td>SketchKeras line art of the 3,000 test images (sketch type 2) — the files used for every reported number</td>
+</tr>
+<tr>
+<td><code>test_split_sketch_pysimp.tar.gz</code></td>
+<td>477 MB</td>
+<td><code>b05a78e6fc1b996b4010a9f2091c98a496c86e42c894d2042fa833090adbae59</code></td>
+<td>Sketch-simplification line art (sketch type 0)</td>
+</tr>
+<tr>
+<td><code>test_split_sketch_XDoG.tar.gz</code></td>
+<td>56 MB</td>
+<td><code>0aa4529465f8ad4b0bef4d2d04206537ada194316a56bd22cbf1eed109731fe2</code></td>
+<td>XDoG line art (sketch type 1)</td>
+</tr>
+<tr>
+<td><code>test_split_hint_maps_64_danbooregion.tar.gz</code></td>
+<td>37 MB</td>
+<td><code>d11217a11467ad4cb1aec85d4914be751d7e18d90d4d18d9dc6004b8e2693756</code></td>
+<td>DanbooRegion scribble hint maps + region maps of the test split (segmentation-dependency study, evaluation segmenter DanbooRegion)</td>
+</tr>
+<tr>
+<td><code>test_split_hint_maps_64_slic.tar.gz</code></td>
+<td>38 MB</td>
+<td><code>01d6443c9069e23323e5afc98490c5a95bf34056f4d97da3b4111b1967ad9e51</code></td>
+<td>SLIC scribble hint maps + region maps of the test split</td>
+</tr>
+<tr>
+<td><code>test_split_hint_maps_64_felz.tar.gz</code></td>
+<td>44 MB</td>
+<td><code>1933b97cd7c92e0651db4839da75e324cc4048bd6fced480c1f2bc512f2d0507</code></td>
+<td>Felzenszwalb maps regenerated for that study (main results use the v1.0 maps)</td>
+</tr>
+<tr>
+<td><code>examples_data.tar.gz</code></td>
+<td>8 MB</td>
+<td><code>3d7f699da9f8de5a5def35a997e7bb42461abd56babd3ce6c30adfbee9f71c87</code></td>
+<td>12 example illustrations with originals, three line-art versions, the paper's hint maps and the DanbooRegion/SLIC maps — input of <code>reproduce/examples/run_examples.sh</code></td>
+</tr>
+<tr>
+<td><code>userstudy_stimuli.tar.gz</code></td>
+<td>623 MB</td>
+<td><code>7bf1cc36999ef200edf48d8e2749338d990da3a4fb6323b021b26f007aef359d</code></td>
+<td>The images shown in the user study (192 images × 8 hint ratios: line art, hint image, DetFill / PaintsTorch / Diffusart colorizations, ground truth, <code>index.csv</code>); keyed like <code>reproduce/data/userstudy/glmm_trials.csv</code>. The ColorizeDiffusion-v2 stimuli were not preserved.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="v14-the-natural-image-models-of-the-paper-the-earlier-submission-scribble-model-and-the-channel-ablation-models">v1.4 — the natural-image models of the paper, the earlier-submission scribble model and the channel-ablation models</h2>
+<p>Release: https://github.com/MADONOKOUKI/DetFill-with-DHT/releases/tag/v1.4. The two natural-image models here are the
+ones behind the supplementary ImageNet tables; the other files are released for completeness and for the supplementary
+channel ablation and are <strong>not</strong> behind the main tables (those are v1.0).</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Size</th>
+<th>SHA-256</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detfill_scribble_illust_32ch_200ep.pth</code></td>
+<td>129 MB</td>
+<td><code>4eef804755b9adc4fc0b5234501666138a4a6ecddfbdb28245fd7fc32443ecda</code></td>
+<td>Scribble model with 32 base channels (supplementary channel-ablation figure, "C = 32"); use <code>scribble_illust.yaml</code> with <code>model_channels: 32</code></td>
+</tr>
+<tr>
+<td><code>detfill_scribble_illust_64ch_200ep.pth</code></td>
+<td>485 MB</td>
+<td><code>8eeee341331ed949cc216049c9fecebc70900d54fb709eee3b97a2b1fc34845b</code></td>
+<td>Scribble model with 64 base channels (channel ablation)</td>
+</tr>
+<tr>
+<td><code>detfill_scribble_illust_earlier_64ch_200ep.pth</code></td>
+<td>485 MB</td>
+<td><code>7d74ebe7d6c8862286fe9944b7cf9d2448a6e473880c383b13af8a36e6ce0002</code></td>
+<td>Scribble model of the earlier submission (64 channels; its archived config sampled with 1,000 steps). Superseded by the 96-channel v1.0 model retrained for the revision</td>
+</tr>
+<tr>
+<td><code>detfill_scribble_imagenet_64ch_200ep.pth</code></td>
+<td>485 MB</td>
+<td><code>84dc2e4363b0fd9964338b019a35cecf29e5ef4687d6b167b59f958503520f09</code></td>
+<td><strong>The natural-image scribble model behind the supplementary ImageNet tables</strong> (64 base channels; <code>scribble_real.yaml</code>). Re-evaluated on 24 test images with SketchKeras line art: PSNR Hint-AUC 18.4 (printed: 18.0)</td>
+</tr>
+<tr>
+<td><code>detfill_dot_imagenet_64ch_200ep.pth</code></td>
+<td>485 MB</td>
+<td><code>41089d46313943fdac66aaf5a022c0aa365cff47c0bbaed581436e040d122a9e</code></td>
+<td><strong>The natural-image dot model behind the supplementary ImageNet tables</strong> (64 base channels; <code>dot_real.yaml</code>, 3-channel conditioning stage as released). Re-evaluated on 24 test images: PSNR Hint-AUC 15.0 (printed: 15.7)</td>
+</tr>
+<tr>
+<td><code>earlier_run_configs.tar.gz</code></td>
+<td>2 KB</td>
+<td><code>1e3944bcb9aafa45d9359ee2ab12f0a2a1dffd03d404c65d6e8353224588b275</code></td>
+<td>The archived training configs of the earlier-submission scribble and natural-image models and of the 32/64-channel models</td>
+</tr>
+</tbody>
+</table>
+<h2 id="which-release-do-i-need">Which release do I need?</h2>
+<table>
+<thead>
+<tr>
+<th>I want to …</th>
+<th>Download</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>reproduce Fig. 9 with one command</td>
+<td>nothing by hand — <code>replicability/run.sh</code> fetches the two v1.0 models</td>
+</tr>
+<tr>
+<td>run the example-based reproduction of every experiment</td>
+<td>nothing by hand — <code>reproduce/examples/run_examples.sh</code> fetches v1.0, v1.1, v1.3 (and v1.4 in <code>full</code> mode)</td>
+</tr>
+<tr>
+<td>recompute the paper's tables from the released metric files</td>
+<td>nothing — the metric files are in the repository (<code>reproduce/expected/</code>)</td>
+</tr>
+<tr>
+<td>re-run a whole table row on the 3,000 test images</td>
+<td>v1.0 models + v1.0 hint maps + v1.3 line art + the Danbooru2021 originals (<code>reproduce/README.md</code>, part B)</td>
+</tr>
+<tr>
+<td>re-run the segmentation-dependency study</td>
+<td>v1.1 models + v1.3 segmenter hint maps</td>
+</tr>
+<tr>
+<td>look at the user-study stimuli</td>
+<td>v1.3 <code>userstudy_stimuli.tar.gz</code></td>
+</tr>
+</tbody>
+</table>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

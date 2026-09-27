@@ -63,7 +63,7 @@
     <h1>Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation</h1>
     <p class="meta"><a href="../../">Koki Madono</a> · <a href="https://esslab.jp/en/members/" target="_blank" rel="noopener">Yuan Mingcheng</a> · <a href="https://esslab.jp/~ess/" target="_blank" rel="noopener">Edgar Simo-Serra</a> — Waseda University</p>
     <p class="venue">IEEE Transactions on Visualization and Computer Graphics (TVCG), 2026 · <a href="https://doi.org/10.1109/TVCG.2026.3738401" target="_blank" rel="noopener">doi:10.1109/TVCG.2026.3738401</a></p>
-    <ul class="chips"><li><a class="chip" href="https://doi.org/10.1109/TVCG.2026.3738401" target="_blank" rel="noopener">Paper (DOI)</a></li><li><a class="chip" href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">Library: pip install hintauc</a></li><li><span class="chip">Code &amp; models: coming soon</span></li></ul>
+    <ul class="chips"><li><a class="chip" href="https://doi.org/10.1109/TVCG.2026.3738401" target="_blank" rel="noopener">Paper (DOI)</a></li><li><a class="chip" href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">Library: pip install hintauc</a></li><li><a class="chip" href="docs/">Documentation</a></li><li><span class="chip">Code &amp; models: coming soon</span></li></ul>
 
     <figure><img src="../../images/projects/hintauc/teaser.png" alt="Hint-AUC overview: deterministic region-based hints at increasing hint ratios and the resulting evaluation curve">
       <figcaption>Interactive colorization methods are usually evaluated with randomly sampled hints. We generate the hints deterministically from the regions of the image, evaluate a model over the whole range of hint ratios, and summarise the curve as one number, the Hint-AUC.</figcaption></figure>
@@ -106,7 +106,7 @@ hintauc curve pred_root/ ground_truth/ --metrics mse psnr ssim lpips dreamsim --
 result = hintauc.evaluate_colorizer(my_model, [("line_art/0001.png", "ground_truth/0001.png"), ...])
 print(result["hint_auc"])       # per-metric Hint-AUC, plus a record of the protocol and library versions</pre>
 
-    <div class="status"><strong>Availability.</strong> The <a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">hintauc</a> library is on PyPI. The full repository — DetFill training and inference code, all checkpoints, the stored test-split hint maps and line art, the user-study data and a package that reproduces every table and figure — is being finalised for release and will be linked here (code coming soon).</div>
+    <div class="status"><strong>Availability.</strong> The <a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">hintauc</a> library is on PyPI. The full repository — DetFill training and inference code, all checkpoints, the stored test-split hint maps and line art, the user-study data and a package that reproduces every table and figure — is being finalised for release and will be linked here (code coming soon). Its documentation (setup, API reference, model zoo, reproduction guide) is already mirrored at <a href="docs/">this site</a>.</div>
 
     <h2>Citation</h2>
     <pre>@ARTICLE{madono2026hintauc,

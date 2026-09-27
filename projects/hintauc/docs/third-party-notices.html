@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Third-party notices — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Third-party notices.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/third-party-notices.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html" aria-current="page">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>THIRD_PARTY_NOTICES.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="third-party-code-and-licenses">Third-party code and licenses</h1>
+<p>The repository is released under the MIT License (<code>LICENSE</code>), with the exceptions and attributions below.</p>
+<table>
+<thead>
+<tr>
+<th>Location</th>
+<th>Upstream</th>
+<th>License</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>detfill/</code></td>
+<td><a href="https://github.com/xuekt98/BBDM">BBDM — Brownian Bridge Diffusion Models</a> (Li et al., 2023)</td>
+<td>MIT (<code>detfill/LICENSE</code>)</td>
+<td>DetFill is a fork adapted to sketch + deterministic-hint conditioning.</td>
+</tr>
+<tr>
+<td><code>reproduce/paper_experiments/coldiff_finetune/coldiff_v*_inference_official_fixed*.py</code></td>
+<td><a href="https://github.com/tellurion-kanata/colorizeDiffusion">ColorizeDiffusion</a> (Yan et al.)</td>
+<td><strong>CC BY-NC-SA 4.0</strong> (<code>reproduce/paper_experiments/coldiff_finetune/LICENSE</code>)</td>
+<td>Modified copies of the official inference script (deterministic-hint input). They are distributed under the upstream license, <strong>not</strong> MIT, and only run inside the upstream code base with its weights.</td>
+</tr>
+<tr>
+<td><code>reproduce/scripts/sketch_tools/sketchkeras_*.py</code></td>
+<td><a href="https://github.com/lllyasviel/sketchKeras">sketchKeras</a> (lllyasviel)</td>
+<td>Apache-2.0 (<code>sketchkeras_LICENSE</code>)</td>
+<td>Our batch wrapper around the upstream helper; the <code>mod.h5</code> weights are downloaded from the upstream release.</td>
+</tr>
+<tr>
+<td><code>reproduce/scripts/sketch_tools/aki_edit_d.py</code>, <code>pysketchsimplify_*.py</code></td>
+<td><a href="https://github.com/bobbens/sketch_simplification">Sketch Simplification</a> (Simo-Serra et al.)</td>
+<td>MIT (code); pretrained weights for non-commercial research use only</td>
+<td>Model definition and batch wrapper used to produce the "sketch simplification" line art; obtain the pretrained model from the upstream repository under its terms.</td>
+</tr>
+<tr>
+<td><code>reproduce/scripts/sketch_tools/XDoG_*.py</code></td>
+<td>XDoG (Winnemöller et al., 2012)</td>
+<td>—</td>
+<td>Our own NumPy/OpenCV implementation used for the XDoG line art.</td>
+</tr>
+<tr>
+<td><code>reproduce/paper_experiments/segmenter_dependency/r2-2_scripts/D_danbooregion_seg.py</code></td>
+<td><a href="https://github.com/lllyasviel/DanbooRegion">DanbooRegion</a> (Zhang et al., 2020)</td>
+<td>upstream</td>
+<td>Driver script only; it imports the upstream code and weights, which are not included.</td>
+</tr>
+<tr>
+<td><code>reproduce/paper_experiments/diffusart_retrain/</code></td>
+<td>our re-implementation of Diffusart (Carrillo et al., CVPRW 2023)</td>
+<td>MIT (this repository)</td>
+<td>Training/inference code written in our lab for the paper's Diffusart baseline and its deterministic-hint retraining; no upstream code is included.</td>
+</tr>
+<tr>
+<td><code>hintauc/</code>, <code>evaluation/</code>, <code>hint_generation/</code></td>
+<td>—</td>
+<td>MIT</td>
+<td>Uses FilFinder, scikit-image, LPIPS, OpenCLIP, DINOv2 (transformers), DreamSim and torchmetrics as pip dependencies; their weights are downloaded by the respective packages under their own licenses.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="runtime-dependencies-and-pretrained-weights">Runtime dependencies and pretrained weights</h2>
+<table>
+<thead>
+<tr>
+<th>Dependency</th>
+<th>License</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FilFinder (BSD-3), astropy (BSD-3), scikit-image (BSD-3), OpenCV (Apache-2.0), NumPy / SciPy / Pillow (BSD / HPND)</td>
+<td>free</td>
+<td>hint generation, pixel metrics</td>
+</tr>
+<tr>
+<td>PyTorch, torchvision (BSD-3); torchmetrics (Apache-2.0); torch-fidelity (Apache-2.0)</td>
+<td>free</td>
+<td>DetFill, SSIM / MS-SSIM, FID / KID</td>
+</tr>
+<tr>
+<td>LPIPS (BSD-2; AlexNet weights ship with the package)</td>
+<td>free</td>
+<td>LPIPS, LPIPS-VGG</td>
+</tr>
+<tr>
+<td>OpenCLIP (MIT) with the LAION-2B ViT-B/32 weights (MIT)</td>
+<td>free</td>
+<td>OpenCLIP metric</td>
+</tr>
+<tr>
+<td>DINOv2 through <code>transformers</code> (Apache-2.0; weights Apache-2.0)</td>
+<td>free</td>
+<td>DINO metric</td>
+</tr>
+<tr>
+<td>DreamSim (MIT; weights MIT)</td>
+<td>free</td>
+<td>DreamSim metric</td>
+</tr>
+<tr>
+<td>DISTS (<code>dists-pytorch</code>, MIT)</td>
+<td>free</td>
+<td>DISTS metric</td>
+</tr>
+<tr>
+<td>taming-transformers (MIT), vendored under <code>detfill/model/VQGAN/taming</code> by BBDM</td>
+<td>free</td>
+<td>not used by the released configs</td>
+</tr>
+<tr>
+<td>Contributor Covenant 2.1 (CC BY 4.0)</td>
+<td>—</td>
+<td><code>CODE_OF_CONDUCT.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>All of them allow free non-commercial and academic use; weights are downloaded by the respective packages on first use.</p>
+<h2 id="data">Data</h2>
+<p>The illustrations of the paper come from <a href="https://gwern.net/danbooru2021">Danbooru2021</a> and are not redistributed as a
+dataset. Derived files that are released for non-commercial research use only, so that the paper can be replicated:
+the 64 × 64 hint maps and metric files (releases v1.0–v1.3), the line art of the test split (v1.3), the 12 example
+illustrations of <code>examples_data.tar.gz</code> with their originals (v1.3), the user-study stimuli including their ground truth
+(v1.3), the two illustrations in <code>replicability/data/</code> (see <code>replicability/data/NOTICE.txt</code>), the demonstration images in
+<code>assets/readme/</code> and the ground-truth columns of the grids in <code>reproduce/examples/expected/grids/</code>. Rights holders can
+request the removal of an image through the repository's issue tracker or the contact in <code>replicability/GRSI_SUBMISSION.txt</code>.
+The natural-image experiments use an <a href="https://www.image-net.org/download.php">ImageNet</a> subset; only its 64 × 64 hint
+maps are released (v1.2).</p>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

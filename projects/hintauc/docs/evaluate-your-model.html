@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Evaluate your own model — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Evaluate your own model.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/evaluate-your-model.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html" aria-current="page">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>docs/evaluate_your_model.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="evaluate-your-own-model">Evaluate your own model</h1>
+<p>Hint-AUC scores a hint-based colorization model over the whole range of hint ratios: the model is run with the
+deterministic hints of the largest 0 %, 1 %, 3 %, 5 %, 10 %, 25 %, 50 % and 100 % of the regions, each output is
+compared with the ground truth, and the metric curve is integrated over the ratio. One image with one set of hints
+is therefore not enough; you need one output per hint ratio. Two ways to get there:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>You provide</th>
+<th>Command / call</th>
+<th>Good for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Images per hint ratio</strong></td>
+<td>a directory per ratio with your model's outputs</td>
+<td><code>hintauc curve &lt;pred_root&gt; &lt;gt_dir&gt;</code></td>
+<td>any framework; run your model wherever it lives</td>
+</tr>
+<tr>
+<td><strong>B. A Python function</strong></td>
+<td>a callable that colorizes one image from line art + hints</td>
+<td><code>hintauc.evaluate_colorizer(fn, samples)</code></td>
+<td>quick experiments; hints and evaluation in one process</td>
+</tr>
+</tbody>
+</table>
+<p><code>pip install "hintauc[perceptual]"</code> gives all seven metrics of the paper (MSE, PSNR, SSIM, LPIPS, OpenCLIP, DINO,
+DreamSim); the plain install has the pixel metrics. A worked example that runs on CPU in about a minute:
+<code>python examples/quickstart_cpu.py</code> (it does both A and B on the two illustrations shipped with the repository).</p>
+<h2 id="what-the-protocol-fixes">What the protocol fixes</h2>
+<ul>
+<li><strong>Hints.</strong> <code>hintauc.generate_hints(ground_truth, size=64)</code> — Felzenszwalb regions, one scribble (longest skeleton
+  path) and one dot per region, coloured with the region mean. At ratio α the largest <code>int(n_regions * α)</code> regions keep
+  their hints (<code>HintResult.at_ratio</code>). The 64 × 64 maps are upsampled to the image size with nearest-neighbour
+  interpolation (4 × 4 blocks at 256 px, as DetFill was trained).</li>
+<li><strong>Inputs to the model.</strong> The line art (the paper reports the mean over three extractors: sketch simplification,
+  XDoG, SketchKeras), the hint colour image and the hint mask. Arrays from <code>hintauc</code> are BGR (OpenCV order).</li>
+<li><strong>Scoring.</strong> Prediction and ground truth are resized to 256 × 256, values in [0, 1]; SSIM with torchmetrics 1.4.0
+  (the environment pin), LPIPS-AlexNet, OpenCLIP ViT-B/32, DINOv2-base, DreamSim.</li>
+<li><strong>Aggregation.</strong> Trapezoidal integral over α ∈ [0, 1] of the per-ratio means; the paper reports mean ± SD over the
+  three line-art sources. <code>result["protocol"]</code> records the grid, the resize, the metric list and the library versions
+  next to every score, and states whether the grid is the paper grid.</li>
+</ul>
+<h2 id="a-images-per-hint-ratio">A. Images per hint ratio</h2>
+<ol>
+<li>Get the hints. For the paper's test split download <code>test_split_hint_maps_64.tar.gz</code> (release v1.0) and the line
+   art (v1.3), or generate them for your own images with <code>hintauc generate image.png -o out/image</code> /
+   <code>hintauc.generate_hints(...)</code>. <code>HintResult.at_ratio(alpha, hint_type, resize_to=...)</code> gives the colour and mask
+   at each ratio; <code>detfill/datasets/custom.py</code> shows the exact loader used for DetFill.</li>
+<li>Run your model at every ratio and save the outputs as PNGs named like the ground truth, one directory per ratio:
+   <code>pred_root/0.00/&lt;id&gt;.png   pred_root/0.01/&lt;id&gt;.png   ...   pred_root/1.00/&lt;id&gt;.png
+   gt_dir/&lt;id&gt;.png</code>
+   (directory names are the ratios as decimals; <code>10</code> is also read as 10 %).</li>
+<li>Score:
+   <code>bash
+   hintauc curve pred_root gt_dir --metrics mse psnr ssim lpips openclip dino dreamsim --json result.json --plot curve.png</code>
+   Files are paired by name (<code>--pairing sorted</code> pairs by sorted order instead); a ratio directory with a different
+   number of images or without common names is an error, not a silent mismatch. The JSON holds the per-ratio means,
+   the Hint-AUC per metric and the protocol record; the PNG holds the curves.</li>
+</ol>
+<p>For a DetFill-style output tree (<code>.../sample_to_eval/illust/&lt;hint&gt;/&lt;sketch_type&gt;/&lt;ratio&gt;/200/</code>) use
+<code>reproduce/scripts/eval_per_ratio.py</code>, which also writes the <code>per_ratio_summary.csv</code> format of the released metric files
+and can record the checkpoint hash (<code>--ckpt</code>).</p>
+<h2 id="b-a-python-function">B. A Python function</h2>
+<pre><code class="language-python">import hintauc
+
+def my_model(sample):
+    # sample[&quot;line_art&quot;]   HxW  uint8         sample[&quot;hint_color&quot;]  HxWx3 uint8 BGR
+    # sample[&quot;hint_mask&quot;]  HxW  {0, 255}      sample[&quot;alpha&quot;], sample[&quot;hint_type&quot;], sample[&quot;hints&quot;] (HintResult)
+    return colorize(sample[&quot;line_art&quot;], sample[&quot;hint_color&quot;], sample[&quot;hint_mask&quot;])   # HxWx3 uint8 BGR
+
+samples = [(&quot;line_art/0001.png&quot;, &quot;ground_truth/0001.png&quot;), ...]
+result = hintauc.evaluate_colorizer(my_model, samples, hint_type=&quot;scribble&quot;,
+                                    metrics=(&quot;mse&quot;, &quot;psnr&quot;, &quot;ssim&quot;, &quot;lpips&quot;, &quot;dreamsim&quot;),
+                                    save_dir=&quot;pred_root&quot;)          # optional: also write the images of path A
+print(result[&quot;hint_auc&quot;])            # {'psnr': ..., 'lpips': ..., ...}
+hintauc.plot_curves(result[&quot;per_alpha&quot;], &quot;curve.png&quot;)
+</code></pre>
+<p><code>hintauc.hint_fill_colorizer</code> is a trivial reference model (hinted regions filled with their hint colour) that shows
+the expected shape of a curve. Repeat with <code>hint_type="dot"</code> for the dot protocol, and with the three line-art
+sources to report the paper's mean ± SD.</p>
+<p>Signatures and examples of every function used above: <a href="api.html">API reference</a>.</p>
+<h2 id="reporting-checklist">Reporting checklist</h2>
+<ul>
+<li>hint type (scribble / dot), the ratio grid (paper: 0, 1, 3, 5, 10, 25, 50, 100 %), and that the selection is
+  size-ordered (the Table III variant uses the fixed label order, <code>hint_order: label</code> in the DetFill loader);</li>
+<li>the line-art source(s) and the test split (ids in <code>reproduce/data/splits/test.txt</code>);</li>
+<li>metric settings (256 × 256, torchmetrics 1.4.0 for SSIM) — <code>result["protocol"]</code> and <code>hauc.json</code> carry them;</li>
+<li>which checkpoint produced the outputs (SHA-256; <code>eval_per_ratio.py --ckpt</code> records it) and the sampler seed.</li>
+</ul>
+<p>Numbers obtained this way are comparable with Table II of the paper only when the inputs are the stored test-split
+maps and line art; the released per-ratio files in <code>reproduce/expected/</code> are the reference.</p>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>

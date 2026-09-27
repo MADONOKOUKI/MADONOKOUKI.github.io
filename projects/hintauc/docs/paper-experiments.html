@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Paper experiment launchers — Hint-AUC documentation — Koki Madono</title>
+  <meta name="description" content="Documentation of the Hint-AUC / DetFill repository (mirror): Paper experiment launchers.">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/hintauc/docs/paper-experiments.html">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../../assets/style.css?v=16">
+  <style>
+    .docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; align-items: start; }
+    .docs nav.toc { position: sticky; top: 72px; font-size: .86rem; }
+    .docs nav.toc h3 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: #4a5b6a; }
+    .docs nav.toc ul { list-style: none; margin: 0; padding: 0; }
+    .docs nav.toc li { margin: .25rem 0; }
+    .docs nav.toc a { text-decoration: none; }
+    .docs nav.toc a[aria-current] { font-weight: 700; }
+    .doc-body { font-size: 14.5px; line-height: 1.75; min-width: 0; }
+    .doc-body h1 { font-size: 1.55rem; margin: 0 0 .8rem; line-height: 1.3; }
+    .doc-body h2 { font-size: 1.15rem; margin: 1.8rem 0 .6rem; padding-top: .4rem; border-top: 1px solid #dde6ee; }
+    .doc-body h3 { font-size: 1rem; margin: 1.3rem 0 .4rem; }
+    .doc-body h4 { font-size: .95rem; margin: 1rem 0 .3rem; }
+    .doc-body table { border-collapse: collapse; font-size: .84rem; margin: .8rem 0 1.2rem; display: block; overflow-x: auto; max-width: 100%; }
+    .doc-body th, .doc-body td { padding: .3rem .5rem; border: 1px solid #dde6ee; vertical-align: top; text-align: left; }
+    .doc-body thead th { background: #f3f7fa; }
+    .doc-body pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .8rem; line-height: 1.55; }
+    .doc-body code { font-size: .88em; background: #f3f7fa; padding: .05em .3em; border-radius: 4px; }
+    .doc-body pre code { background: none; padding: 0; font-size: inherit; }
+    .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
+    .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
+    @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
+  </style>
+</head>
+<body>
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../../"><span class="brand-mark" aria-hidden="true">🐳</span>Koki Madono</a>
+      <ul>
+        <li><a href="../../../#about">About</a></li>
+        <li><a href="../../../#publications">Publications</a></li>
+        <li><a href="../">Hint-AUC project</a></li>
+        <li><a href="index.html" aria-current="page">Docs</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+  <main class="wrap blog-main">
+    <div class="docs">
+      <nav class="toc" aria-label="Documentation">
+        <h3>Hint-AUC docs</h3>
+        <ul>
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="evaluate-your-model.html">Evaluate your own model</a></li>
+          <li><a href="api.html">API reference</a></li>
+          <li><a href="model-zoo.html">Model zoo</a></li>
+          <li><a href="reproducing.html">Reproducing the paper</a></li>
+          <li><a href="examples.html">Example suite</a></li>
+          <li><a href="replicability.html">Replicability script (Fig. 9)</a></li>
+          <li><a href="detfill.html">DetFill model</a></li>
+          <li><a href="hint-generation.html">Hint generation scripts</a></li>
+          <li><a href="evaluation.html">Evaluation scripts</a></li>
+          <li><a href="paper-experiments.html" aria-current="page">Paper experiment launchers</a></li>
+          <li><a href="added-features.html">Added features</a></li>
+          <li><a href="detail-explanation.html">Detailed explanation</a></li>
+          <li><a href="contributing.html">Contributing</a></li>
+          <li><a href="third-party-notices.html">Third-party notices</a></li>
+        </ul>
+        <h3 style="margin-top:1rem">Links</h3>
+        <ul>
+          <li><a href="../">Project page</a></li>
+          <li><a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">PyPI: hintauc</a></li>
+          <li><a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">GitHub repository</a></li>
+        </ul>
+      </nav>
+      <article class="doc-body">
+        <p class="doc-banner">Mirror of the documentation in the <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT" target="_blank" rel="noopener">DetFill-with-DHT</a>
+        repository (source file <code>reproduce/paper_experiments/README.md</code>). Links to files and release downloads on GitHub work once the repository is public;
+        the <code>hintauc</code> library is already available from PyPI.</p>
+<h1 id="the-launchers-that-were-actually-run">The launchers that were actually run</h1>
+<p>The shell and Python files that produced the paper's and the revision's numbers, copied from our lab tree. They are <strong>example code</strong>: cluster paths and host names are replaced by the placeholders
+<code>/scratch/USER/...</code>, <code>/home/USER/...</code> and <code>HOST_A</code>–<code>HOST_D</code>, conda environment names (<code>BBDM</code>, <code>py310</code>) and GPU ids are hard-coded, several were
+written for a specific host queue, and they are not maintained as runnable entry points. The runnable, path-free
+equivalents are <code>../scripts/run_hauc_pipeline.sh</code>, <code>../scripts/eval_per_ratio.py</code>, <code>../scripts/A1_*</code> / <code>A2_*</code> and
+<code>../examples/</code>. Directory names with "R1-1", "R2-2" and so on refer to the reviewer comments of the first TVCG revision
+(reviewer number – comment number) that the experiment answered.</p>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Paper item</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tableII_inference/</code></td>
+<td>Table II (DetFill rows)</td>
+<td><code>run_inference_mr.sh</code>: the loop over 8 hint ratios × 3 line-art sources (<code>main.py --sample_to_eval</code>) for the dot and scribble models. Released as <code>detfill/run_inference.sh</code>.</td>
+</tr>
+<tr>
+<td><code>table3_label_order/</code></td>
+<td>Table III (DetFill rows)</td>
+<td><code>launch_tableIII.sh</code>: the same loop with the fixed ascending-label region order (<code>hint_order: label</code>).</td>
+</tr>
+<tr>
+<td><code>alpha_grid/</code></td>
+<td>Table II scribble row; supplementary hint-ratio-grid (α-grid) table and dense-curve figure</td>
+<td><code>B_run.sh</code> / <code>B_run_parallel.sh</code> → <code>B_eval_dense_curve.py</code> (per-image metrics over the 57-ratio sweep) → <code>B_build_summary.py</code> (per-ratio summary) → <code>B_auc_grid_sensitivity_7m.py</code> and <code>B_vary_N_auc.py</code> (Hint-AUC on alternative grids) → <code>B_plot_dense_curve.py</code>. <code>A-5_alpha_grids.py</code>: user-study win-rate AUC under alternative grids (review response). Results: <code>../expected/alpha_grid/</code>.</td>
+</tr>
+<tr>
+<td><code>seed_sensitivity/</code></td>
+<td>Supplementary "size-ordered vs. random selection" table and figure</td>
+<td><code>gen_seeded_random_hints.py</code> (seeded random region order baked into 64 × 64 maps), <code>build_wrappers.py</code> (symlinked data roots per seed and ratio), <code>run_seedexp_{detfill,diffusart,coldiff}.sh</code>, <code>watcher_launch.sh</code> (queueing), <code>detfill_cfgs/</code> (the generated configs), <code>eval_n300/</code> (<code>eval_sweep.sh</code> + the seven-metric evaluator restricted to the 300-image SketchKeras subset; the size-ordered counterpart used the same scripts on the deterministic hints). Results: <code>../expected/seed_sensitivity/</code>.</td>
+</tr>
+<tr>
+<td><code>segmenter_dependency/</code></td>
+<td>Supplementary segmentation-dependency table and figures</td>
+<td><code>10_run_ratio.sh</code> / <code>20_launch.sh</code> / <code>30_push_and_eval.sh</code> (per-ratio inference across a GPU pool, copy to the file server, evaluation), <code>configs/</code> (training configs of the 96-channel model and the <code>eval_on_{felz,danbooregion,slic}.yaml</code> evaluation configs), <code>r2-2_scripts/</code> (DanbooRegion/SLIC segmentation and hint generation: <code>D_danbooregion_seg.py</code>, <code>D_danboo_hints.py</code>, <code>D_retrain_gen_hints.py</code>; retraining: <code>D_train_launch.sh</code>, <code>D_stage_train.sh</code>; cross-evaluation matrix: <code>D_eval_matrix.sh</code>; figure montage: <code>D_build_allratio_figs.py</code>, <code>D_montage.py</code>; <code>C-1_segmenters.py</code>, <code>C-2_perturbation.py</code> = hint-containment and perturbation analyses of the review response), <code>R2-2_README_original.md</code>. Checkpoints: release v1.1; test hint maps: release v1.3. Results: <code>../expected/segmenter_dependency/</code>, <code>../expected/segmenter_sensitivity/</code>.</td>
+</tr>
+<tr>
+<td><code>segmenter_sensitivity/</code></td>
+<td>Review response</td>
+<td><code>C-1_segmenters.py</code>, <code>C-2_perturbation.py</code> (same as above, original location).</td>
+</tr>
+<tr>
+<td><code>userstudy_rank_stability/</code></td>
+<td>Review response</td>
+<td><code>A-1_bootstrap.py</code> (per-participant bootstrap of win rates and rank flips), <code>A-2_binomial.py</code>, <code>A-3_bradley_terry.py</code>; they read the raw per-participant CSVs through the loader in <code>common/</code> (not released; the anonymised trial table is <code>../data/userstudy/glmm_trials.csv</code>). Results: <code>../expected/userstudy_rank_stability/</code>.</td>
+</tr>
+<tr>
+<td><code>diffusart_retrain/</code></td>
+<td>Diffusart baseline rows (Tables II/III) and the supplementary "additional training comparisons" (Diffusart-retrain)</td>
+<td><code>code/</code>: our complete Diffusart re-implementation (training loop, deterministic-hint loader <code>data/data_load_det.py</code>, <code>train_det_{scribble,dot}.py</code>, <code>infer_det_proposed.py</code>, evaluation; README inside); <code>R3-2_README_original.md</code>. Checkpoints: release v1.2. Results: <code>../expected/additional_training/</code>.</td>
+</tr>
+<tr>
+<td><code>coldiff_finetune/</code></td>
+<td>Table II/III "ColDiff (200ep)", supplementary "(7ep)"</td>
+<td><code>run_coldiff_finetune_eval.sh</code>, <code>coldiff_v{1,2}_inference_official_fixed*.py</code> (deterministic-hint inference wrappers around the official ColorizeDiffusion code; CC BY-NC-SA 4.0, see <code>LICENSE</code> in that directory), <code>EXPERIMENT_coldiff_finetune.md</code> (protocol notes).</td>
+</tr>
+</tbody>
+</table>
+<p>Conventions shared by all launchers: hint ratios <code>0.00 0.01 0.03 0.05 0.10 0.25 0.50 1.00</code>; <code>sketch_type</code> 0 / 1 / 2 =
+sketch simplification / XDoG / SketchKeras in the dataset loader; outputs land in
+<code>&lt;result_path&gt;/dataset_name/BrownianBridge_&lt;hint&gt;_illust/sample_to_eval/illust/&lt;hint&gt;/&lt;sketch_type&gt;/&lt;ratio&gt;/200/&lt;id&gt;.image.png</code>;
+inference seed 1234; the evaluation resizes to 256 × 256 and the Hint-AUC is the trapezoidal integral over α ∈ [0, 1].
+The split lists referenced by the launchers (<code>configs/illust/{train,valid,test}_paper.txt</code>) are identical to
+<code>../data/splits/{train,valid,test}.txt</code> (see <code>SPLIT_LISTS.md</code>).</p>
+      </article>
+    </div>
+  </main>
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer"><p class="colophon">© Koki Madono</p></footer>
+  </div>
+  <script src="../../../assets/season.js?v=14"></script>
+</body>
+</html>
