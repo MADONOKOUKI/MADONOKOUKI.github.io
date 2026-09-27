@@ -59,6 +59,14 @@
         "url": "https://doi.org/10.1109/MCG.2025.3595378"
       },
       {
+        "label": "PDF (author version)",
+        "url": "papers/madono2025-texseg3d.pdf"
+      },
+      {
+        "label": "Supplement (PDF)",
+        "url": "papers/madono2025-texseg3d-supp.pdf"
+      },
+      {
         "label": "CHI EA '25",
         "url": "https://dl.acm.org/doi/10.1145/3706599.3719697"
       }
