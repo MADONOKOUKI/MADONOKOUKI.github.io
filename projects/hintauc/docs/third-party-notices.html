@@ -203,13 +203,25 @@
 </table>
 <p>All of them allow free non-commercial and academic use; weights are downloaded by the respective packages on first use.</p>
 <h2 id="data">Data</h2>
-<p>The illustrations of the paper come from <a href="https://gwern.net/danbooru2021">Danbooru2021</a> and are not redistributed as a
-dataset. Derived files that are released for non-commercial research use only, so that the paper can be replicated:
-the 64 × 64 hint maps and metric files (releases v1.0–v1.3), the line art of the test split (v1.3), the 12 example
-illustrations of <code>examples_data.tar.gz</code> with their originals (v1.3), the user-study stimuli including their ground truth
-(v1.3), the two illustrations in <code>replicability/data/</code> (see <code>replicability/data/NOTICE.txt</code>), the demonstration images in
-<code>assets/readme/</code> and the ground-truth columns of the grids in <code>reproduce/examples/expected/grids/</code>. Rights holders can
-request the removal of an image through the repository's issue tracker or the contact in <code>replicability/GRSI_SUBMISSION.txt</code>.
+<p>The illustrations of the paper come from <a href="https://gwern.net/danbooru2021">Danbooru2021</a> (Danbooru posts; the
+Danbooru2021 ids are the post ids). The images themselves are <strong>not redistributed</strong>, with one exception: the
+illustrations that appear in the figures of the paper. Everything else refers to the original distribution by id,
+and <code>reproduce/scripts/fetch_originals.py</code> fetches an image by id from Danbooru and reproduces the dataset's 512 × 512
+copy bit-exactly.</p>
+<p>Released for non-commercial research use only, so that the paper can be replicated:</p>
+<ul>
+<li>derived data of the 3,000 test images, without the images: the 64 × 64 hint maps and region maps (v1.0, v1.3), the
+  line art (v1.3) and the per-ratio metric files (<code>reproduce/expected/</code>);</li>
+<li>the nine paper-figure illustrations of the example bundle <code>examples_data.tar.gz</code> (v1.3; ids 514016, 4262016,
+  1625016, 3421016, 4417016, 1019016, 1023016, 4731016, 4942016) with their line art and hint maps, the same two
+  Fig. 9 illustrations in <code>replicability/data/</code> (see <code>replicability/data/NOTICE.txt</code>), the demonstration images in
+  <code>assets/readme/</code> (ids 4262016 and 514016), the paper's archived outputs and the authors' example grids in
+  <code>reproduce/examples/expected/</code> (these nine images only);</li>
+<li>the user-study stimuli (v1.3): line art, hint images and the colorizations of three methods, indexed by
+  <code>index.csv</code>; the original illustrations of the study are not included (fetch them by id from <code>index.csv</code>).</li>
+</ul>
+<p>Rights holders can request the removal of an image through the repository's issue tracker or the contact in
+<code>replicability/GRSI_SUBMISSION.txt</code>.
 The natural-image experiments use an <a href="https://www.image-net.org/download.php">ImageNet</a> subset; only its 64 × 64 hint
 maps are released (v1.2).</p>
       </article>

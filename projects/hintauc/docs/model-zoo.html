@@ -134,7 +134,7 @@ curl -L $BASE/detfill_dot_illust_200ep.pth      -o detfill/results/dataset_name/
 - The hint maps in <code>test_split_hint_maps_64.tar.gz</code> are the reference inputs. They were generated from the
   Danbooru2021 files at their original resolution (not from the 512 × 512 ground-truth copies); regenerating them from
   those files with the <code>hintauc</code> library reproduces the region count and almost all scribble pixels (mean mask IoU
-  0.991 over the 12 example images), but FilFinder's unseeded tie-breaking moves a few pixels per run
+  0.992 over the 9 example images), but FilFinder's unseeded tie-breaking moves a few pixels per run
   (<code>reproduce/examples/README.md</code>, E9), so use the stored maps whenever you want to compare with the printed numbers.
 - Metric backbones (LPIPS, OpenCLIP, DINOv2, DreamSim) are downloaded by their pip packages on first use and are not
   part of the releases.</p>
@@ -275,15 +275,15 @@ research use).</p>
 </tr>
 <tr>
 <td><code>examples_data.tar.gz</code></td>
-<td>8 MB</td>
-<td><code>3d7f699da9f8de5a5def35a997e7bb42461abd56babd3ce6c30adfbee9f71c87</code></td>
-<td>12 example illustrations with originals, three line-art versions, the paper's hint maps and the DanbooRegion/SLIC maps — input of <code>reproduce/examples/run_examples.sh</code></td>
+<td>5 MB</td>
+<td><code>d6e5e33862ecc8f1d3c604456c92207c8a87e17a62d2966ab9459cd748776a1b</code></td>
+<td>the 9 example illustrations that appear in the paper's figures (originals, three line-art versions, the paper's hint maps and the DanbooRegion/SLIC maps) — input of <code>reproduce/examples/run_examples.sh</code>; other test images are fetched by id (<code>reproduce/scripts/fetch_originals.py</code>)</td>
 </tr>
 <tr>
 <td><code>userstudy_stimuli.tar.gz</code></td>
-<td>623 MB</td>
-<td><code>7bf1cc36999ef200edf48d8e2749338d990da3a4fb6323b021b26f007aef359d</code></td>
-<td>The images shown in the user study (192 images × 8 hint ratios: line art, hint image, DetFill / PaintsTorch / Diffusart colorizations, ground truth, <code>index.csv</code>); keyed like <code>reproduce/data/userstudy/glmm_trials.csv</code>. The ColorizeDiffusion-v2 stimuli were not preserved.</td>
+<td>606 MB</td>
+<td><code>6ab02c1db6da4ccb0cbc3111a765dc8d2629d4b0fe5b0a4beab52cfa756cc0a3</code></td>
+<td>The images shown in the user study (192 images × 8 hint ratios: line art, hint image, DetFill / PaintsTorch / Diffusart colorizations) and <code>index.csv</code> (imageId → Danbooru id); keyed like <code>reproduce/data/userstudy/glmm_trials.csv</code>. The original illustrations are not included (fetch them by id: <code>reproduce/scripts/fetch_originals.py --id_file index.csv</code>); the ColorizeDiffusion-v2 stimuli were not preserved.</td>
 </tr>
 </tbody>
 </table>

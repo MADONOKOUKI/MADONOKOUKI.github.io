@@ -85,14 +85,19 @@
 <h1 id="reproduce-every-experiment-on-example-images">Reproduce every experiment on example images</h1>
 <p><code>run_examples.sh</code> re-runs each experiment of the paper and its supplement on a few test illustrations with the
 released checkpoints, using the same inference program (<code>detfill/main.py</code>) and the same evaluator (the <code>hintauc</code>
-library) as the full-scale experiments. It needs no data preparation: the checkpoints and the 12-image example bundle
+library) as the full-scale experiments. It needs no data preparation: the checkpoints and the 9-image example bundle
 (release v1.3, <code>examples_data.tar.gz</code>) are downloaded automatically and checked against their SHA-256.</p>
 <pre><code class="language-bash">bash reproduce/examples/run_examples.sh                       # default: &quot;quick&quot; (4 images, 4 ratios)  ≈ 45–60 min on one GPU (2080 Ti class)
 EXAMPLES_MODE=smoke bash reproduce/examples/run_examples.sh   # 1 image, 2 ratios, scribble model only    ≈ 5 min on a GPU
-EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments, 12 images, 8 ratios      several GPU-hours
+EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments, 9 images, 8 ratios       several GPU-hours
 </code></pre>
 <p>Options: <code>GRSI_GPU=&lt;id&gt;</code> (default 0; <code>-1</code> = CPU, roughly 10× slower), <code>GRSI_ENV=&lt;conda env&gt;</code> to reuse an environment,
 <code>GRSI_CKPT_DIR=&lt;dir&gt;</code> if the checkpoints were downloaded by hand.</p>
+<p>The example images are the nine test illustrations that appear in the paper's figures (ids 514016, 4262016, 1625016,
+3421016, 4417016, 1019016, 1023016, 4731016, 4942016); no other Danbooru2021 image is redistributed. To run the suite
+on further test ids, fetch their originals with <code>reproduce/scripts/fetch_originals.py --ids ... --out
+&lt;data&gt;/examples_data/segmentations/originals</code> (their line art and hint maps are in the v1.0/v1.3 test-split releases)
+and pass <code>--ids</code> to <code>make_examples.py</code>.</p>
 <h2 id="what-you-get">What you get</h2>
 <ul>
 <li><code>output/grids/&lt;experiment&gt;*.png</code> — one labelled image grid per experiment: ground truth, line art, the hints
@@ -118,7 +123,7 @@ EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments,
 <tr>
 <td><strong>E1</strong> Table II protocol</td>
 <td>Table II, Fig. 8</td>
-<td>12 test images (4 in quick mode)</td>
+<td>9 test images (4 in quick mode)</td>
 <td>scribble (96-ch) and dot (64-ch) models, size-ordered hints, ratio grid, SketchKeras line art</td>
 <td>quality improves monotonically with the hint ratio; per-image metrics and the Hint-AUC of the examples are in the JSON; <code>psnr_vs_paper_outputs_dB</code> says how close each re-generated image is to the paper's own output</td>
 </tr>
@@ -160,9 +165,9 @@ EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments,
 <tr>
 <td><strong>E9</strong> Hint regeneration</td>
 <td>Sec. IV, supp. Sec. I</td>
-<td>12 images</td>
+<td>9 images</td>
 <td><code>hintauc.generate_hints</code> re-run on the illustrations vs. the stored maps. The stored maps were generated from the Danbooru2021 files at their original resolution; E9 uses those files when they are available (<code>&lt;data&gt;/originals_fullres/&lt;id&gt;.{png,jpg}</code> or <code>--fullres_dir</code>; the repository ships two of them in <code>replicability/data</code>) and otherwise the 512 × 512 copies of the bundle, and records which (<code>input_source</code>, <code>input_size</code>)</td>
-<td>on the original-resolution inputs the region and dot counts are identical to the stored maps and the scribble masks agree up to FilFinder's unseeded tie-breaking (authors' run: mean scribble-mask IoU 0.991, minimum 0.986 over the 12 images, region counts identical in 12 of 12 images, dot counts in 10 of 12 with a difference of one, scribble pixel counts within ±6); on the 512 px copies the region counts differ by construction (mean IoU 0.555, and no image keeps its region count), which is a resolution effect, not a regeneration error</td>
+<td>on the original-resolution inputs the region and dot counts are identical to the stored maps and the scribble masks agree up to FilFinder's unseeded tie-breaking (authors' run: mean scribble-mask IoU 0.992, minimum 0.980 over the 9 images, region and dot counts identical in 9 of 9 images, scribble pixel counts within ±3); on the 512 px copies the region counts differ by construction (mean IoU 0.555, and no image keeps its region count), which is a resolution effect, not a regeneration error</td>
 </tr>
 <tr>
 <td><strong>E11</strong> Earlier checkpoint</td>
@@ -179,7 +184,7 @@ models (v1.4, and the later 96-channel generation in v1.2; the ImageNet original
 <h2 id="authors-reference-run">Authors' reference run</h2>
 <p><code>expected/</code> holds the grids and metrics of the authors' <code>full</code> run (NVIDIA GeForce RTX 2080 Ti 11 GB, 2 × Intel Xeon Gold 6226R,
 environment of <code>replicability/environment.yml</code>; E9 was run on the CPU with the original-resolution Danbooru2021 files
-of the 12 ids in <code>originals_fullres/</code>) and the paper's archived outputs of the 12 example images for the
+of the 9 ids in <code>originals_fullres/</code>) and the paper's archived outputs of the 9 example images for the
 Table II protocol. Because the diffusion sampler is seeded but not bit-exact across GPU generations, your outputs will
 differ from both at the pixel level; <code>compare_with_expected.py</code> flags metric differences beyond a generous tolerance
 (PSNR 0.6 dB, LPIPS 0.02, DreamSim 0.015). A few flagged cells on a different GPU generation or on CPU are expected

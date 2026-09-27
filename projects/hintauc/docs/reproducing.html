@@ -111,7 +111,7 @@ training comparisons, the natural-image tables and the user study.</p>
 <td>&lt; 2 min, CPU</td>
 </tr>
 <tr>
-<td><strong>Every experiment</strong> re-run on example illustrations (default: E1–E4 and E9 on 4 images; <code>EXAMPLES_MODE=full</code>: all eight experiments on 12 images)</td>
+<td><strong>Every experiment</strong> re-run on example illustrations (default: E1–E4 and E9 on 4 images; <code>EXAMPLES_MODE=full</code>: all eight experiments on the 9 paper-figure images)</td>
 <td><code>bash reproduce/examples/run_examples.sh</code></td>
 <td>smoke ≈ 5 min, default ≈ 45–60 min, full = hours</td>
 </tr>
@@ -146,7 +146,7 @@ reference run; the full-scale and training scripts expect the data and checkpoin
 <tr>
 <td>Table II, DetFill scribble row (7 metrics)</td>
 <td>yes (A1 part 1)</td>
-<td>E1 (12 example images); layer D for the 3,000 images</td>
+<td>E1 (9 example images); layer D for the 3,000 images</td>
 <td>Danbooru2021 test originals (D)</td>
 <td>—</td>
 </tr>
@@ -365,10 +365,10 @@ mean ± sample standard deviation over the three sources — XDoG, sketch simpli
 <h2 id="b-example-based-re-run-of-every-experiment-one-gpu-no-data-preparation">B. Example-based re-run of every experiment (one GPU, no data preparation)</h2>
 <pre><code class="language-bash">bash reproduce/examples/run_examples.sh                       # default &quot;quick&quot; set (≈ 1 h on one GPU)
 EXAMPLES_MODE=smoke bash reproduce/examples/run_examples.sh   # 1 image, 2 ratios, scribble model only (≈ 5 min)
-EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments, 12 images, 8 ratios (several GPU-hours)
+EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments, 9 images, 8 ratios (several GPU-hours)
 </code></pre>
 <p>The script creates (or reuses) the conda environment of <code>replicability/run.sh</code>, downloads the checkpoints and the
-12-image example bundle from the releases (SHA-256 verified), runs each experiment with the same <code>detfill/main.py</code>
+9-image example bundle from the releases (SHA-256 verified), runs each experiment with the same <code>detfill/main.py</code>
 entry point and the same <code>hintauc</code> evaluator as the full-scale experiments, and writes:</p>
 <ul>
 <li><code>reproduce/examples/output/grids/*.png</code> — one labelled image grid per experiment (ground truth, line art, hints,
@@ -438,9 +438,11 @@ runnable equivalents are the scripts in <code>scripts/</code> and <code>examples
 <h3 id="d1-data">D.1 Data</h3>
 <ol>
 <li><strong>Test images.</strong> The test split is the 3,000 Danbooru2021 images listed in <code>data/splits/test.txt</code> (ids ending in
-   <code>016</code>). Obtain them from the Danbooru2021 distribution (https://gwern.net/danbooru2021 — the page documents the rsync
-   mirror; we do not redistribute the images) and store them as
-   <code>&lt;DATA_ROOT&gt;/segmentations/originals/&lt;id&gt;.image.png</code> (512 × 512 copies: the ground truth of training and metrics).
+   <code>016</code>); we do not redistribute them. The Danbooru2021 ids are Danbooru post ids, and the original Danbooru2021
+   mirror is offline, so fetch them from Danbooru by id:
+   <code>python reproduce/scripts/fetch_originals.py --id_file reproduce/data/splits/test.txt --out &lt;DATA_ROOT&gt;/segmentations/originals</code>
+   writes the 512 × 512 copies (<code>&lt;id&gt;.image.png</code>, bilinear resize of the file; bit-exact with the dataset's ground truth
+   of training and metrics). Deleted posts and posts that need an account are reported.
    The stored hint maps (step 3) were computed from the files at their original resolution, so they must be used as
    shipped, not regenerated from the 512 × 512 copies.</li>
 <li><strong>Line art.</strong> Release v1.3 ships the exact line-art files used for every reported number
@@ -542,7 +544,8 @@ not re-run a complete table row on different hardware; expect small differences 
   ImageNet test hint maps are in v1.2; without the archived per-image record those tables remain "same protocol",
   not bit-exact, reproductions.</li>
 <li><strong>User study.</strong> The released trial table is anonymised and reproduces Tables IV/V and the GLMM exactly; the stimuli
-  of three of the four methods are released (v1.3), the ColorizeDiffusion-v2 stimuli were not preserved. The
+  of three of the four methods are released (v1.3; line art, hints and colorizations — the original illustrations are
+  fetched by id from the archive's <code>index.csv</code>), the ColorizeDiffusion-v2 stimuli were not preserved. The
   response-letter analyses in <code>paper_experiments/userstudy_rank_stability/</code> read the raw per-participant CSVs through
   <code>common/ab_loader.py</code>, which are not released.</li>
 </ul>
