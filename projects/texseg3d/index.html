@@ -70,9 +70,13 @@
     <h2>Abstract</h2>
     <p>In 3D model scanning, the raw texture of a 3D model often requires segmentation into distinct regions to apply different material properties to each region. Current methods, such as manual segmentation, are labor-intensive, while automatic segmentation techniques lack user control. We propose an interactive tool that combines automatic segmentation with minimal manual intervention, striking an optimal balance between efficiency and control. Following a multiview automatic segmentation process that divides the texture into small subsegments, users cluster the subsegments into segments by drawing simple scribbles in the 3D model view. We show that our approach results in more detailed subsegments compared to automatic segmentation approaches. Furthermore, a user study confirms that our approach improves segmentation accuracy and quality compared to manual segmentation with standard 3D computer graphics software. This research paves the way to more efficient texture segmentation in 3D model scanning.</p>
 
-    <h2>Main result</h2>
-    <figure><img src="../../images/projects/texseg3d/teaser.png" alt="Input scanned model texture and the output segmentation produced with the interactive tool">
-      <figcaption>Input (raw texture of a 3D scanned model) and output (per-part segmentation of the texture). Automatic segmentation of rendered views is aggregated on the mesh and refined interactively, so a clean segmentation is obtained in a few operations instead of a manual pixel-level pass; see the video for the interaction and the paper for the user study.</figcaption></figure>
+    <h2>Results</h2>
+    <figure><img src="../../images/projects/texseg3d/interactive_session.jpg" alt="Four stages of an interactive session on a scanned tiger figurine: a green scribble on the face, a red scribble on the body, a blue scribble on the eyes, nose and stripes, and the refined segmentation shown next to the textured model">
+      <figcaption>An interactive session (frames from the supplementary video). The user draws a green, a red and a blue scribble on the scanned tiger figurine (left view); after each stroke the system groups the multiview subsegments into the corresponding segments (right view), so the facial features are separated from the surface with three coarse strokes.</figcaption></figure>
+
+    <h2>How it works</h2>
+    <figure><img src="../../images/projects/texseg3d/concept.jpg" alt="Pipeline: a 3D scanned model is split into fine subsegments by multiview and UV segmentation, which the user then groups interactively into the final segmentation">
+      <figcaption>Subsegment generation (multiview automatic segmentation and UV segmentation) turns the scanned model into fine subsegments; interactive segmentation lets the user merge them into the final regions with scribbles.</figcaption></figure>
 
     <h2>Citation</h2>
     <pre>@ARTICLE{11108266,
