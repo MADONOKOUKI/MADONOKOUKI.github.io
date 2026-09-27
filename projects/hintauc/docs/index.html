@@ -32,6 +32,8 @@
     .doc-body pre code { background: none; padding: 0; font-size: inherit; }
     .doc-body img { max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }
     .doc-body blockquote { margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }
+    .doc-body details { margin: .6rem 0 1rem; }
+    .doc-body details summary { cursor: pointer; color: #1f5f8b; }
     .doc-banner { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }
     @media (max-width: 800px) { .docs { grid-template-columns: 1fr; } .docs nav.toc { position: static; } }
   </style>
@@ -96,15 +98,21 @@ Evaluation"</strong>, IEEE Transactions on Visualization and Computer Graphics (
 <p><a href="https://madonokouki.github.io/">Koki Madono</a> · <a href="https://esslab.jp/en/members/">Yuan Mingcheng</a> · <a href="https://esslab.jp/~ess/">Edgar Simo-Serra</a> — Waseda University</p>
 <p><a href="https://doi.org/10.1109/TVCG.2026.3738401">Paper</a> · <a href="https://pypi.org/project/hintauc/">Library on PyPI</a> · <a href="https://github.com/MADONOKOUKI/DetFill-with-DHT/releases">Checkpoints and data</a> · <a href="https://madonokouki.github.io/projects/hintauc/docs/">Documentation</a></p>
 <p><img alt="Deterministic hint generation pipeline" src="assets/assets/readme/dht_pipeline.png" /></p>
+<p><strong>DHT</strong> turns an illustration into fixed scribble and dot hints, <strong>Hint-AUC</strong> scores a colorization model over the whole
+range of hint ratios, and <strong>DetFill</strong> is the diffusion colorization model trained with these hints; the paper's
+checkpoints, evaluation inputs, metric files and experiment scripts are released.</p>
+<details>
+<summary>Why deterministic hints, what is released, and what is exact</summary>
 <p>Hint-based line art colorization is usually evaluated with random colour hints, so scores change from run to run.
-This repository provides <strong>DHT</strong>, which derives fixed scribble and dot hints from the regions of an illustration;
-<strong>Hint-AUC</strong>, one score over the whole range of hint ratios, from no hints to fully hinted; and <strong>DetFill</strong>, a
-pixel-space diffusion colorization model trained with these hints. The paper's checkpoints, evaluation inputs,
-per-ratio metric files and experiment scripts are released; the
-<a href="reproducing.html#coverage-what-each-paper-item-needs">coverage table</a> says what is rebuilt exactly, what is re-run
-and what is not provided. The stored hint maps are the reference for every printed number: regeneration with the
-paper's FilFinder path can move a few pixels between runs, the <code>geodesic</code> path is bit-reproducible
+DHT derives the hints from the regions of the illustration (one scribble and one dot per region, largest regions
+first as the hint ratio grows); Hint-AUC integrates a metric over hint ratios from no hints to fully hinted; DetFill is
+a pixel-space diffusion model conditioned on line art and these hints. The
+<a href="reproducing.html#coverage-what-each-paper-item-needs">coverage table</a> says which paper items are rebuilt
+exactly from the released per-ratio metrics, which are re-run from the checkpoints, and which are not provided. The
+stored hint maps are the reference for every printed number: regeneration with the paper's FilFinder path can move a
+few pixels between runs, the <code>geodesic</code> path is bit-reproducible
 (<a href="detail-explanation.html#what-is-exact-and-what-is-not">details</a>).</p>
+</details>
 <h2 id="getting-started">Getting started</h2>
 <ul>
 <li><strong>Demo, no data</strong> — <code>pip install hintauc &amp;&amp; hintauc demo</code> (about 10 s; the numbers are checked in CI).</li>

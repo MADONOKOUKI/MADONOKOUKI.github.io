@@ -76,6 +76,8 @@ HEAD = """<!doctype html>
     .doc-body pre code {{ background: none; padding: 0; font-size: inherit; }}
     .doc-body img {{ max-width: 100%; height: auto; border-radius: 8px; border: 1px solid #dde6ee; }}
     .doc-body blockquote {{ margin: .8rem 0; padding: .4rem .9rem; border-left: 4px solid #9fb6c9; color: #4a5b6a; }}
+    .doc-body details {{ margin: .6rem 0 1rem; }}
+    .doc-body details summary {{ cursor: pointer; color: #1f5f8b; }}
     .doc-banner {{ background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .55rem .9rem; border-radius: 6px; font-size: .86rem; margin: 0 0 1.2rem; }}
     @media (max-width: 800px) {{ .docs {{ grid-template-columns: 1fr; }} .docs nav.toc {{ position: static; }} }}
   </style>
@@ -170,7 +172,7 @@ def build(repo: Path) -> None:
             print("missing:", src_rel)
             continue
         text = rewrite_links(src.read_text(encoding="utf-8"), src_rel, page_by_path, repo)
-        body = markdown.markdown(text, extensions=["tables", "fenced_code", "toc", "sane_lists"],
+        body = markdown.markdown(text, extensions=["tables", "fenced_code", "toc", "sane_lists", "md_in_html"],
                                  extension_configs={"toc": {"toc_depth": "2-4"}})
         navlist = "\n".join(
             f'          <li><a href="{n}.html"{" aria-current=\"page\"" if n == name else ""}>{html.escape(t)}</a></li>'
