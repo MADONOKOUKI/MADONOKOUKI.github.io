@@ -87,6 +87,7 @@
 for DetFill; the <code>hintauc</code> library and all evaluation code also run on CPU.</p>
 <h2 id="1-the-hintauc-library-deterministic-hints-metrics-hint-auc">1. The <code>hintauc</code> library (deterministic hints, metrics, Hint-AUC)</h2>
 <pre><code class="language-bash">pip install hintauc                 # hint generation, the pixel metrics, Hint-AUC      (PyPI: https://pypi.org/project/hintauc/)
+pip install &quot;hintauc[paper]&quot;        # + torchvision and torchmetrics 1.4.0: the exact metric backend of the paper's numbers
 pip install &quot;hintauc[perceptual]&quot;   # + the perceptual metrics (LPIPS / OpenCLIP / DINOv2 / DreamSim)
 </code></pre>
 <ul>
@@ -96,7 +97,11 @@ pip install &quot;hintauc[perceptual]&quot;   # + the perceptual metrics (LPIPS 
 <li>The perceptual metrics download their weights on first use (DreamSim into <code>~/.cache/hintauc</code>, override with
   <code>HINTAUC_CACHE_DIR</code>; OpenCLIP and DINOv2 into their own Hugging Face caches; LPIPS ships with its package).</li>
 <li>On a minimal Ubuntu server image OpenCV needs two system libraries: <code>sudo apt-get install -y libgl1 libglib2.0-0</code>.</li>
-<li>Check the install: <code>python -c "import hintauc; print(hintauc.__version__)"</code> and <code>hintauc --help</code>.</li>
+<li>Check the install: <code>hintauc demo</code> prints a metric table whose values are recorded in <code>examples/expected_numbers.json</code>
+  (identical with and without PyTorch up to the SSIM fallback, see <a href="evaluate-your-model.html#which-numbers-to-expect">Evaluate your own model</a>).</li>
+<li>Without PyTorch the evaluator resizes with Pillow's antialiased bilinear filter on float32 channels, which agrees with
+  the paper's torchvision resize to about 1e-6 per pixel, and computes SSIM with scikit-image (a few 1e-4 from
+  torchmetrics 1.4.0). <code>result["protocol"]["backend"]</code> records which backend produced a number.</li>
 </ul>
 <h2 id="2-detfill-and-the-reproduction-scripts-conda-environment">2. DetFill and the reproduction scripts (conda environment)</h2>
 <pre><code class="language-bash">conda env create -f replicability/environment.yml   # Python 3.9, PyTorch 2.5.1, CUDA 12.4 (runs on CPU too)
@@ -112,7 +117,7 @@ pip install -e .                                     # the library from this che
 </ul>
 <h2 id="3-checkpoints-and-data">3. Checkpoints and data</h2>
 <ul>
-<li>All checkpoints and data files are attached to the GitHub releases; the <a href="model-zoo.html">Model zoo</a> lists
+<li>The released checkpoints and data files are attached to the GitHub releases; the <a href="model-zoo.html">Model zoo</a> lists
   every file with its size, SHA-256 and the paper item it belongs to.</li>
 <li><code>replicability/fetch_checkpoints.sh</code> downloads the two paper models and verifies their hashes;
   <code>reproduce/examples/run_examples.sh</code> downloads what each experiment needs.</li>

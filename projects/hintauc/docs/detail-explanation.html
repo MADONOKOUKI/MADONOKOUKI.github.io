@@ -89,8 +89,11 @@
 <h2 id="pipeline">Pipeline</h2>
 <p>Deterministic hint generation (DHT) turns one illustration into a fixed set of colour hints:</p>
 <ol>
-<li><strong>Region segmentation</strong> — Felzenszwalb (scale 100, σ 0.5, min size 100) on the 512×512 illustration; region maps are
-   stored at 64×64 (nearest-neighbour downsampling), which is the paper's hint resolution.</li>
+<li><strong>Region segmentation</strong> — Felzenszwalb (scale 100, σ 0.5, min size 100) on the illustration at its original
+   resolution (the Danbooru2021 file; the 512×512 copies of the dataset are the ground truth for training and metrics,
+   not the segmentation input); region maps are stored at 64×64 (nearest-neighbour downsampling), which is the paper's
+   hint resolution. The number of regions depends on the input resolution, so hints regenerated from a 512×512 copy
+   differ from the stored maps by construction (see E9 in <code>reproduce/examples/</code>).</li>
 <li><strong>Skeleton</strong> — Zhang–Suen thinning of each region, then a 3×3 dilation.</li>
 <li><strong>Longest path</strong> — the longest path of the skeleton of each region (FilFinder2D 1.7.2 in the paper, branch and
    skeleton thresholds 3 px); the path is intersected with its region.</li>
@@ -156,8 +159,10 @@
   lists the per-image metrics, <code>hintauc.SET_METRICS</code> the set-level ones; <code>LOWER_IS_BETTER</code> gives each metric's direction.</li>
 <li><code>hintauc.hint_auc</code>, <code>hintauc.evaluate_hint_curve</code> — trapezoidal integration over α ∈ [0, 1];
   <code>hintauc.DEFAULT_ALPHAS</code> is the paper grid {0, 0.01, 0.03, 0.05, 0.10, 0.25, 0.50, 1.00}.</li>
+<li><code>hintauc.evaluate_colorizer(fn, samples)</code> and <code>hintauc curve pred_root gt_dir</code> evaluate a model of your own
+  (<a href="evaluate-your-model.html">Evaluate your own model</a>); <code>hintauc demo</code> runs the whole chain on a synthetic image.</li>
 <li>Command line: <code>hintauc generate image.png --ratio 0.1 [--path_method geodesic] [--dot_method mean]</code>,
-  <code>hintauc eval pred_dir gt_dir --metrics mse psnr ssim</code>.</li>
+  <code>hintauc eval pred_dir gt_dir --metrics mse psnr ssim</code>, <code>hintauc curve pred_root gt_dir</code>, <code>hintauc demo</code>.</li>
 </ul>
 <p>Two longest-path implementations:</p>
 <table>
@@ -174,11 +179,11 @@
 <td><code>filfinder</code> (paper)</td>
 <td>3×3 dilation, then FilFinder2D medial axis, pruning by length, longest path</td>
 <td><code>fil_finder</code>, <code>astropy</code></td>
-<td>up to FilFinder's unseeded medial-axis tie-breaking (a few pixels may move between environments)</td>
+<td>no: FilFinder breaks medial-axis ties with an unseeded generator, so a few pixels move from run to run even in one environment (six runs on one 938-region image gave six different scribble masks, 1,960–1,963 pixels; the region count and the number of dots never change)</td>
 </tr>
 <tr>
 <td><code>geodesic</code></td>
-<td>longest shortest path (geodesic diameter) of the 8-connected skeleton, no corner cutting, raster-order ties</td>
+<td>longest shortest path (geodesic diameter) of the 8-connected skeleton, no corner cutting, raster-order ties; exact for trees and for components with cycles</td>
 <td>NumPy only</td>
 <td>yes, bit-exact</td>
 </tr>
@@ -267,14 +272,19 @@ sources (XDoG, sketch simplification, SketchKeras), never over random seeds — 
 <h2 id="what-is-exact-and-what-is-not">What is exact and what is not</h2>
 <ul>
 <li><strong>Exact:</strong> the table recomputation (A), the user-study numbers, the metric evaluator (to ~1e-6 with the pinned
-  packages; SSIM to 5e-5), the region selection at every ratio (given the stored maps and the pinned NumPy).</li>
+  packages; SSIM to 5e-5), the region selection at every ratio (given the stored maps and the pinned NumPy). Without
+  PyTorch the evaluator's Pillow backend reproduces the torchvision resize to about 1e-6 per pixel; only the SSIM
+  fallback (scikit-image) differs, by a few 1e-4. <code>result["protocol"]["backend"]</code> names the backend of every number.</li>
 <li><strong>Deterministic per machine, not bit-exact across machines:</strong> DetFill inference is seeded, but CUDA kernels differ
   between GPU generations and CPU, so re-generated outputs of the same image agree with the paper's archived outputs
   only approximately (about 25–30 dB PSNR between the two images in our checks). Per-image metrics therefore move a
   little; we have not re-run a complete table row on different hardware, so expect small differences in the last printed
   digit of a re-run table.</li>
-<li><strong>Deterministic per environment:</strong> FilFinder longest paths (medial-axis tie-breaking is unseeded); use the stored
-  maps to compare with printed numbers. The <code>geodesic</code> method is bit-exact everywhere.</li>
+<li><strong>Not bit-reproducible, even in one environment:</strong> FilFinder longest paths (the medial-axis tie-breaking is
+  unseeded; a few pixels per image differ between runs, region and dot counts do not). The stored maps are the reference
+  for every printed number; the <code>geodesic</code> method is bit-exact everywhere. "Deterministic" in the paper's sense means
+  that the hints are a fixed function of the region map rather than random samples, and that the stored maps make
+  every evaluation repeatable.</li>
 <li><strong>Not covered by released per-ratio data:</strong> baseline rows (PaintsTorch, Diffusart, ColorizeDiffusion), the DetFill
   dot rows of Tables II/III, the ImageNet tables and the earlier per-source tables; they can be regenerated with layer D
   and the respective code, except the ColorizeDiffusion fine-tuned weights, which were not preserved.</li>
@@ -331,7 +341,9 @@ full-scale estimates: measured on B; an A6000-class GPU is roughly twice as fast
 <li><code>hintauc</code> library + CLI; <code>path_method="geodesic"</code>; <code>dot_method</code> and <code>tie_break</code> options; <code>hint_order</code> protocol switch;
   <code>include_full_hint</code> training option; CPU inference; flat user-configurable data layout; deterministic region-id colours;
   segmenter options in the generator; metrics beyond the paper's seven (MAE, MS-SSIM, CIEDE2000, LPIPS-VGG, DISTS,
-  set-level FID / KID); the replicability script; the reproduction package; releases v1.1–v1.4.</li>
+  set-level FID / KID); <code>evaluate_colorizer</code> / <code>hintauc curve</code> / <code>hintauc demo</code> with input checks, protocol records and
+  one evaluation backend; the replicability script; the reproduction package; releases v1.1–v1.4
+  (<a href="added-features.html">added features</a>).</li>
 <li>A few minor issues of the original implementation were fixed along the way to make the library more usable; what is
   bit-exact with respect to the published numbers and what is not is listed in
   <a href="reproducing.html#known-deviations-and-gaps-honest-list">reproduce/README.md</a>.</li>

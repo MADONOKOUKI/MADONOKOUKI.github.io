@@ -106,7 +106,7 @@ training comparisons, the natural-image tables and the user study.</p>
 <td>GPU ≈ 3 min, CPU ≈ 30 min</td>
 </tr>
 <tr>
-<td><strong>Every table</strong> rebuilt from the released metric files</td>
+<td><strong>The Hint-AUC tables covered by released metric files</strong> rebuilt cell by cell (Table II/III DetFill scribble rows, the supplementary α-grid, segmentation-dependency, seed-sensitivity and Diffusart-retrain tables; Tables IV/V and the GLMM)</td>
 <td><code>python reproduce/scripts/A1_tables_from_released_metrics.py</code> (322/324 cells match)<br><code>python reproduce/scripts/A2_userstudy_glmm.py</code> (all values match)</td>
 <td>&lt; 2 min, CPU</td>
 </tr>
@@ -131,6 +131,121 @@ training comparisons, the natural-image tables and the user study.</p>
 and compare their results with the paper's numbers, the paper's archived images of the same examples and the authors'
 reference run; the full-scale and training scripts expect the data and checkpoints to be in place. Requirements and hardware:
 <a href="setup.html">docs/setup.md</a>. The Replicability-Stamp submission sheet is <code>replicability/GRSI_SUBMISSION.txt</code>.</p>
+<h2 id="coverage-what-each-paper-item-needs">Coverage: what each paper item needs</h2>
+<table>
+<thead>
+<tr>
+<th>Paper item</th>
+<th>Rebuilt from released metrics (bit-exact)</th>
+<th>Re-run from the released checkpoints</th>
+<th>External data needed for a full re-run</th>
+<th>Not provided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Table II, DetFill scribble row (7 metrics)</td>
+<td>yes (A1 part 1)</td>
+<td>E1 (12 example images); layer D for the 3,000 images</td>
+<td>Danbooru2021 test originals (D)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Table II, DetFill dot row</td>
+<td>no per-ratio record (original submission)</td>
+<td>E1; layer D (<code>HINT=dot</code>; 300-image check: PSNR Hint-AUC 17.46 vs 17.94 printed)</td>
+<td>Danbooru2021 test originals</td>
+<td>the archived per-ratio record</td>
+</tr>
+<tr>
+<td>Table II/III baseline rows (PaintsTorch, Diffusart, ColorizeDiffusion v1/v2)</td>
+<td>no</td>
+<td>with the respective official code (<code>paper_experiments/</code>); Diffusart-retrain: v1.2 checkpoints</td>
+<td>the baselines' code and weights</td>
+<td>ColorizeDiffusion fine-tuned weights (not preserved)</td>
+</tr>
+<tr>
+<td>Table III, DetFill scribble row</td>
+<td>yes (A1 part 4)</td>
+<td>E2; layer D (<code>HINT_ORDER=label</code>)</td>
+<td>Danbooru2021 test originals</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Tables IV and V, GLMM statistics (user study)</td>
+<td>yes (A2, all values)</td>
+<td>—</td>
+<td>—</td>
+<td>the raw per-participant files and the ColorizeDiffusion-v2 stimuli</td>
+</tr>
+<tr>
+<td>Fig. 9</td>
+<td>—</td>
+<td><code>replicability/run.sh</code> (same protocol; sampler not bit-exact across GPUs)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Supp. α-grid table and dense-curve figure</td>
+<td>yes (A1 part 2)</td>
+<td>E5 (2 images); layer D dense sweep</td>
+<td>Danbooru2021 test originals</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Supp. segmentation-dependency table and figures</td>
+<td>yes (A1 part 3)</td>
+<td>E3; layer D with the v1.1 checkpoints and the v1.3 maps</td>
+<td>Danbooru2021 test originals</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Supp. size-ordered vs. random selection (10 seeds)</td>
+<td>yes (A1 part 6)</td>
+<td>E4 (3 images, 3 seeds); layer D per seed</td>
+<td>Danbooru2021 test originals</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Supp. additional training comparisons (Diffusart-retrain)</td>
+<td>PSNR / LPIPS yes, SSIM see deviations (A1 part 5)</td>
+<td><code>paper_experiments/diffusart_retrain/code/</code> with the v1.2 checkpoints</td>
+<td>Danbooru2021 test originals</td>
+<td>the seven-metric record of that run</td>
+</tr>
+<tr>
+<td>Supp. channel ablation figure</td>
+<td>—</td>
+<td>E8 (v1.4 32/64-channel models)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Supp. natural-image (ImageNet) tables</td>
+<td>no per-image record</td>
+<td><code>run_hauc_pipeline.sh</code> with <code>DOMAIN=real</code> and the v1.4 checkpoints (24-image check within 0.7 dB)</td>
+<td>the ImageNet subset (<code>detfill/configs/real/*.txt</code>)</td>
+<td>the archived per-image record</td>
+</tr>
+<tr>
+<td>Supp. earlier per-source tables (earlier checkpoints)</td>
+<td>no</td>
+<td>E11 (v1.4 earlier scribble model)</td>
+<td>Danbooru2021 test originals</td>
+<td>the archived per-image records</td>
+</tr>
+<tr>
+<td>Sec. IV / supp. Sec. I hint generation</td>
+<td>—</td>
+<td>E9 (regeneration vs. the stored maps; like-for-like only from the original-resolution files)</td>
+<td>the original-resolution Danbooru2021 files of the example ids</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>"Bit-exact" means the printed cell is recomputed from the released per-ratio metric files; "re-run" means the same
+protocol is executed again (the diffusion sampler is seeded but not bit-exact across GPU generations, so re-run
+metrics move in the last printed digit). A1 covers 324 printed cells, 322 exactly (see "Known deviations").</p>
 <h2 id="the-four-layers">The four layers</h2>
 <p>It has four layers, from cheapest to most expensive. Everything runs from this repository plus the files attached to
 its GitHub releases (see <code>checkpoints/README.md</code>); nothing else is needed except the Danbooru2021 originals for
@@ -325,7 +440,9 @@ runnable equivalents are the scripts in <code>scripts/</code> and <code>examples
 <li><strong>Test images.</strong> The test split is the 3,000 Danbooru2021 images listed in <code>data/splits/test.txt</code> (ids ending in
    <code>016</code>). Obtain them from the Danbooru2021 distribution (https://gwern.net/danbooru2021 — the page documents the rsync
    mirror; we do not redistribute the images) and store them as
-   <code>&lt;DATA_ROOT&gt;/segmentations/originals/&lt;id&gt;.image.png</code> (512 × 512; the preprocessing of <code>hint_generation/canonical/all_segmentations.py</code>).</li>
+   <code>&lt;DATA_ROOT&gt;/segmentations/originals/&lt;id&gt;.image.png</code> (512 × 512 copies: the ground truth of training and metrics).
+   The stored hint maps (step 3) were computed from the files at their original resolution, so they must be used as
+   shipped, not regenerated from the 512 × 512 copies.</li>
 <li><strong>Line art.</strong> Release v1.3 ships the exact line-art files used for every reported number
    (<code>test_split_sketch_{sketchkeras,pysimp,XDoG}.tar.gz</code> → <code>&lt;DATA_ROOT&gt;/sketch/&lt;extractor&gt;/&lt;id&gt;.png</code>). The wrappers
    that generated them are in <code>scripts/sketch_tools/</code> (XDoG draws its σ/k jitter from an unseeded generator, so
@@ -342,6 +459,9 @@ DATA_ROOT=/data/danbooru_test GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
 DATA_ROOT=/data/danbooru_test HINT=dot GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
 # Table III (fixed random region order = ascending label order of the stored region map)
 DATA_ROOT=/data/danbooru_test HINT_ORDER=label GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
+# natural-image (ImageNet) rows: the *_real.yaml configs (64 channels, release v1.4 checkpoints), split data layout;
+# the metrics use the sampler's ground_truth/ copies unless GT_DIR is given
+DATA_ROOT=/data/imagenet_subset DOMAIN=real CKPT=checkpoints/detfill_scribble_imagenet_64ch_200ep.pth GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
 # supplementary α-grid study: dense sweep, then integrate on the alternative grids
 DATA_ROOT=/data/danbooru_test RATIOS=&quot;$(seq -f %.2f 0 0.02 1 | tr '\n' ' ') 0.01 0.03 0.05 0.075 0.15 0.25&quot; TAG=dense \
     bash reproduce/scripts/run_hauc_pipeline.sh
@@ -389,6 +509,10 @@ not re-run a complete table row on different hardware; expect small differences 
 </ul>
 <h2 id="known-deviations-and-gaps-honest-list">Known deviations and gaps (honest list)</h2>
 <ul>
+<li><strong>Hint regeneration is not bit-exact.</strong> The stored maps were generated from the original-resolution Danbooru2021
+  files, and FilFinder breaks medial-axis ties with an unseeded generator: regenerating the maps reproduces the region
+  and dot counts but moves a few scribble pixels per image from run to run (E9 quantifies it). All reported numbers
+  use the stored maps.</li>
 <li><strong>Dot placement rule.</strong> Sec. IV-A describes the dot as the truncated mean of the longest-path pixels; the stored
   hint maps (training data and the released test maps) were produced with the medoid rule (<code>dot_method="medoid"</code>,
   the library default; verified on the released maps). All reported numbers use the stored maps, so results are

@@ -161,8 +161,8 @@ EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments,
 <td><strong>E9</strong> Hint regeneration</td>
 <td>Sec. IV, supp. Sec. I</td>
 <td>12 images</td>
-<td><code>hintauc.generate_hints</code> re-run on the illustrations vs. the stored maps</td>
-<td>the regenerated maps agree with the stored ones up to FilFinder's environment-dependent tie-breaking (the JSON gives the mask IoU and pixel counts)</td>
+<td><code>hintauc.generate_hints</code> re-run on the illustrations vs. the stored maps. The stored maps were generated from the Danbooru2021 files at their original resolution; E9 uses those files when they are available (<code>&lt;data&gt;/originals_fullres/&lt;id&gt;.{png,jpg}</code> or <code>--fullres_dir</code>; the repository ships two of them in <code>replicability/data</code>) and otherwise the 512 × 512 copies of the bundle, and records which (<code>input_source</code>, <code>input_size</code>)</td>
+<td>on the original-resolution inputs the region and dot counts are identical to the stored maps and the scribble masks agree up to FilFinder's unseeded tie-breaking (authors' run: mean scribble-mask IoU 0.991, minimum 0.986 over the 12 images, region counts identical in 12 of 12 images, dot counts in 10 of 12 with a difference of one, scribble pixel counts within ±6); on the 512 px copies the region counts differ by construction (mean IoU 0.555, and no image keeps its region count), which is a resolution effect, not a regeneration error</td>
 </tr>
 <tr>
 <td><strong>E11</strong> Earlier checkpoint</td>
@@ -178,7 +178,8 @@ base and <code>diffusers</code>, see <code>reproduce/paper_experiments/diffusart
 models (v1.4, and the later 96-channel generation in v1.2; the ImageNet originals cannot be redistributed — point <code>run_hauc_pipeline.sh</code> at your own ImageNet copy).</p>
 <h2 id="authors-reference-run">Authors' reference run</h2>
 <p><code>expected/</code> holds the grids and metrics of the authors' <code>full</code> run (NVIDIA GeForce RTX 2080 Ti 11 GB, 2 × Intel Xeon Gold 6226R,
-environment of <code>replicability/environment.yml</code>) and the paper's archived outputs of the 12 example images for the
+environment of <code>replicability/environment.yml</code>; E9 was run on the CPU with the original-resolution Danbooru2021 files
+of the 12 ids in <code>originals_fullres/</code>) and the paper's archived outputs of the 12 example images for the
 Table II protocol. Because the diffusion sampler is seeded but not bit-exact across GPU generations, your outputs will
 differ from both at the pixel level; <code>compare_with_expected.py</code> flags metric differences beyond a generous tolerance
 (PSNR 0.6 dB, LPIPS 0.02, DreamSim 0.015). A few flagged cells on a different GPU generation or on CPU are expected
@@ -198,7 +199,7 @@ and do not indicate a problem as long as the trends described in the table above
 </tr>
 <tr>
 <td><code>make_examples.py</code></td>
-<td>the experiments (<code>--mode smoke|quick|full</code>, <code>--only E1 E9 …</code>, <code>--ids …</code>, <code>--gpu</code>)</td>
+<td>the experiments (<code>--mode smoke|quick|full</code>, <code>--only E1 E9 …</code>, <code>--ids …</code>, <code>--gpu</code>, <code>--fullres_dir</code> for E9)</td>
 </tr>
 <tr>
 <td><code>compare_with_expected.py</code></td>

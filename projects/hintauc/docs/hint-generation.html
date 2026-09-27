@@ -88,7 +88,7 @@ easiest entry point (<code>pip install hintauc</code>; <code>hintauc.generate_hi
 the scripts here are the batch tools with sharding and resume.</p>
 <h2 id="the-pipeline-one-colour-image-hint-maps">The pipeline (one colour image → hint maps)</h2>
 <ol>
-<li><strong>Region segmentation</strong> — Felzenszwalb (<code>scale=100, sigma=0.5, min_size=100</code>); SLIC and Quickshift variants
+<li><strong>Region segmentation</strong> — Felzenszwalb (<code>scale=100, sigma=0.5, min_size=100</code>) on the image at its original resolution (the paper's maps were computed from the Danbooru2021 files, not from the 512 × 512 ground-truth copies); SLIC and Quickshift variants
    (<code>generate_hints.py</code>) and DanbooRegion (<code>danbooregion_hints.py</code>) for the robustness study.</li>
 <li><strong>Region-id map</strong> — a unique colour per region; disconnected parts of one region are split and recoloured.</li>
 <li><strong>Scribble per region</strong> — Zhang–Suen skeleton → 3 × 3 dilation → longest path (FilFinder, branch/skeleton threshold
@@ -102,7 +102,9 @@ the scripts here are the batch tools with sharding and resume.</p>
 &lt;id&gt;.image_dot_mask64.png         dot mask               &lt;id&gt;.image_dot_col64.png        dot colours
 &lt;id&gt;.image_flatten_img64.png      region-mean colour image
 </code></pre>
-<p>At evaluation time the hints of the largest ⌊α·n⌋ regions are kept (<code>hintauc.HintResult.at_ratio</code>, the DetFill loader).</p>
+<p>At evaluation time the hints of the largest ⌊α·n⌋ regions are kept (<code>hintauc.HintResult.at_ratio</code>, the DetFill loader).
+FilFinder breaks medial-axis ties with an unseeded generator, so regenerated scribbles differ from the stored maps
+(and between two runs) in a few pixels; the stored maps are the reference for every reported number.</p>
 <h2 id="run">Run</h2>
 <pre><code class="language-bash">pip install -r requirements.txt
 python generate_hints.py --segmenter slic --split test \

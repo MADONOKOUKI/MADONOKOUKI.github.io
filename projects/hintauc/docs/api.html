@@ -84,16 +84,20 @@
         the <code>hintauc</code> library is already available from PyPI.</p>
 <h1 id="api-reference-the-hintauc-library">API reference: the <code>hintauc</code> library</h1>
 <p>Every public function and command, with its role, arguments, and an input/output example. All examples were run on
-the illustration shipped in <code>replicability/data/4731016.image.png</code> (800 × 1200 px, 1,701 regions) with <code>hintauc</code> 0.3.0,
-Python 3.9, NumPy 1.26, OpenCV 4.11, scikit-image 0.24, PyTorch 2.5.1, torchmetrics 1.4.0; the numbers are the actual
-outputs of that run.</p>
+the illustration shipped in <code>replicability/data/4731016.image.png</code> (800 × 1200 px, 1,701 regions) with <code>hintauc</code> 0.3.1,
+Python 3.9, NumPy 1.26, OpenCV 4.11, scikit-image 0.24, PyTorch 2.5.1, torchvision 0.20, torchmetrics 1.4.0; the
+numbers are the actual outputs of that run (FilFinder examples can differ by a few pixels between runs, see
+<code>generate_hints</code>).</p>
 <pre><code class="language-bash">pip install hintauc                 # hints, pixel metrics, Hint-AUC
+pip install &quot;hintauc[paper]&quot;        # + torchvision / torchmetrics 1.4.0: the paper's metric backend
 pip install &quot;hintauc[perceptual]&quot;   # + LPIPS / OpenCLIP / DINOv2 / DreamSim / DISTS / FID / KID
 </code></pre>
-<p><strong>Conventions.</strong> Images are <code>HxWx3 uint8</code>. Everything produced by the hint generator (<code>HintResult</code> arrays, the
-callback inputs of <code>evaluate_colorizer</code>) is <strong>BGR</strong> (OpenCV order, <code>cv2.imread</code>). <code>Evaluator</code> accepts file paths (decoded
-as RGB) or arrays that it takes as <strong>RGB</strong>, so pass <code>arr[:, :, ::-1]</code> when the array comes from OpenCV. Metrics are
-computed on images resized to 256 × 256 with values in [0, 1].</p>
+<p><strong>Conventions.</strong> Images are <code>HxWx3 uint8</code>; floating-point arrays are accepted only with values in [0, 1] (scaled by
+255 and rounded), anything else raises <code>ValueError</code> instead of being cast silently. Everything produced by the hint
+generator (<code>HintResult</code> arrays, the callback inputs of <code>evaluate_colorizer</code>) is <strong>BGR</strong> (OpenCV order, <code>cv2.imread</code>).
+<code>Evaluator</code> accepts file paths (decoded as RGB) or arrays that it takes as <strong>RGB</strong>, so pass <code>arr[:, :, ::-1]</code> when the
+array comes from OpenCV. Metrics are computed on images resized to 256 × 256 with values in [0, 1] (antialiased
+bilinear resize of float32 channels: torchvision when installed, otherwise Pillow; the two agree to about 1e-6).</p>
 <p>Contents: <a href="#constants">constants</a> · <a href="#hint-generation">hint generation</a> · <a href="#evaluation">evaluation</a> ·
 <a href="#hint-auc">Hint-AUC</a> · <a href="#evaluating-your-own-model">your own model</a> · <a href="#command-line">command line</a> ·
 <a href="#what-was-verified">what was verified</a></p>
@@ -152,6 +156,11 @@ computed on images resized to 256 × 256 with values in [0, 1].</p>
 <td><code>'hint-auc/v1'</code></td>
 <td>protocol tag written into every result</td>
 </tr>
+<tr>
+<td><code>evaluate.OBSERVED_KEYS</code>, <code>evaluate.ORACLE_KEYS</code></td>
+<td><code>('index', 'name', 'alpha', 'hint_type', 'line_art', 'hint_color', 'hint_mask')</code>, <code>('hints', 'ground_truth', 'n_regions')</code></td>
+<td>what a colorizer receives; the second set only with <code>oracle=True</code></td>
+</tr>
 </tbody>
 </table>
 <h2 id="hint-generation">Hint generation</h2>
@@ -168,7 +177,7 @@ the region skeleton) and one dot per region, coloured with the region mean, at <
 <tbody>
 <tr>
 <td><code>image</code></td>
-<td>path or <code>HxWx3 uint8</code> BGR array; segmentation runs at the input resolution</td>
+<td>path or <code>HxWx3 uint8</code> BGR array (float arrays in [0, 1] accepted); segmentation runs at the input resolution and the region map is downsampled to <code>size</code> — the paper's stored maps come from the original-resolution files, so feed those to compare</td>
 </tr>
 <tr>
 <td><code>size</code></td>
@@ -180,11 +189,11 @@ the region skeleton) and one dot per region, coloured with the region mean, at <
 </tr>
 <tr>
 <td><code>region_map</code></td>
-<td>a precomputed region-colour map (e.g. from DanbooRegion); then <code>segmenter</code> is ignored</td>
+<td>a precomputed region-colour map (e.g. from DanbooRegion), any colours; then <code>segmenter</code> is ignored. Colours that would collide under the loader's base-255 ids (a channel value of 255) are re-encoded first (<code>reencode_region_map</code>)</td>
 </tr>
 <tr>
 <td><code>path_method</code></td>
-<td><code>filfinder</code> (paper; FilFinder's medial axis breaks ties randomly, so regeneration is not bit-exact) or <code>geodesic</code> (dependency-free, fully deterministic; slightly different scribbles, never mix the two in one evaluation)</td>
+<td><code>filfinder</code> (paper; FilFinder's medial axis breaks ties with an unseeded generator, so two runs differ in a few pixels: six runs on <code>4942016</code> gave six scribble masks of 1,960–1,963 pixels, same 938 regions and dots) or <code>geodesic</code> (dependency-free, bit-reproducible; slightly different scribbles, never mix the two in one evaluation)</td>
 </tr>
 <tr>
 <td><code>dot_method</code></td>
@@ -223,11 +232,12 @@ color, mask = h.at_ratio(0.1, hint_type="dot", resize_to=256); color.shape, int(
 </blockquote>
 </li>
 <li><strong><code>n_regions() -&gt; int</code></strong> — <code>1701</code> here.</li>
-<li><strong><code>save(stem) -&gt; dict</code></strong> — writes the six canonical files read by the DetFill loader:
+<li><strong><code>save(stem) -&gt; dict</code></strong> — writes the six canonical files read by the DetFill loader; the parent directory is
+  created when missing and a file that cannot be written raises <code>OSError</code> (the returned paths always exist):
   ```python<blockquote>
 <blockquote>
 <blockquote>
-<p>h.save("out/4731016.image")
+<p>h.save("out/4731016.image")                       # "out/" did not exist
   {'region': 'out/4731016.image_region64.png', 'scribble_mask': 'out/4731016.image_scribble_mask64.png',
    'scribble_col': 'out/4731016.image_scribble_col64.png', 'flatten_img': 'out/4731016.image_flatten_img64.png',
    'dot_mask': 'out/4731016.image_dot_mask64.png', 'dot_col': 'out/4731016.image_dot_col64.png'}
@@ -236,6 +246,8 @@ color, mask = h.at_ratio(0.1, hint_type="dot", resize_to=256); color.shape, int(
 </blockquote>
 </blockquote>
 </li>
+<li><strong><code>write_image(path, array) -&gt; path</code></strong> — the <code>cv2.imwrite</code> used by <code>save</code> and by <code>evaluate_colorizer</code>: creates the
+  directory and raises <code>OSError</code> instead of returning <code>False</code>.</li>
 </ul>
 <h3 id="segment_regionsimage-segmenterfelzenszwalb-seg_kwargs-ndarray"><code>segment_regions(image, segmenter="felzenszwalb", **seg_kwargs) -&gt; ndarray</code></h3>
 <p>Segmentation only: an <code>HxWx3 uint8</code> region-colour map at the input resolution (every region a unique colour).</p>
@@ -246,23 +258,40 @@ color, mask = h.at_ratio(0.1, hint_type="dot", resize_to=256); color.shape, int(
 &gt;&gt;&gt; len(np.unique(hintauc.region_ids(hintauc.segment_regions(small, &quot;slic&quot;, n_segments=100))))
 58
 </code></pre>
-<h3 id="region_idsregion-ndarray"><code>region_ids(region) -&gt; ndarray</code></h3>
-<p>Decodes a region-colour map into an <code>int64</code> id map with the loader's base-255 rule.</p>
+<h3 id="region_idsregion-checktrue-ndarray"><code>region_ids(region, check=True) -&gt; ndarray</code></h3>
+<p>Decodes a region-colour map into an <code>int64</code> id map with the loader's base-255 rule (<code>c0·255² + c1·255 + c2</code>). The
+rule is only injective for channel values below 255 — the maps written by the library and the stored paper maps —
+so with <code>check=True</code> a map whose colours collide raises <code>ValueError</code>.</p>
 <pre><code class="language-python">&gt;&gt;&gt; ids = hintauc.region_ids(h.region); ids.shape, ids.dtype, len(np.unique(ids))
 ((64, 64), dtype('int64'), 1701)
+&gt;&gt;&gt; bad = np.zeros((8, 8, 3), np.uint8); bad[:, :4] = (0, 255, 0); bad[:, 4:] = (1, 0, 0)   # both decode to 65025
+&gt;&gt;&gt; hintauc.region_ids(bad)
+ValueError: region map: two different colours decode to the same region id under the base-255 encoding ...
 </code></pre>
-<h3 id="geodesic_longest_pathskeleton-pathresult"><code>geodesic_longest_path(skeleton) -&gt; PathResult</code></h3>
-<p>Longest geodesic path on a binary skeleton (the <code>geodesic</code> backend). <code>PathResult</code> has <code>mask</code> (bool array),
-<code>length</code> (1 per orthogonal step, √2 per diagonal), <code>start</code>, <code>end</code>. <code>hintauc.longest_path.longest_path_pixels(skeleton)</code>
-returns the mask as <code>{0, 1} uint8</code>.</p>
-<pre><code class="language-python">&gt;&gt;&gt; skel = np.zeros((9, 9), np.uint8); skel[4, 1:8] = 1; skel[1:8, 4] = 1     # a cross
+<h3 id="reencode_region_mapregion-ndarray"><code>reencode_region_map(region) -&gt; ndarray</code></h3>
+<p>Re-encodes an arbitrary region-colour map with the library's collision-free colours (one id per distinct colour,
+numbered in sorted colour order). <code>generate_hints(region_map=...)</code> applies it when needed.</p>
+<pre><code class="language-python">&gt;&gt;&gt; len(np.unique(hintauc.region_ids(hintauc.reencode_region_map(bad))))
+2
+
+### `geodesic_longest_path(skeleton) -&gt; PathResult`
+
+Longest geodesic path on a binary skeleton (the `geodesic` backend): the exact geodesic diameter of the 8-connected
+skeleton graph, for tree-shaped components (start points = endpoints) and for components with cycles (every pixel is
+a start point). `PathResult` has `mask` (bool array), `length` (1 per orthogonal step, √2 per diagonal), `start`,
+`end`. `hintauc.longest_path.longest_path_pixels(skeleton)` returns the mask as `{0, 1} uint8`.
+```python
+&gt;&gt;&gt; skel = np.zeros((9, 9), np.uint8); skel[4, 1:8] = 1; skel[1:8, 4] = 1     # a cross
 &gt;&gt;&gt; r = hintauc.geodesic_longest_path(skel); r.length, int(r.mask.sum()), r.start, r.end
 (6.0, 7, (1, 4), (4, 1))
 </code></pre>
 <h2 id="evaluation">Evaluation</h2>
 <h3 id="evaluatormetricsdefault_metrics-devicenone-resize256"><code>Evaluator(metrics=DEFAULT_METRICS, device=None, resize=256)</code></h3>
 <p>Loads the metric backbones once and scores prediction/ground-truth pairs: <code>ev(pred, gt) -&gt; {metric: float}</code>.
-<code>pred</code>/<code>gt</code> are paths or RGB arrays. <code>device</code> is <code>"cuda"</code>/<code>"cpu"</code> (default: CUDA when available).</p>
+<code>pred</code>/<code>gt</code> are paths or RGB arrays (uint8, or float in [0, 1]). <code>device</code> is <code>"cuda"</code>/<code>"cpu"</code> (default: CUDA when
+available). <code>ev.backend()</code> reports the implementation in use — <code>{'resize': 'torchvision' | 'pillow', 'ssim':
+'torchmetrics' | 'scikit-image', ...versions}</code> — and is written into every protocol record; <code>ev.resize_backend()</code> and
+<code>ev.ssim_backend()</code> return the two names.</p>
 <table>
 <thead>
 <tr>
@@ -275,12 +304,12 @@ returns the mask as <code>{0, 1} uint8</code>.</p>
 <tr>
 <td><code>mse</code>, <code>psnr</code>, <code>mae</code></td>
 <td>NumPy</td>
-<td>on [0, 1] images, 256 × 256</td>
+<td>on [0, 1] images, 256 × 256; the resize is torchvision's antialiased bilinear (paper) or Pillow's float32 bilinear (agree to ~1e-6)</td>
 </tr>
 <tr>
 <td><code>ssim</code>, <code>ms_ssim</code></td>
 <td>torchmetrics (1.4.0 for the published SSIM values)</td>
-<td>scikit-image fallback with the same Gaussian window, with a warning</td>
+<td>scikit-image fallback with the same Gaussian window (a few 1e-4 away), with a warning</td>
 </tr>
 <tr>
 <td><code>deltae</code></td>
@@ -321,6 +350,10 @@ returns the mask as <code>{0, 1} uint8</code>.</p>
 {'mse': 0.0547, 'psnr': 12.6217, 'ssim': 0.1856}
 &gt;&gt;&gt; ev(shifted_bgr[:, :, ::-1], gt_bgr[:, :, ::-1])        # arrays (RGB) give the same numbers as files
 {'mse': 0.0547, 'psnr': 12.6217, 'ssim': 0.1856}
+&gt;&gt;&gt; ev(np.full((16, 16, 3), 0.5, np.float32), np.zeros((16, 16, 3), np.uint8))[&quot;mse&quot;]   # float in [0, 1] = mid gray
+0.2520                                                     # (128/255)^2; before 0.3.1 the array was cast to 0
+&gt;&gt;&gt; ev(np.full((16, 16, 3), 128.0, np.float32), np.zeros((16, 16, 3), np.uint8))
+ValueError: image: floating-point images must be in [0, 1] (got min 128, max 128); pass uint8 (0..255) or scale ...
 &gt;&gt;&gt; hintauc.Evaluator(metrics=hintauc.ALL_METRICS, device=&quot;cpu&quot;)(&quot;4942016.image.png&quot;, gt)
 {'mse': 0.2023, 'psnr': 6.9396, 'ssim': 0.0784, 'mae': 0.3651, 'ms_ssim': 0.0, 'deltae': 33.2338,
  'lpips': 0.6179, 'lpips_vgg': 0.6712, 'dists': 0.325, 'openclip': ..., 'dino': ..., 'dreamsim': ...}
@@ -330,15 +363,21 @@ returns the mask as <code>{0, 1} uint8</code>.</p>
 <pre><code class="language-python">&gt;&gt;&gt; hintauc.evaluate_pair(&quot;4942016.image.png&quot;, gt, metrics=(&quot;mse&quot;, &quot;mae&quot;, &quot;deltae&quot;))
 {'mse': 0.2023, 'mae': 0.3651, 'deltae': 33.2338}
 </code></pre>
-<h3 id="evaluate_dirspred_dir-gt_dir-evaluatornone-metricsdefault_metrics-pairingsorted-limit0-dict"><code>evaluate_dirs(pred_dir, gt_dir, evaluator=None, metrics=DEFAULT_METRICS, pairing="sorted", limit=0) -&gt; dict</code></h3>
+<h3 id="evaluate_dirspred_dir-gt_dir-evaluatornone-metricsdefault_metrics-pairingsorted-limit0-allow_missingfalse-dict"><code>evaluate_dirs(pred_dir, gt_dir, evaluator=None, metrics=DEFAULT_METRICS, pairing="sorted", limit=0, allow_missing=False) -&gt; dict</code></h3>
 <p>Mean metrics over two directories. <code>pairing="sorted"</code> pairs files in sorted order and refuses different file counts;
-<code>pairing="name"</code> pairs files with identical names and warns about predictions without a partner. <code>limit=N</code> uses the
-first N pairs.</p>
+<code>pairing="name"</code> pairs files with identical names and refuses a ground truth without a prediction or a prediction
+without a ground truth (both would silently change the evaluated set). <code>allow_missing=True</code> evaluates the common
+files and warns about the rest. <code>limit=N</code> uses the first N pairs.</p>
 <pre><code class="language-python">&gt;&gt;&gt; hintauc.evaluate_dirs(&quot;pred/&quot;, &quot;gt/&quot;, metrics=(&quot;mse&quot;, &quot;psnr&quot;), pairing=&quot;name&quot;)
 {'mse': 0.0437, 'psnr': 13.7315}
 &gt;&gt;&gt; hintauc.evaluate_dirs(&quot;pred_2_files/&quot;, &quot;gt_3_files/&quot;, metrics=(&quot;mse&quot;,))
-ValueError: pred/gt counts differ (2 vs 3); use pairing='name' or align the directories
+ValueError: pred/gt counts differ (2 in pred_2_files/ vs 3 in gt_3_files/); use pairing='name' for files that share names, or align the directories
+&gt;&gt;&gt; hintauc.evaluate_dirs(&quot;pred_2_files/&quot;, &quot;gt_3_files/&quot;, metrics=(&quot;mse&quot;,), pairing=&quot;name&quot;)
+ValueError: pred_2_files/: 1 ground-truth image(s) have no prediction (2.png) and 0 prediction(s) have no ground truth (); pass allow_missing=True (CLI: --allow-missing) to evaluate the common files only
 </code></pre>
+<h3 id="list_pairspred_dir-gt_dir-pairingsorted-allow_missingfalse-limit0-pred-gt-name-evaluate_pairspairs-evaluator-dict"><code>list_pairs(pred_dir, gt_dir, pairing="sorted", allow_missing=False, limit=0) -&gt; [(pred, gt, name), ...]</code>, <code>evaluate_pairs(pairs, evaluator) -&gt; dict</code></h3>
+<p>The pairing step and the scoring step of <code>evaluate_dirs</code> as separate functions (<code>evaluate_hint_curve</code> uses them to
+check all ratio directories before scoring anything).</p>
 <h3 id="evaluate_setpred_dir-gt_dir-metricsset_metrics-devicenone-resize256-kid_subset_sizenone-dict"><code>evaluate_set(pred_dir, gt_dir, metrics=SET_METRICS, device=None, resize=256, kid_subset_size=None) -&gt; dict</code></h3>
 <p>FID / KID between two image sets (Inception-v3 features; needs <code>torchmetrics</code> and <code>torch-fidelity</code>). FID needs a few
 hundred images per side to be meaningful; KID is preferable for small sets.</p>
@@ -346,8 +385,19 @@ hundred images per side to be meaningful; KID is preferable for small sets.</p>
 {'fid': 21.223, 'kid': 0.018, 'kid_std': 0.007, 'n_pred': 4, 'n_gt': 4}
 </code></pre>
 <h2 id="hint-auc">Hint-AUC</h2>
+<h3 id="check_alphasalphas-full_rangetrue-list-alpha_dir_namealpha-str"><code>check_alphas(alphas, full_range=True) -&gt; list</code>, <code>alpha_dir_name(alpha) -&gt; str</code></h3>
+<p>Validation of a hint-ratio grid (at least two finite values in [0, 1], strictly increasing, no duplicates, and with
+<code>full_range</code> from 0 to 1) and the directory name of a ratio (shortest decimal exact to 1e-6, at least two decimals).</p>
+<pre><code class="language-python">&gt;&gt;&gt; hintauc.check_alphas((0, .5, 1)), hintauc.check_alphas((0.2, 0.7), full_range=False)
+([0.0, 0.5, 1.0], [0.2, 0.7])
+&gt;&gt;&gt; hintauc.check_alphas((0, .5, .5, 1))
+ValueError: alphas must be strictly increasing without duplicates, got [0.0, 0.5, 0.5, 1.0]
+&gt;&gt;&gt; [hintauc.alpha_dir_name(a) for a in (0, 0.01, 0.1, 0.001, 1)]
+['0.00', '0.01', '0.10', '0.001', '1.00']
+</code></pre>
 <h3 id="trapzxs-ys-float-hint_aucscores_by_alpha-float-hint_auc_tablemetrics_by_alpha-metricsnone-dict"><code>trapz(xs, ys) -&gt; float</code>, <code>hint_auc(scores_by_alpha) -&gt; float</code>, <code>hint_auc_table(metrics_by_alpha, metrics=None) -&gt; dict</code></h3>
-<p>The trapezoidal integral over the hint ratio; the paper reports it over <code>DEFAULT_ALPHAS</code>.</p>
+<p>The trapezoidal integral over the hint ratio; the paper reports it over <code>DEFAULT_ALPHAS</code>. <code>xs</code> must be strictly
+increasing (a repeated ratio would be integrated twice).</p>
 <pre><code class="language-python">&gt;&gt;&gt; hintauc.trapz([0, 0.5, 1], [0, 1, 2])
 1.0
 &gt;&gt;&gt; hintauc.hint_auc({0.0: 10.5, 0.01: 13.9, 0.03: 16.0, 0.05: 17.1, 0.10: 18.6, 0.25: 20.3, 0.50: 21.4, 1.00: 22.3})
@@ -355,14 +405,20 @@ hundred images per side to be meaningful; KID is preferable for small sets.</p>
 &gt;&gt;&gt; hintauc.hint_auc_table({0.0: {&quot;psnr&quot;: 10.0, &quot;lpips&quot;: 0.4}, 1.0: {&quot;psnr&quot;: 20.0, &quot;lpips&quot;: 0.2}})
 {'lpips': 0.3, 'psnr': 15.0}
 </code></pre>
-<h3 id="evaluate_hint_curvepreds_by_alpha-gt_dir-evaluatornone-metricsmse-psnr-ssim-pairingsorted-limit0-dict"><code>evaluate_hint_curve(preds_by_alpha, gt_dir, evaluator=None, metrics=("mse", "psnr", "ssim"), pairing="sorted", limit=0) -&gt; dict</code></h3>
-<p>Per-ratio means and Hint-AUC from one prediction directory per ratio.</p>
+<h3 id="evaluate_hint_curvepreds_by_alpha-gt_dir-evaluatornone-metricsmse-psnr-ssim-pairingsorted-limit0-allow_missingfalse-full_rangefalse-dict"><code>evaluate_hint_curve(preds_by_alpha, gt_dir, evaluator=None, metrics=("mse", "psnr", "ssim"), pairing="sorted", limit=0, allow_missing=False, full_range=False) -&gt; dict</code></h3>
+<p>Per-ratio means and Hint-AUC from one prediction directory per ratio. Before scoring, every ratio directory is
+paired with the ground truth and the ratios are compared with each other: with <code>pairing="name"</code> all ratios must hold
+the same image names, with <code>"sorted"</code> the same number of files; otherwise <code>ValueError</code> names the ratio and the files
+(<code>allow_missing=True</code>: the common subset, with a warning). <code>full_range=True</code> also requires a grid from 0 to 1.</p>
 <pre><code class="language-python">&gt;&gt;&gt; hintauc.evaluate_hint_curve({0.0: &quot;pred/0.00&quot;, 0.1: &quot;pred/0.10&quot;, 1.0: &quot;pred/1.00&quot;}, &quot;gt/&quot;, metrics=(&quot;mse&quot;, &quot;psnr&quot;), pairing=&quot;name&quot;)
-{'per_alpha': {0.0: {'mse': 0.2127, 'psnr': 6.7228}, 0.1: {'mse': 0.0890, 'psnr': 10.5069}, 1.0: {'mse': 0.0263, 'psnr': 15.7989}},
+{'alphas': [0.0, 0.1, 1.0], 'n_images': 1, 'names': ['4731016.image.png'],
+ 'per_alpha': {0.0: {'mse': 0.2127, 'psnr': 6.7228}, 0.1: {'mse': 0.0890, 'psnr': 10.5069}, 1.0: {'mse': 0.0263, 'psnr': 15.7989}},
  'hint_auc': {'mse': 0.0670, 'psnr': 12.6991}}
+&gt;&gt;&gt; hintauc.evaluate_hint_curve({0.0: &quot;p/0.00&quot;, 0.5: &quot;p/0.50&quot;, 1.0: &quot;p/1.00&quot;}, &quot;gt2/&quot;, metrics=(&quot;mse&quot;,), pairing=&quot;name&quot;)  # b.png missing at 0.50
+ValueError: p/0.50: 1 ground-truth image(s) have no prediction (b.png) and 0 prediction(s) have no ground truth (); pass allow_missing=True (CLI: --allow-missing) to evaluate the common files only
 </code></pre>
 <h2 id="evaluating-your-own-model">Evaluating your own model</h2>
-<h3 id="evaluate_colorizercolorize-samples-alphasdefault_alphas-hint_typescribble-metricsdefault_metrics-evaluatornone-size64-path_methodfilfinder-dot_methodmedoid-save_dirnone-verbosefalse-dict"><code>evaluate_colorizer(colorize, samples, alphas=DEFAULT_ALPHAS, hint_type="scribble", metrics=DEFAULT_METRICS, evaluator=None, size=64, path_method="filfinder", dot_method="medoid", save_dir=None, verbose=False) -&gt; dict</code></h3>
+<h3 id="evaluate_colorizercolorize-samples-alphasdefault_alphas-hint_typescribble-metricsdefault_metrics-evaluatornone-size64-path_methodfilfinder-dot_methodmedoid-save_dirnone-oraclefalse-verbosefalse-dict"><code>evaluate_colorizer(colorize, samples, alphas=DEFAULT_ALPHAS, hint_type="scribble", metrics=DEFAULT_METRICS, evaluator=None, size=64, path_method="filfinder", dot_method="medoid", save_dir=None, oracle=False, verbose=False) -&gt; dict</code></h3>
 <p>Runs a Python callable at every hint ratio and integrates the Hint-AUC. <code>samples</code> yields <code>(line_art, ground_truth)</code>
 paths or arrays. For each ratio the callable receives one dict and returns <code>HxWx3 uint8</code> BGR of the ground-truth size:</p>
 <table>
@@ -382,30 +438,40 @@ paths or arrays. For each ratio the callable receives one dict and returns <code
 <td><code>HxWx3 uint8</code> BGR and <code>HxW {0, 255}</code>, upsampled to the image size</td>
 </tr>
 <tr>
-<td><code>alpha</code>, <code>hint_type</code>, <code>index</code></td>
-<td>the ratio, <code>"scribble"</code> / <code>"dot"</code>, sample index</td>
+<td><code>alpha</code>, <code>hint_type</code>, <code>index</code>, <code>name</code></td>
+<td>the ratio, <code>"scribble"</code> / <code>"dot"</code>, sample index, output file name</td>
 </tr>
 <tr>
-<td><code>hints</code>, <code>ground_truth</code></td>
-<td>the <code>HintResult</code>, the <code>HxWx3</code> BGR ground truth</td>
+<td><code>hints</code>, <code>ground_truth</code>, <code>n_regions</code></td>
+<td><strong>only with <code>oracle=True</code></strong>: the <code>HintResult</code>, the <code>HxWx3</code> BGR ground truth, the region count</td>
 </tr>
 </tbody>
 </table>
-<p><code>save_dir</code> writes the outputs as <code>save_dir/&lt;alpha:.2f&gt;/&lt;name&gt;.png</code> (the layout of <code>hintauc curve</code>). The result holds
-<code>alphas</code>, <code>n_images</code>, <code>per_alpha</code>, <code>hint_auc</code> and a <code>protocol</code> record.</p>
+<p>A model adapter therefore cannot read the ground truth by accident; <code>oracle=True</code> is for reference baselines such as
+<code>hint_fill_colorizer</code>. <code>alphas</code> goes through <code>check_alphas</code> (strictly increasing from 0 to 1). <code>save_dir</code> writes the
+outputs as <code>save_dir/&lt;alpha_dir_name(alpha)&gt;/&lt;name&gt;.png</code> (the layout of <code>hintauc curve</code>; <code>0.00 … 1.00</code> for the paper
+grid, <code>0.001</code> for finer ratios) plus <code>save_dir/manifest.json</code> (exact ratios, directory names, image names); a write
+that fails raises <code>OSError</code>, and two samples with the same file name raise <code>ValueError</code>. The result holds <code>alphas</code>,
+<code>n_images</code>, <code>names</code>, <code>per_alpha</code>, <code>hint_auc</code> and a <code>protocol</code> record.</p>
 <pre><code class="language-python">&gt;&gt;&gt; res = hintauc.evaluate_colorizer(hintauc.hint_fill_colorizer, [(&quot;sketch/4731016.png&quot;, &quot;4731016.image.png&quot;)],
-...                                  alphas=(0.0, 0.1, 1.0), metrics=(&quot;mse&quot;, &quot;psnr&quot;), save_dir=&quot;pred&quot;)
+...                                  alphas=(0.0, 0.1, 1.0), metrics=(&quot;mse&quot;, &quot;psnr&quot;), save_dir=&quot;pred&quot;, oracle=True)
 &gt;&gt;&gt; res[&quot;per_alpha&quot;], res[&quot;hint_auc&quot;]
 ({0.0: {'mse': 0.2127, 'psnr': 6.7228}, 0.1: {'mse': 0.0890, 'psnr': 10.5069}, 1.0: {'mse': 0.0263, 'psnr': 15.7989}},
  {'mse': 0.0670, 'psnr': 12.6991})
-&gt;&gt;&gt; res[&quot;protocol&quot;][&quot;versions&quot;]
-{'hintauc': '0.3.0', 'python': '3.9.16', 'numpy': '1.26.4', 'opencv': '4.11.0', 'scikit-image': '0.24.0', 'torch': '2.5.1+cu124', 'torchmetrics': '1.4.0.post0'}
+&gt;&gt;&gt; res[&quot;names&quot;], sorted(os.listdir(&quot;pred&quot;))
+(['4731016.image.png'], ['0.00', '0.10', '1.00', 'manifest.json'])
+&gt;&gt;&gt; res[&quot;protocol&quot;][&quot;backend&quot;]
+{'resize': 'torchvision', 'resize_filter': 'bilinear, antialiased, float32 in [0, 1]', 'ssim': 'torchmetrics',
+ 'pillow': '10.4.0', 'torchvision': '0.20.1+cu124', 'torchmetrics': '1.4.0.post0', 'scikit-image': '0.24.0'}
+&gt;&gt;&gt; hintauc.evaluate_colorizer(model, samples, alphas=(0, .5, .5, 1))
+ValueError: alphas must be strictly increasing without duplicates, got [0.0, 0.5, 0.5, 1.0]
 </code></pre>
-<p>A callable that returns the wrong shape or dtype raises <code>ValueError</code>; <code>alphas</code> must start at 0 and end at 1.</p>
+<p>A callable that returns the wrong shape or dtype raises <code>ValueError</code>.</p>
 <h3 id="hint_fill_colorizersample-ndarray"><code>hint_fill_colorizer(sample) -&gt; ndarray</code></h3>
-<p>Reference baseline used by the quick start and the tests: hinted regions are filled with their hint colour, other
+<p>Oracle reference baseline used by the demo, the quick start and the tests: hinted <em>regions</em> are filled with their
+hint colour (it reads the ground-truth region map, hence <code>oracle=True</code>; without it a <code>KeyError</code> explains why), other
 regions stay light gray, the line art is multiplied on top. Its PSNR rises from 6.7 dB (no hints) to 15.8 dB (all
-hints) on the example above.</p>
+hints) on the example above. Its scores are not comparable with a real model's.</p>
 <h3 id="hint_inputshints-alpha-hint_type-height-width-color-mask"><code>hint_inputs(hints, alpha, hint_type, height, width) -&gt; (color, mask)</code></h3>
 <p>The hint colour and mask at <code>alpha</code>, upsampled with nearest neighbour to an arbitrary <code>height × width</code>.</p>
 <pre><code class="language-python">&gt;&gt;&gt; c, m = hintauc.hint_inputs(h, 0.1, &quot;scribble&quot;, 512, 512); c.shape, int((m &gt; 0).sum())
@@ -413,17 +479,25 @@ hints) on the example above.</p>
 </code></pre>
 <h3 id="protocol_recordevaluatornone-alphasdefault_alphas-hint_typenone-hint_sizenone-path_methodnone-dot_methodnone-extra-dict"><code>protocol_record(evaluator=None, alphas=DEFAULT_ALPHAS, hint_type=None, hint_size=None, path_method=None, dot_method=None, **extra) -&gt; dict</code></h3>
 <p>The settings and library versions that make a score interpretable: <code>protocol</code>, <code>paper_grid</code> (True when <code>alphas</code> is the
-paper grid), <code>alphas</code>, <code>hint_selection</code>, <code>aggregation</code>, <code>metric_resize</code>, <code>metric_input</code>, <code>metrics</code>, <code>hint_type</code>,
-<code>hint_map_size</code>, <code>path_method</code>, <code>dot_method</code>, <code>versions</code>, plus any <code>extra</code> keys. Written by <code>evaluate_colorizer</code>,
-<code>hintauc curve</code> and <code>reproduce/scripts/eval_per_ratio.py</code>.</p>
+paper grid), <code>alphas</code>, <code>hint_selection</code>, <code>aggregation</code>, <code>metric_resize</code>, <code>metric_input</code>, <code>metrics</code>, <code>backend</code> (the
+resize and SSIM implementation in use, with versions), <code>hint_type</code>, <code>hint_map_size</code>, <code>path_method</code>, <code>dot_method</code>,
+<code>versions</code>, plus any <code>extra</code> keys. Written by <code>evaluate_colorizer</code>, <code>hintauc curve</code> and
+<code>reproduce/scripts/eval_per_ratio.py</code>.</p>
+<h3 id="run_demooutnone-path_methodgeodesic-metricsmse-psnr-ssim-dict-synthetic_illustrationseed0-size128-ndarray"><code>run_demo(out=None, path_method="geodesic", metrics=("mse", "psnr", "ssim"), ...) -&gt; dict</code>, <code>synthetic_illustration(seed=0, size=128) -&gt; ndarray</code></h3>
+<p>The self-contained example behind <code>hintauc demo</code> (<code>hintauc/demo.py</code>): a synthetic illustration (three flat colour
+rectangles), its Canny line art, deterministic hints, the oracle reference colorizer at every ratio of the paper grid,
+Hint-AUC. With <code>out</code> it writes the images, <code>pred/&lt;ratio&gt;/</code>, <code>result.json</code> and <code>curve.png</code>. Its numbers are recorded
+in <code>examples/expected_numbers.json</code> (<a href="evaluate-your-model.html#which-numbers-to-expect">Evaluate your own model</a>).</p>
 <h3 id="plot_curvesper_alpha-path-titlenone-metricsnone-bool"><code>plot_curves(per_alpha, path, title=None, metrics=None) -&gt; bool</code></h3>
 <p>Metric-versus-ratio curves as a PNG (one panel per metric). Returns <code>False</code> when matplotlib is not installed.</p>
 <h3 id="file_sha256path-str"><code>file_sha256(path) -&gt; str</code></h3>
 <p>SHA-256 of a file, for recording which checkpoint produced a result (<code>eval_per_ratio.py --ckpt</code>).</p>
 <h2 id="command-line">Command line</h2>
-<p><code>hintauc --help</code> lists three commands.</p>
+<p><code>hintauc --help</code> lists four commands. Every command exits with status 1 and a one-line <code>error: ...</code> message when an
+input check fails (missing files, mismatched directories, invalid grids, unwritable outputs).</p>
 <h3 id="hintauc-generate-image-o-stem-size-64-segmenter-ratio-a-hint_type-scribbledot-path_method-filfindergeodesic-tie_break-defaultstable-dot_method-medoidmeannearest_mean-v"><code>hintauc generate IMAGE [-o STEM] [--size 64] [--segmenter ...] [--ratio A] [--hint_type scribble|dot] [--path_method filfinder|geodesic] [--tie_break default|stable] [--dot_method medoid|mean|nearest_mean] [-v]</code></h3>
-<p>Writes the six canonical files next to <code>STEM</code>; with <code>--ratio</code> also the masked hints at that ratio (<code>*_r10.png</code> for 0.1).</p>
+<p>Writes the six canonical files next to <code>STEM</code> (missing directories are created; nothing is reported as written unless
+it is on disk); with <code>--ratio</code> also the masked hints at that ratio (<code>*_r10.png</code> for 0.1).</p>
 <pre><code>$ hintauc generate 4731016.image.png -o out/4731016.image --ratio 0.1
 {&quot;n_regions&quot;: 1701, &quot;failed_regions&quot;: 0, &quot;path_method&quot;: &quot;filfinder&quot;, &quot;dot_method&quot;: &quot;medoid&quot;,
  &quot;outputs&quot;: {&quot;region&quot;: &quot;out/4731016.image_region64.png&quot;, &quot;scribble_mask&quot;: &quot;...&quot;, ...}}
@@ -431,35 +505,54 @@ $ ls out/
 4731016.image_dot_col64.png  4731016.image_dot_mask64.png  4731016.image_flatten_img64.png  4731016.image_region64.png
 4731016.image_scribble_col64.png  4731016.image_scribble_col64_r10.png  4731016.image_scribble_mask64.png  4731016.image_scribble_mask64_r10.png
 </code></pre>
-<h3 id="hintauc-eval-pred-gt-metrics-set_metrics-fid-kid-pairing-sortedname-resize-256-device-dev-limit-n"><code>hintauc eval PRED GT [--metrics ...] [--set_metrics [fid kid]] [--pairing sorted|name] [--resize 256] [--device DEV] [--limit N]</code></h3>
-<p>Scores one image pair or two directories; prints JSON.</p>
+<h3 id="hintauc-eval-pred-gt-metrics-set_metrics-fid-kid-pairing-sortedname-allow-missing-resize-256-device-dev-limit-n"><code>hintauc eval PRED GT [--metrics ...] [--set_metrics [fid kid]] [--pairing sorted|name] [--allow-missing] [--resize 256] [--device DEV] [--limit N]</code></h3>
+<p>Scores one image pair or two directories (unmatched files are an error unless <code>--allow-missing</code>); prints JSON.</p>
 <pre><code>$ hintauc eval pred/ gt/ --metrics mse psnr --pairing name
 {
  &quot;mse&quot;: 0.04373995028436184,
  &quot;psnr&quot;: 13.731498107027996
 }
 </code></pre>
-<h3 id="hintauc-curve-pred_root-gt-metrics-pairing-namesorted-resize-256-device-dev-limit-n-json-file-plot-filepng"><code>hintauc curve PRED_ROOT GT [--metrics ...] [--pairing name|sorted] [--resize 256] [--device DEV] [--limit N] [--json FILE] [--plot FILE.png]</code></h3>
-<p>Hint-AUC from one sub-directory per ratio (<code>PRED_ROOT/0.00</code>, <code>PRED_ROOT/0.01</code>, …; <code>10</code> is read as 10 %). Files are
-paired by name by default; a sub-directory with a different number of images or no common names is an error.</p>
+<h3 id="hintauc-curve-pred_root-gt-metrics-pairing-namesorted-allow-missing-resize-256-device-dev-limit-n-json-file-plot-filepng"><code>hintauc curve PRED_ROOT GT [--metrics ...] [--pairing name|sorted] [--allow-missing] [--resize 256] [--device DEV] [--limit N] [--json FILE] [--plot FILE.png]</code></h3>
+<p>Hint-AUC from one sub-directory per ratio (<code>PRED_ROOT/0.00</code>, <code>PRED_ROOT/0.01</code>, …; <code>1%</code> … <code>100%</code> and bare percentages
+above 1 such as <code>10</code> are read as well; two directories denoting the same ratio are an error). Files are paired by
+name by default; every ratio directory must hold the same images as the ground truth and as the other ratios,
+otherwise the command stops and names the files (<code>--allow-missing</code> evaluates the common subset). The JSON on stdout
+carries the number of images; <code>--json</code> also writes their names.</p>
 <pre><code>$ hintauc curve pred/ gt/ --metrics mse psnr --json result.json --plot curve.png
 {
  &quot;alphas&quot;: [0.0, 0.1, 1.0],
+ &quot;n_images&quot;: 1,
  &quot;per_alpha&quot;: {&quot;0.0&quot;: {&quot;mse&quot;: 0.2127, &quot;psnr&quot;: 6.7228}, &quot;0.1&quot;: {&quot;mse&quot;: 0.0890, &quot;psnr&quot;: 10.5069}, &quot;1.0&quot;: {&quot;mse&quot;: 0.0263, &quot;psnr&quot;: 15.7989}},
  &quot;hint_auc&quot;: {&quot;mse&quot;: 0.0670, &quot;psnr&quot;: 12.6991},
- &quot;protocol&quot;: {&quot;protocol&quot;: &quot;hint-auc/v1&quot;, &quot;paper_grid&quot;: false, &quot;alphas&quot;: [0.0, 0.1, 1.0], ...}
+ &quot;protocol&quot;: {&quot;protocol&quot;: &quot;hint-auc/v1&quot;, &quot;paper_grid&quot;: false, &quot;alphas&quot;: [0.0, 0.1, 1.0], &quot;backend&quot;: {&quot;resize&quot;: &quot;torchvision&quot;, ...}, ...}
 }
+$ hintauc curve pred_missing_b_at_050/ gt/ --metrics mse
+error: pred_missing_b_at_050/0.50: 1 ground-truth image(s) have no prediction (b.png) and 0 prediction(s) have no ground truth (); pass allow_missing=True (CLI: --allow-missing) to evaluate the common files only
+</code></pre>
+<h3 id="hintauc-demo-out-dir-path_method-geodesicfilfinder-metrics-json"><code>hintauc demo [--out DIR] [--path_method geodesic|filfinder] [--metrics ...] [--json]</code></h3>
+<p>The self-contained example (no data): prints the per-ratio metric table, the Hint-AUC and the backend in use; <code>--out</code>
+writes the images, <code>result.json</code> and <code>curve.png</code>. About 10 s on a laptop CPU.</p>
+<pre><code>$ hintauc demo
+hint ratio       mse      psnr      ssim
+    0.00      0.1034    9.8537    0.7038
+    ...
+    1.00      0.0136   18.6650    0.8248
+Hint-AUC      0.0359   15.9028    0.7790
+backend: resize=torchvision, ssim=torchmetrics
 </code></pre>
 <h2 id="what-was-verified">What was verified</h2>
 <p>Every public symbol of <code>hintauc.__all__</code> was called once on the shipped illustration in the reference environment
 (CPU for the metric backbones): <code>generate_hints</code> with both path methods, all three dot rules, the three segmenters,
 a precomputed region map and array input; <code>HintResult.at_ratio</code> (both hint types, <code>resize_to</code>, <code>tie_break</code>), <code>save</code>,
-<code>n_regions</code>; <code>segment_regions</code>, <code>region_ids</code>, <code>geodesic_longest_path</code>, <code>longest_path_pixels</code>; <code>Evaluator</code> with all
-twelve metrics for file and array inputs (identical numbers), <code>evaluate_pair</code>, <code>evaluate_dirs</code> (both pairings, <code>limit</code>,
-the count-mismatch error), <code>evaluate_set</code> (FID / KID); <code>trapz</code>, <code>hint_auc</code>, <code>hint_auc_table</code>, <code>evaluate_hint_curve</code>;
-<code>evaluate_colorizer</code> with <code>hint_fill_colorizer</code>, <code>hint_inputs</code>, <code>plot_curves</code>, <code>protocol_record</code>, <code>file_sha256</code>; and the
-three commands. The continuous tests (<code>tests/</code>, 41 tests) cover the same surface on synthetic images without
-downloads.</p>
+<code>n_regions</code>; <code>segment_regions</code>, <code>region_ids</code>, <code>reencode_region_map</code>, <code>geodesic_longest_path</code>, <code>longest_path_pixels</code>;
+<code>Evaluator</code> with all twelve metrics for file and array inputs (identical numbers), <code>evaluate_pair</code>, <code>evaluate_dirs</code>
+(both pairings, <code>limit</code>, the mismatch errors), <code>evaluate_set</code> (FID / KID); <code>trapz</code>, <code>hint_auc</code>, <code>hint_auc_table</code>,
+<code>check_alphas</code>, <code>alpha_dir_name</code>, <code>evaluate_hint_curve</code>; <code>evaluate_colorizer</code> with <code>hint_fill_colorizer</code>,
+<code>hint_inputs</code>, <code>plot_curves</code>, <code>protocol_record</code>, <code>file_sha256</code>, <code>run_demo</code>; and the four commands. The continuous
+tests (<code>tests/</code>, 55 tests) cover the same surface on synthetic images without downloads, including the input checks
+(missing predictions, duplicate ratios, percent directories, unwritable outputs, float inputs, region-id collisions,
+cyclic skeletons) and the agreement of the two resize backends.</p>
       </article>
     </div>
   </main>

@@ -112,8 +112,11 @@ is therefore not enough; you need one output per hint ratio. Two ways to get the
 </tbody>
 </table>
 <p><code>pip install "hintauc[perceptual]"</code> gives all seven metrics of the paper (MSE, PSNR, SSIM, LPIPS, OpenCLIP, DINO,
-DreamSim); the plain install has the pixel metrics. A worked example that runs on CPU in about a minute:
-<code>python examples/quickstart_cpu.py</code> (it does both A and B on the two illustrations shipped with the repository).</p>
+DreamSim); the plain install has the pixel metrics, <code>pip install "hintauc[paper]"</code> adds the exact metric backend of the
+paper (torchvision resize, torchmetrics 1.4.0 SSIM). Two worked examples: <code>hintauc demo</code> needs no data at all (a
+synthetic illustration; about 10 s) and <code>python examples/quickstart_cpu.py</code> runs both A and B on the two illustrations
+shipped with the repository (about a minute with <code>--fast</code>). Both print numbers that are recorded in
+<code>examples/expected_numbers.json</code> and checked in CI (<a href="#which-numbers-to-expect">which numbers to expect</a>).</p>
 <h2 id="what-the-protocol-fixes">What the protocol fixes</h2>
 <ul>
 <li><strong>Hints.</strong> <code>hintauc.generate_hints(ground_truth, size=64)</code> — Felzenszwalb regions, one scribble (longest skeleton
@@ -122,11 +125,16 @@ DreamSim); the plain install has the pixel metrics. A worked example that runs o
   interpolation (4 × 4 blocks at 256 px, as DetFill was trained).</li>
 <li><strong>Inputs to the model.</strong> The line art (the paper reports the mean over three extractors: sketch simplification,
   XDoG, SketchKeras), the hint colour image and the hint mask. Arrays from <code>hintauc</code> are BGR (OpenCV order).</li>
-<li><strong>Scoring.</strong> Prediction and ground truth are resized to 256 × 256, values in [0, 1]; SSIM with torchmetrics 1.4.0
-  (the environment pin), LPIPS-AlexNet, OpenCLIP ViT-B/32, DINOv2-base, DreamSim.</li>
+<li><strong>Scoring.</strong> Prediction and ground truth are read as uint8 images (float arrays only in [0, 1]; anything else is
+  rejected), converted to float in [0, 1] and resized to 256 × 256 with an antialiased bilinear filter; then MSE, PSNR,
+  SSIM (torchmetrics 1.4.0), LPIPS-AlexNet, OpenCLIP ViT-B/32, DINOv2-base, DreamSim. The resize is torchvision's
+  when torch and torchvision are installed (the paper's evaluator) and Pillow's float32 bilinear filter otherwise; the
+  two agree to about 1e-6 per pixel, so MSE and PSNR do not depend on which one is present. SSIM falls back to
+  scikit-image without torchmetrics (a few 1e-4 away from torchmetrics 1.4.0, with a warning).</li>
 <li><strong>Aggregation.</strong> Trapezoidal integral over α ∈ [0, 1] of the per-ratio means; the paper reports mean ± SD over the
-  three line-art sources. <code>result["protocol"]</code> records the grid, the resize, the metric list and the library versions
-  next to every score, and states whether the grid is the paper grid.</li>
+  three line-art sources. <code>result["protocol"]</code> records the grid, the resize, the metric list, the backend actually
+  used (<code>resize</code>, <code>ssim</code> and their versions) and the library versions next to every score, and states whether the grid
+  is the paper grid.</li>
 </ul>
 <h2 id="a-images-per-hint-ratio">A. Images per hint ratio</h2>
 <ol>
@@ -137,13 +145,19 @@ DreamSim); the plain install has the pixel metrics. A worked example that runs o
 <li>Run your model at every ratio and save the outputs as PNGs named like the ground truth, one directory per ratio:
    <code>pred_root/0.00/&lt;id&gt;.png   pred_root/0.01/&lt;id&gt;.png   ...   pred_root/1.00/&lt;id&gt;.png
    gt_dir/&lt;id&gt;.png</code>
-   (directory names are the ratios as decimals; <code>10</code> is also read as 10 %).</li>
+   Directory names are the ratios as decimals (<code>hintauc.alpha_dir_name(0.01) == "0.01"</code>, <code>0.001</code> for finer grids);
+   <code>1%</code> … <code>100%</code> and bare percentages above 1 (<code>10</code>) are read as well. Two directories that denote the same ratio
+   are an error.</li>
 <li>Score:
    <code>bash
    hintauc curve pred_root gt_dir --metrics mse psnr ssim lpips openclip dino dreamsim --json result.json --plot curve.png</code>
-   Files are paired by name (<code>--pairing sorted</code> pairs by sorted order instead); a ratio directory with a different
-   number of images or without common names is an error, not a silent mismatch. The JSON holds the per-ratio means,
-   the Hint-AUC per metric and the protocol record; the PNG holds the curves.</li>
+   Before anything is scored the file sets are checked: every ground truth needs a prediction, every prediction a
+   ground truth, and <strong>every ratio directory must hold the same images</strong> — a prediction missing at one ratio would
+   otherwise change the evaluated set of that ratio alone and make a failed inference look like a better score.
+   Such a mismatch stops the command with the names involved; <code>--allow-missing</code> evaluates the images common to all
+   ratios instead and lists the rest. Files are paired by name (<code>--pairing sorted</code> pairs by sorted order and checks
+   the counts instead). The JSON holds the number of images and their names (<code>--json</code>), the per-ratio means, the
+   Hint-AUC per metric and the protocol record; the PNG holds the curves.</li>
 </ol>
 <p>For a DetFill-style output tree (<code>.../sample_to_eval/illust/&lt;hint&gt;/&lt;sketch_type&gt;/&lt;ratio&gt;/200/</code>) use
 <code>reproduce/scripts/eval_per_ratio.py</code>, which also writes the <code>per_ratio_summary.csv</code> format of the released metric files
@@ -153,7 +167,7 @@ and can record the checkpoint hash (<code>--ckpt</code>).</p>
 
 def my_model(sample):
     # sample[&quot;line_art&quot;]   HxW  uint8         sample[&quot;hint_color&quot;]  HxWx3 uint8 BGR
-    # sample[&quot;hint_mask&quot;]  HxW  {0, 255}      sample[&quot;alpha&quot;], sample[&quot;hint_type&quot;], sample[&quot;hints&quot;] (HintResult)
+    # sample[&quot;hint_mask&quot;]  HxW  {0, 255}      sample[&quot;alpha&quot;], sample[&quot;hint_type&quot;], sample[&quot;index&quot;], sample[&quot;name&quot;]
     return colorize(sample[&quot;line_art&quot;], sample[&quot;hint_color&quot;], sample[&quot;hint_mask&quot;])   # HxWx3 uint8 BGR
 
 samples = [(&quot;line_art/0001.png&quot;, &quot;ground_truth/0001.png&quot;), ...]
@@ -163,17 +177,74 @@ result = hintauc.evaluate_colorizer(my_model, samples, hint_type=&quot;scribble&
 print(result[&quot;hint_auc&quot;])            # {'psnr': ..., 'lpips': ..., ...}
 hintauc.plot_curves(result[&quot;per_alpha&quot;], &quot;curve.png&quot;)
 </code></pre>
-<p><code>hintauc.hint_fill_colorizer</code> is a trivial reference model (hinted regions filled with their hint colour) that shows
-the expected shape of a curve. Repeat with <code>hint_type="dot"</code> for the dot protocol, and with the three line-art
-sources to report the paper's mean ± SD.</p>
+<p>The callable receives only what a model may observe: the line art, the hint colour and mask, the ratio, the hint type
+and the sample's index and name. The ground truth and the full hint structure are held back so that an adapter
+cannot use them by accident; <code>oracle=True</code> adds <code>sample["ground_truth"]</code>, <code>sample["hints"]</code> (the <code>HintResult</code>) and
+<code>sample["n_regions"]</code> for reference baselines. <code>hintauc.hint_fill_colorizer</code> is such an oracle baseline (hinted
+<em>regions</em> filled with their hint colour, which needs the ground-truth region map): it shows the expected shape of a
+curve, and its scores must not be compared with a real model's. <code>alphas</code> must be strictly increasing from 0 to 1
+(<code>hintauc.check_alphas</code>); <code>save_dir</code> gets one directory per ratio plus <code>manifest.json</code> (exact ratios, names); a
+write failure is an error. Repeat with <code>hint_type="dot"</code> for the dot protocol, and with the three line-art sources to
+report the paper's mean ± SD.</p>
 <p>Signatures and examples of every function used above: <a href="api.html">API reference</a>.</p>
+<h2 id="which-numbers-to-expect">Which numbers to expect</h2>
+<p><code>hintauc demo</code> and <code>examples/quickstart_cpu.py --fast</code> are deterministic (synthetic image or the two shipped
+illustrations, geodesic paths) and their Hint-AUC values are recorded in <code>examples/expected_numbers.json</code>, for both
+backends; <code>python examples/check_expected.py &lt;out&gt;/result.json demo|quickstart_fast</code> compares a run with them (CI does
+this on every push, with and without PyTorch, and before every PyPI release against the built wheel).</p>
+<table>
+<thead>
+<tr>
+<th>Example</th>
+<th>Backend</th>
+<th style="text-align: right;">PSNR Hint-AUC</th>
+<th style="text-align: right;">MSE Hint-AUC</th>
+<th style="text-align: right;">SSIM Hint-AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hintauc demo</code></td>
+<td>torchvision + torchmetrics</td>
+<td style="text-align: right;">15.9028</td>
+<td style="text-align: right;">0.0359</td>
+<td style="text-align: right;">0.7790</td>
+</tr>
+<tr>
+<td><code>hintauc demo</code></td>
+<td>Pillow + scikit-image</td>
+<td style="text-align: right;">15.9028</td>
+<td style="text-align: right;">0.0359</td>
+<td style="text-align: right;">0.7790</td>
+</tr>
+<tr>
+<td><code>quickstart_cpu.py --fast</code></td>
+<td>torchvision + torchmetrics</td>
+<td style="text-align: right;">14.2901</td>
+<td style="text-align: right;">0.0428</td>
+<td style="text-align: right;">0.5472</td>
+</tr>
+<tr>
+<td><code>quickstart_cpu.py --fast</code></td>
+<td>Pillow + scikit-image</td>
+<td style="text-align: right;">14.2901</td>
+<td style="text-align: right;">0.0428</td>
+<td style="text-align: right;">0.5472</td>
+</tr>
+</tbody>
+</table>
+<p>The default quick start (FilFinder paths, the paper's generator) is not bit-reproducible: FilFinder breaks ties with
+an unseeded generator, so a few scribble pixels differ between runs and the Hint-AUC moves by a few hundredths
+(two runs: PSNR 14.19 and 14.21). Comparisons with the paper's numbers use the stored maps, never regenerated ones.</p>
 <h2 id="reporting-checklist">Reporting checklist</h2>
 <ul>
 <li>hint type (scribble / dot), the ratio grid (paper: 0, 1, 3, 5, 10, 25, 50, 100 %), and that the selection is
   size-ordered (the Table III variant uses the fixed label order, <code>hint_order: label</code> in the DetFill loader);</li>
 <li>the line-art source(s) and the test split (ids in <code>reproduce/data/splits/test.txt</code>);</li>
-<li>metric settings (256 × 256, torchmetrics 1.4.0 for SSIM) — <code>result["protocol"]</code> and <code>hauc.json</code> carry them;</li>
-<li>which checkpoint produced the outputs (SHA-256; <code>eval_per_ratio.py --ckpt</code> records it) and the sampler seed.</li>
+<li>metric settings (256 × 256, torchmetrics 1.4.0 for SSIM) and the backend — <code>result["protocol"]["backend"]</code> and
+  <code>hauc.json</code> carry them;</li>
+<li>which checkpoint produced the outputs (SHA-256; <code>eval_per_ratio.py --ckpt</code> records it) and the sampler seed;</li>
+<li>whether the hints were the stored maps or regenerated ones (and with which <code>path_method</code>).</li>
 </ul>
 <p>Numbers obtained this way are comparable with Table II of the paper only when the inputs are the stored test-split
 maps and line art; the released per-ratio files in <code>reproduce/expected/</code> are the reference.</p>
