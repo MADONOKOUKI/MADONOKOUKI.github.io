@@ -111,8 +111,8 @@ HEAD = """<!doctype html>
       </nav>
       <article class="doc-body">
         <p class="doc-banner">Mirror of the documentation in the <a href="{repo}" target="_blank" rel="noopener">DetFill-with-DHT</a>
-        repository (source file <code>{src}</code>). Links to files and release downloads on GitHub work once the repository is public;
-        the <code>hintauc</code> library is already available from PyPI.</p>
+        repository (source file <code>{src}</code>); links to files and release downloads point at GitHub, and the
+        <code>hintauc</code> library is available from PyPI.</p>
 """
 FOOT = """
       </article>
