@@ -15,6 +15,10 @@
         "url": "https://doi.org/10.1109/TVCG.2026.3738401"
       },
       {
+        "label": "Video",
+        "url": "https://www.youtube.com/watch?v=JcV2Zg25Vdk"
+      },
+      {
         "label": "Library (PyPI)",
         "url": "https://pypi.org/project/hintauc/"
       }
