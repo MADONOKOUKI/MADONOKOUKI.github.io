@@ -137,7 +137,10 @@ curl -L $BASE/detfill_dot_illust_200ep.pth      -o detfill/results/dataset_name/
   0.992 over the 9 example images), but FilFinder's unseeded tie-breaking moves a few pixels per run
   (<code>reproduce/examples/README.md</code>, E9), so use the stored maps whenever you want to compare with the printed numbers.
 - Metric backbones (LPIPS, OpenCLIP, DINOv2, DreamSim) are downloaded by their pip packages on first use and are not
-  part of the releases.</p>
+  part of the releases.
+- The ImageNet hint maps of release v1.2 cover 2,999 of the 3,000 ids in <code>detfill/configs/real/test.txt</code>
+  (<code>n02667379_7324</code> is missing); <code>reproduce/scripts/check_data_root.py</code> reports such gaps before an inference run
+  starts, and the loader reads the whole list, so remove missing ids from the list (or add the files) first.</p>
 <h2 id="v11-scribble-models-trained-with-other-region-segmenters">v1.1 — scribble models trained with other region segmenters</h2>
 <p>Release: https://github.com/MADONOKOUKI/DetFill-with-DHT/releases/tag/v1.1 — the "DanbooRegion" and "SLIC" <em>training</em>
 rows of the supplementary segmentation-dependency table (same protocol and training split as the v1.0 scribble model,

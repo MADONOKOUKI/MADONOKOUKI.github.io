@@ -84,7 +84,7 @@
         the <code>hintauc</code> library is already available from PyPI.</p>
 <h1 id="api-reference-the-hintauc-library">API reference: the <code>hintauc</code> library</h1>
 <p>Every public function and command, with its role, arguments, and an input/output example. All examples were run on
-the illustration shipped in <code>replicability/data/4731016.image.png</code> (800 × 1200 px, 1,701 regions) with <code>hintauc</code> 0.3.2,
+the illustration shipped in <code>replicability/data/4731016.image.png</code> (800 × 1200 px, 1,701 regions) with <code>hintauc</code> 0.3.3,
 Python 3.9, NumPy 1.26, OpenCV 4.11, scikit-image 0.24, PyTorch 2.5.1, torchvision 0.20, torchmetrics 1.4.0; the
 numbers are the actual outputs of that run (FilFinder examples can differ by a few pixels between runs, see
 <code>generate_hints</code>).</p>
@@ -95,9 +95,12 @@ pip install &quot;hintauc[perceptual]&quot;   # + LPIPS / OpenCLIP / DINOv2 / Dr
 <p><strong>Conventions.</strong> Images are <code>HxWx3 uint8</code>; floating-point arrays are accepted only with values in [0, 1] (scaled by
 255 and rounded), anything else raises <code>ValueError</code> instead of being cast silently. Everything produced by the hint
 generator (<code>HintResult</code> arrays, the callback inputs of <code>evaluate_colorizer</code>) is <strong>BGR</strong> (OpenCV order, <code>cv2.imread</code>).
-<code>Evaluator</code> accepts file paths (decoded as RGB) or arrays that it takes as <strong>RGB</strong>, so pass <code>arr[:, :, ::-1]</code> when the
-array comes from OpenCV. Metrics are computed on images resized to 256 × 256 with values in [0, 1] (antialiased
-bilinear resize of float32 channels: torchvision when installed, otherwise Pillow; the two agree to about 1e-6).</p>
+<code>Evaluator</code> accepts file paths or arrays that it takes as <strong>RGB</strong>, so pass <code>arr[:, :, ::-1]</code> when the array comes
+from OpenCV. Files are decoded by Pillow and converted to RGB, whatever their mode (palette, grayscale, LA, RGBA,
+CMYK), on both backends; 16-bit and floating-point files are rejected. The pixel metrics (MSE, PSNR, SSIM, MAE,
+MS-SSIM, ΔE) and LPIPS / DISTS use the image resized to 256 × 256 with values in [0, 1] (antialiased bilinear resize
+of float32 channels: torchvision when installed, otherwise Pillow; the two agree to about 1e-6); OpenCLIP, DINOv2 and
+DreamSim apply their own preprocessing to the decoded image, as in the paper's evaluator.</p>
 <p>Contents: <a href="#constants">constants</a> · <a href="#hint-generation">hint generation</a> · <a href="#evaluation">evaluation</a> ·
 <a href="#hint-auc">Hint-AUC</a> · <a href="#evaluating-your-own-model">your own model</a> · <a href="#command-line">command line</a> ·
 <a href="#what-was-verified">what was verified</a></p>
@@ -405,11 +408,15 @@ increasing (a repeated ratio would be integrated twice).</p>
 &gt;&gt;&gt; hintauc.hint_auc_table({0.0: {&quot;psnr&quot;: 10.0, &quot;lpips&quot;: 0.4}, 1.0: {&quot;psnr&quot;: 20.0, &quot;lpips&quot;: 0.2}})
 {'lpips': 0.3, 'psnr': 15.0}
 </code></pre>
-<h3 id="evaluate_hint_curvepreds_by_alpha-gt_dir-evaluatornone-metricsmse-psnr-ssim-pairingsorted-limit0-allow_missingfalse-full_rangefalse-dict"><code>evaluate_hint_curve(preds_by_alpha, gt_dir, evaluator=None, metrics=("mse", "psnr", "ssim"), pairing="sorted", limit=0, allow_missing=False, full_range=False) -&gt; dict</code></h3>
+<h3 id="evaluate_hint_curvepreds_by_alpha-gt_dir-evaluatornone-metricsmse-psnr-ssim-pairingsorted-limit0-allow_missingfalse-full_rangefalse-manifestnone-pred_rootnone-dict"><code>evaluate_hint_curve(preds_by_alpha, gt_dir, evaluator=None, metrics=("mse", "psnr", "ssim"), pairing="sorted", limit=0, allow_missing=False, full_range=False, manifest=None, pred_root=None) -&gt; dict</code></h3>
 <p>Per-ratio means and Hint-AUC from one prediction directory per ratio. Before scoring, every ratio directory is
 paired with the ground truth and the ratios are compared with each other: with <code>pairing="name"</code> all ratios must hold
 the same image names, with <code>"sorted"</code> the same number of files; otherwise <code>ValueError</code> names the ratio and the files
-(<code>allow_missing=True</code>: the common subset, with a warning). <code>full_range=True</code> also requires a grid from 0 to 1.</p>
+(<code>allow_missing=True</code>: the common subset, with a warning). <code>full_range=True</code> also requires a grid from 0 to 1. With
+<code>manifest=hintauc.read_manifest(pred_root)</code> the directories, names and ground-truth files come from the manifest that
+<code>evaluate_colorizer</code> wrote (<code>curve_from_manifest</code>): a ratio directory on disk that the manifest does not list is an
+error (predictions of another run), and the result carries the run's attributes (<code>oracle</code>, <code>tie_break</code>, ...) under
+<code>"run"</code>.</p>
 <pre><code class="language-python">&gt;&gt;&gt; hintauc.evaluate_hint_curve({0.0: &quot;pred/0.00&quot;, 0.1: &quot;pred/0.10&quot;, 1.0: &quot;pred/1.00&quot;}, &quot;gt/&quot;, metrics=(&quot;mse&quot;, &quot;psnr&quot;), pairing=&quot;name&quot;)
 {'alphas': [0.0, 0.1, 1.0], 'n_images': 1, 'names': ['4731016.image.png'],
  'per_alpha': {0.0: {'mse': 0.2127, 'psnr': 6.7228}, 0.1: {'mse': 0.0890, 'psnr': 10.5046}, 1.0: {'mse': 0.0263, 'psnr': 15.7989}},
@@ -452,9 +459,12 @@ paths or arrays. For each ratio the callable receives one dict and returns <code
 are ordered by <code>tie_break</code>: <code>"stable"</code> (ascending label, identical on every machine) or <code>"default"</code> (the DetFill
 loader's NumPy argsort order, which differs between NumPy builds and between CPUs with and without AVX-512). <code>save_dir</code> writes the
 outputs as <code>save_dir/&lt;alpha_dir_name(alpha)&gt;/&lt;name&gt;.png</code> (the layout of <code>hintauc curve</code>; <code>0.00 … 1.00</code> for the paper
-grid, <code>0.001</code> for finer ratios) plus <code>save_dir/manifest.json</code> (exact ratios, directory names, image names); a write
-that fails raises <code>OSError</code>, and two samples with the same file name raise <code>ValueError</code>. The result holds <code>alphas</code>,
-<code>n_images</code>, <code>names</code>, <code>per_alpha</code>, <code>hint_auc</code> and a <code>protocol</code> record.</p>
+grid, <code>0.001</code> for finer ratios) plus <code>save_dir/manifest.json</code>: the exact ratios and directory names, the prediction
+names with the ground-truth file each belongs to, <code>oracle</code>, <code>tie_break</code>, <code>path_method</code>, <code>dot_method</code>, <code>hint_map_size</code>.
+A <code>save_dir</code> that already holds ratio directories or a manifest of another run raises <code>ValueError</code> (<code>overwrite=True</code>
+removes them first); a write that fails raises <code>OSError</code>, and two samples with the same file name raise
+<code>ValueError</code>. The result holds <code>alphas</code>, <code>n_images</code>, <code>names</code>, <code>per_alpha</code>, <code>hint_auc</code>, a <code>protocol</code> record and, with
+<code>save_dir</code>, the <code>manifest</code> path.</p>
 <pre><code class="language-python">&gt;&gt;&gt; res = hintauc.evaluate_colorizer(hintauc.hint_fill_colorizer, [(&quot;sketch/4731016.png&quot;, &quot;4731016.image.png&quot;)],
 ...                                  alphas=(0.0, 0.1, 1.0), metrics=(&quot;mse&quot;, &quot;psnr&quot;), save_dir=&quot;pred&quot;, oracle=True)
 &gt;&gt;&gt; res[&quot;per_alpha&quot;], res[&quot;hint_auc&quot;]
@@ -516,12 +526,16 @@ $ ls out/
  &quot;psnr&quot;: 13.731498107027996
 }
 </code></pre>
-<h3 id="hintauc-curve-pred_root-gt-metrics-pairing-namesorted-allow-missing-resize-256-device-dev-limit-n-json-file-plot-filepng"><code>hintauc curve PRED_ROOT GT [--metrics ...] [--pairing name|sorted] [--allow-missing] [--resize 256] [--device DEV] [--limit N] [--json FILE] [--plot FILE.png]</code></h3>
+<h3 id="hintauc-curve-pred_root-gt-metrics-pairing-namesorted-allow-missing-ignore-manifest-resize-256-device-dev-limit-n-json-file-plot-filepng"><code>hintauc curve PRED_ROOT GT [--metrics ...] [--pairing name|sorted] [--allow-missing] [--ignore-manifest] [--resize 256] [--device DEV] [--limit N] [--json FILE] [--plot FILE.png]</code></h3>
 <p>Hint-AUC from one sub-directory per ratio (<code>PRED_ROOT/0.00</code>, <code>PRED_ROOT/0.01</code>, …; <code>1%</code> … <code>100%</code> and bare percentages
-above 1 such as <code>10</code> are read as well; two directories denoting the same ratio are an error). Files are paired by
-name by default; every ratio directory must hold the same images as the ground truth and as the other ratios,
-otherwise the command stops and names the files (<code>--allow-missing</code> evaluates the common subset). The JSON on stdout
-carries the number of images; <code>--json</code> also writes their names.</p>
+above 1 such as <code>10</code> are read as well; two directories denoting the same ratio are an error). When <code>PRED_ROOT</code>
+holds the <code>manifest.json</code> of <code>evaluate_colorizer</code>, the ratio directories, the prediction names and their ground-truth
+files come from it: a ratio directory that the manifest does not list stops the command (predictions of another run;
+<code>--ignore-manifest</code> scores every directory on disk instead), and the run's attributes (<code>oracle</code>, <code>tie_break</code>, ...)
+are copied into the protocol record. Without a manifest, files are paired by name; every ratio directory must hold
+the same images as the ground truth and as the other ratios, otherwise the command stops and names the files
+(<code>--allow-missing</code> evaluates the common subset). The JSON on stdout carries the number of images; <code>--json</code> also
+writes their names.</p>
 <pre><code>$ hintauc curve pred/ gt/ --metrics mse psnr --json result.json --plot curve.png
 {
  &quot;alphas&quot;: [0.0, 0.1, 1.0],
@@ -552,10 +566,15 @@ a precomputed region map and array input; <code>HintResult.at_ratio</code> (both
 <code>Evaluator</code> with all twelve metrics for file and array inputs (identical numbers), <code>evaluate_pair</code>, <code>evaluate_dirs</code>
 (both pairings, <code>limit</code>, the mismatch errors), <code>evaluate_set</code> (FID / KID); <code>trapz</code>, <code>hint_auc</code>, <code>hint_auc_table</code>,
 <code>check_alphas</code>, <code>alpha_dir_name</code>, <code>evaluate_hint_curve</code>; <code>evaluate_colorizer</code> with <code>hint_fill_colorizer</code>,
-<code>hint_inputs</code>, <code>plot_curves</code>, <code>protocol_record</code>, <code>file_sha256</code>, <code>run_demo</code>; and the four commands. The continuous
-tests (<code>tests/</code>, 56 tests) cover the same surface on synthetic images without downloads, including the input checks
-(missing predictions, duplicate ratios, percent directories, unwritable outputs, float inputs, region-id collisions,
-cyclic skeletons) and the agreement of the two resize backends.</p>
+<code>hint_inputs</code>, <code>plot_curves</code>, <code>protocol_record</code>, <code>file_sha256</code>, <code>run_demo</code>; and the four commands.</p>
+<p>Two different scopes: that manual pass ran the perceptual metrics (LPIPS, OpenCLIP, DINOv2, DreamSim, DISTS, FID,
+KID) with their downloaded weights on the reference machine. The continuous tests (<code>tests/</code>, CPU, no downloads) cover
+the pixel metrics, the hint generation, the Hint-AUC arithmetic, the command line and the input checks (missing
+predictions, duplicate ratios, percent directories, unwritable outputs, float and non-RGB inputs, region-id
+collisions, cyclic skeletons, stale prediction directories, manifest-driven re-scoring, the evaluation script's image-set
+and resume checks, the training loop's budget and error handling) on synthetic images, and check the recorded demo
+and quick-start numbers with both backends; the perceptual metrics are exercised there only through the registry
+and the <code>torchmetrics</code> SSIM/MS-SSIM, not with the downloaded models.</p>
       </article>
     </div>
   </main>

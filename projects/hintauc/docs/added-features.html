@@ -115,9 +115,25 @@
 <li><strong>Exact geodesic diameter</strong> — <code>path_method="geodesic"</code> now searches all pixels of a skeleton component that contains a
   cycle (the diameter of such a component can end away from every endpoint).</li>
 <li><strong>Release gate</strong> — the PyPI workflow installs the built wheel into fresh environments (with and without PyTorch) and
-  runs the tests, the demo and the quick start before publishing.</li>
+  runs the tests, the demo and the quick start before publishing; the number checker requires finite values and the
+  expected backend.</li>
+<li><strong>Image decoding</strong> — every input (file or array) is decoded to 8-bit RGB by one routine: palette, grayscale, LA,
+  RGBA and CMYK files are read as the colours they show on both backends; 16-bit and float files are rejected.</li>
+<li><strong>Run identity</strong> — <code>evaluate_colorizer</code> writes a manifest with the ratio grid, the prediction names and their
+  ground-truth files, <code>oracle</code>, <code>tie_break</code> and the path method; <code>hintauc curve</code> scores exactly those files (stale
+  directories of another run are refused, JPEG ground truths pair with their PNG predictions) and a <code>save_dir</code> that
+  holds another run is refused unless <code>overwrite=True</code>. <code>eval_per_ratio.py</code> checks the image sets of all ratio
+  directories, reuses rows only for unchanged files (SHA-256) and matching metric settings, and DetFill's
+  <code>sample_to_eval</code> refuses to reuse outputs whose <code>run_manifest.json</code> (checkpoint hash, seed, hint settings, data)
+  differs.</li>
+<li><strong>Training loop</strong> — a failed training job re-raises after the emergency checkpoint; the step budget
+  (<code>training.n_steps</code> / <code>--max_steps</code>, micro-batches per process) stops inside an epoch.</li>
+<li><strong>Batch hint generation</strong> — <code>hint_generation/generate_hints.py</code> and <code>danbooregion_hints.py</code> use the library's
+  generator: deterministic region ids, re-encoded DanbooRegion colours, checked writes and a resume that only skips
+  complete outputs.</li>
+<li><strong>Example comparison</strong> — <code>compare_with_expected.py</code> compares image by image on the ids present in both runs.</li>
 <li><strong>Reproduction tooling</strong> — the one-command Fig. 9 script (<code>replicability/</code>), the reproduction package (<code>reproduce/</code>)
-  with example-based re-runs of every experiment, and the additional releases (v1.1–v1.4) with all remaining
+  with the example suite (eight experiments on example images), and the additional releases (v1.1–v1.4) with all remaining
   checkpoints and data.</li>
 </ul>
 <p>We also fixed a few minor issues in the original implementation to make the library more usable.</p>

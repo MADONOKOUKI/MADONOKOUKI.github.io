@@ -73,7 +73,7 @@
 
     <h2>What the paper provides</h2>
     <ul>
-      <li><strong>DHT — deterministic hints.</strong> An illustration is segmented into regions; each region gets one scribble (the longest path of its skeleton) and one dot, coloured with the region mean. The same image always yields the same hints, and hints are added largest region first as the hint ratio grows.</li>
+      <li><strong>DHT — deterministic hints.</strong> An illustration is segmented into regions; each region gets one scribble (the longest path of its skeleton) and one dot, coloured with the region mean. Given a region map, the hints are a fixed function of the image, not random samples: the stored hint maps of the paper are the reference for every reported number, regeneration with the paper's FilFinder path can move a few pixels between runs, and the library's <code>geodesic</code> path is bit-reproducible. Hints are added largest region first as the hint ratio grows.</li>
       <li><strong>Hint-AUC.</strong> A model is run at 0, 1, 3, 5, 10, 25, 50 and 100 % of the regions; the metric curve over the ratio is integrated into one score. Seven metrics (MSE, PSNR, SSIM, LPIPS, OpenCLIP, DINO, DreamSim) and a user study agree on the ranking.</li>
       <li><strong>DetFill.</strong> A pixel-space diffusion colorization model trained with the deterministic hints; training with them improves colorization quality under both deterministic and random hints.</li>
     </ul>
@@ -106,7 +106,7 @@ hintauc curve pred_root/ ground_truth/ --metrics mse psnr ssim lpips dreamsim --
 result = hintauc.evaluate_colorizer(my_model, [("line_art/0001.png", "ground_truth/0001.png"), ...])
 print(result["hint_auc"])       # per-metric Hint-AUC, plus a record of the protocol and library versions</pre>
 
-    <div class="status"><strong>Availability.</strong> The <a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">hintauc</a> library is on PyPI. The full repository — DetFill training and inference code, all checkpoints, the stored test-split hint maps and line art, the user-study data and a package that reproduces every table and figure — is being finalised for release and will be linked here (code coming soon). Its documentation (setup, API reference, model zoo, reproduction guide) is already mirrored at <a href="docs/">this site</a>.</div>
+    <div class="status"><strong>Availability.</strong> The <a href="https://pypi.org/project/hintauc/" target="_blank" rel="noopener">hintauc</a> library is on PyPI. The full repository — DetFill training and inference code, all checkpoints, the stored test-split hint maps and line art, the user-study data and a reproduction package (the Hint-AUC tables rebuilt from the released per-ratio metrics, 322 of 324 compared cells; the example suite; full table rows; a coverage table that says what each paper item needs) — is being finalised for release and will be linked here (code coming soon). Its documentation (setup, API reference, model zoo, reproduction guide) is already mirrored at <a href="docs/">this site</a>.</div>
 
     <h2>Video</h2>
     <div class="video"><iframe src="https://www.youtube-nocookie.com/embed/JcV2Zg25Vdk" title="Hint-AUC — supplementary video" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>

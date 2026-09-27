@@ -161,8 +161,12 @@ Table II row on A (about twice that on B).</p>
 <ul>
 <li><code>torchmetrics</code> must be 1.4.0 for the published SSIM values (1.8.x differs by up to 0.04 per image); the environment
   file pins it.</li>
-<li>The DetFill test loader drops an incomplete last batch. The released configs use batch 5 (scribble) / 8 (dot), which
-  divide 3,000; for small image sets set <code>TEST_BATCH=1</code> (<code>run_hauc_pipeline.sh</code>) or <code>BATCH_SIZE_OVERRIDE=1</code> (<code>main.py</code>).</li>
+<li>The DetFill test loader processes the last incomplete batch; <code>TEST_BATCH=1</code> (<code>run_hauc_pipeline.sh</code>) or
+  <code>BATCH_SIZE_OVERRIDE=1</code> (<code>main.py</code>) only fixes the batch composition (the sampler is seeded per batch). Output
+  directories carry a <code>run_manifest.json</code>; a run with a different checkpoint, seed or hint setting refuses to reuse them.</li>
+<li><code>training.n_steps</code> in the configs counts micro-batches per process: 400,000 is 200 epochs of the 20,000-image
+  training split on 10 GPUs; on one GPU it stops after 20 epochs, so pass <code>--max_steps 4000000</code> (or set <code>n_steps</code> to 0
+  for an epoch-only budget). The budget is checked before every batch.</li>
 <li>Sampling is seeded (<code>--seed 1234</code>) but not bit-exact across GPU generations or between GPU and CPU; metric
   differences of a few hundredths are expected, see <a href="detail-explanation.html#what-is-exact-and-what-is-not">Detailed explanation</a>.</li>
 <li>OpenCLIP weights are used in fp16 as in the archived runs (differences ≤ 8e-4); DreamSim runs on CPU-only hosts.</li>

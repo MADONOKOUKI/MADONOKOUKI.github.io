@@ -132,7 +132,12 @@ GPU=0 RATIOS=&quot;0.10&quot; TYPES=&quot;2&quot; bash run_inference.sh dot   # 
 </code></pre>
 <ul>
 <li>Outputs: <code>results/dataset_name/BrownianBridge_&lt;hint&gt;_illust/sample_to_eval/illust/&lt;hint&gt;/&lt;sketch_type&gt;/&lt;ratio&gt;/200/&lt;id&gt;.image.png</code>
-  (plus <code>ground_truth/</code> copies) — the layout consumed by <code>../reproduce/scripts/eval_per_ratio.py</code> and <code>../evaluation/</code>.</li>
+  (plus <code>ground_truth/</code> copies) — the layout consumed by <code>../reproduce/scripts/eval_per_ratio.py</code> and <code>../evaluation/</code>.
+  Each <code>&lt;ratio&gt;</code> directory carries a <code>run_manifest.json</code> (checkpoint SHA-256, seed, hint type and order, ratio, sketch
+  type, sampling steps, config hash, data root); existing images are reused only when a new run has the same
+  conditions, otherwise it stops. A resumed run draws the sampler's noise in a different order than an
+  uninterrupted one, so resumed images are not bit-identical to a fresh run. <code>--sample_ratio</code> must lie in [0, 1]; the
+  config value <code>eta</code> has no effect in this sampler (fixed-variance step).</li>
 <li><code>sketch_type</code> 0 / 1 / 2 = sketch simplification / XDoG / SketchKeras; ratios follow the paper grid
   {0, 0.01, 0.03, 0.05, 0.10, 0.25, 0.50, 1.00}; the sampler is seeded (<code>--seed 1234</code>).</li>
 <li>Full row with metrics in one command: <code>../reproduce/scripts/run_hauc_pipeline.sh</code>.</li>
@@ -142,6 +147,10 @@ GPU=0 RATIOS=&quot;0.10&quot; TYPES=&quot;2&quot; bash run_inference.sh dot   # 
 </code></pre>
 <ul>
 <li>Effective batch 20 (batch 1 per GPU × 10 GPUs × gradient accumulation 2), Adam 1e-4, EMA 0.995.</li>
+<li>Budget: <code>training.n_epochs</code> (200) and <code>training.n_steps</code> (400,000 micro-batches <em>per process</em>; checked before every
+  batch, <code>--max_steps</code> overrides it, 0 = no step budget). 400,000 equals 200 epochs of the 20,000-image split on
+  10 GPUs; on one GPU the same value stops after 20 epochs, so pass <code>--max_steps 4000000</code> for a 200-epoch single-GPU run.
+  A training error is re-raised after the emergency checkpoint (<code>last_model.pth</code>), so a failed job exits non-zero.</li>
 <li>Training-time hint sampling follows the paper: the number of hinted regions is uniform on {0, …, n−1}, so the fully
   hinted case is never seen in training. <code>dataset_config.include_full_hint: true</code> includes it. The released checkpoints
   use the paper setting.</li>

@@ -111,7 +111,7 @@ training comparisons, the natural-image tables and the user study.</p>
 <td>&lt; 2 min, CPU</td>
 </tr>
 <tr>
-<td><strong>Every experiment</strong> re-run on example illustrations (default: E1–E4 and E9 on 4 images; <code>EXAMPLES_MODE=full</code>: all eight experiments on the 9 paper-figure images)</td>
+<td><strong>The example suite</strong> (eight experiments re-run on example illustrations; default: E1–E4 and E9 on 4 images; <code>EXAMPLES_MODE=full</code>: all eight on the 9 paper-figure images; the Diffusart-retrain and natural-image models are run separately, see the coverage table)</td>
 <td><code>bash reproduce/examples/run_examples.sh</code></td>
 <td>smoke ≈ 5 min, default ≈ 45–60 min, full = hours</td>
 </tr>
@@ -267,7 +267,7 @@ layer D.</p>
 <td>&lt; 2 min</td>
 </tr>
 <tr>
-<td><strong>B. Example-based re-run of every experiment</strong></td>
+<td><strong>B. Example suite</strong></td>
 <td>Runs the released checkpoints on example illustrations (4 by default, 12 in <code>full</code> mode) for each experiment of the paper and the supplement, writes labelled image grids and per-image metrics, and compares them with the authors' run and with the paper's archived outputs</td>
 <td>one GPU (CPU possible but slow); assets are downloaded automatically</td>
 <td>5 min (smoke) / ≈ 1 h (default) / hours (full)</td>
@@ -362,7 +362,7 @@ mean ± sample standard deviation over the three sources — XDoG, sketch simpli
 </table>
 <p><code>expected/</code> also contains the analyses written for the review response that are not printed in the paper
 (<code>userstudy_rank_stability/</code>, <code>segmenter_sensitivity/</code>, <code>alpha_grid/A-5/</code>), with their scripts under <code>paper_experiments/</code>.</p>
-<h2 id="b-example-based-re-run-of-every-experiment-one-gpu-no-data-preparation">B. Example-based re-run of every experiment (one GPU, no data preparation)</h2>
+<h2 id="b-example-suite-eight-experiments-on-example-images-one-gpu-no-data-preparation">B. Example suite: eight experiments on example images (one GPU, no data preparation)</h2>
 <pre><code class="language-bash">bash reproduce/examples/run_examples.sh                       # default &quot;quick&quot; set (≈ 1 h on one GPU)
 EXAMPLES_MODE=smoke bash reproduce/examples/run_examples.sh   # 1 image, 2 ratios, scribble model only (≈ 5 min)
 EXAMPLES_MODE=full  bash reproduce/examples/run_examples.sh   # all experiments, 9 images, 8 ratios (several GPU-hours)
@@ -473,8 +473,16 @@ python reproduce/paper_experiments/alpha_grid/B_auc_grid_sensitivity_7m.py \
 # image it finds; TEST_BATCH=1 for image counts that the config's batch size does not divide)
 DATA_ROOT=/data/danbooru_small TEST_BATCH=1 TYPES=&quot;2&quot; GPU=0 bash reproduce/scripts/run_hauc_pipeline.sh
 </code></pre>
-<p>The inference loader drops the last incomplete batch (batch size 5 for the scribble config, 8 for dot), so the number
-of images must be divisible by it — 3,000 is; for other subsets set <code>TEST_BATCH=1</code>.</p>
+<p>The inference loader processes the last incomplete batch, so any number of images works; <code>TEST_BATCH</code> only changes
+the batch composition (the sampler is seeded per batch, so a different batch size changes the outputs slightly).
+Every output directory carries a <code>run_manifest.json</code> (checkpoint hash, seed, hint type and order, ratio, sketch type,
+sampling steps, config hash, data root); a run whose conditions differ refuses to reuse the existing images. A
+resumed run consumes the sampler's random stream differently than an uninterrupted one, so its images are not
+bit-identical to a fresh run (the metrics move within the usual sampler spread). Before the inference starts,
+<code>scripts/check_data_root.py</code> verifies that every file the loader will read exists (<code>ALLOW_MISSING=1</code> only reports).
+The evaluation step (<code>eval_per_ratio.py</code>) checks that all ratio directories hold the same images, reuses rows of an
+earlier run only when the prediction and ground-truth files are unchanged (SHA-256) and the metric settings match its
+<code>run_manifest.json</code>, and writes those hashes into <code>per_image.csv</code>.</p>
 <p><code>run_hauc_pipeline.sh</code> = <code>detfill/main.py --sample_to_eval</code> for every (ratio, line-art source) followed by
 <code>scripts/eval_per_ratio.py</code>, which uses the released evaluator <code>hintauc.metrics.Evaluator</code> (the paper's
 <code>evaluation/eval_single_run.py</code>: 256 × 256, MSE/PSNR/SSIM on [0, 1]; LPIPS-Alex; OpenCLIP ViT-B-32 laion2b;
