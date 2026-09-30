@@ -103,6 +103,10 @@
         "url": "https://doi.org/10.1111/cgf.14965"
       },
       {
+        "label": "Video",
+        "url": "https://www.youtube.com/watch?v=P_mq3W5afig"
+      },
+      {
         "label": "Dataset",
         "url": "https://huggingface.co/datasets/madorin0130/pg23-ink-painting-dataset"
       }
@@ -123,8 +127,16 @@
     "venue": "Pacific Graphics, Conference Proceedings",
     "links": [
       {
+        "label": "Project page",
+        "url": "projects/vector-caricature/"
+      },
+      {
         "label": "Paper",
         "url": "https://doi.org/10.2312/pg.20231271"
+      },
+      {
+        "label": "Video",
+        "url": "https://www.youtube.com/watch?v=E53I28M9M_I"
       },
       {
         "label": "Patent",
@@ -146,16 +158,28 @@
     "venue": "Pacific-Rim Symposium on Image and Video Technology (PSIVT)",
     "links": [
       {
+        "label": "Project page",
+        "url": "projects/scramblemix/"
+      },
+      {
         "label": "Paper",
         "url": "https://doi.org/10.1007/978-981-97-0376-0_25"
       },
       {
-        "label": "PDF",
+        "label": "Slides (PDF)",
         "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix/blob/main/psivt.pdf"
       },
       {
         "label": "Code",
         "url": "https://github.com/MADONOKOUKI/psivt23_scramblemix"
+      },
+      {
+        "label": "Code (integrated)",
+        "url": "https://github.com/MADONOKOUKI/scramblekit"
+      },
+      {
+        "label": "PyPI",
+        "url": "https://pypi.org/project/scramblekit/"
       }
     ],
     "abstract": "This paper proposes ScrambleMix, a novel privacy-preserving image processing for edge-cloud machine learning. ScrambleMix combines image scrambling and AugMix to improve visual information hiding. Specifically, to make two scrambled images from a single input image, each copy of the input image is scrambled using a different key every time. Then, the scrambled images are mixed with a randomly sampled mixing ratio. A self-teaching loss is introduced to improve the classification performance of ScrambleMix. In this study, we first evaluate the visual information hiding quantitatively using Learned Perceptual Image Patch Similarity (LPIPS). Then, the experiments with different settings demonstrate the proposed ScrambleMix outperforms the existing approaches for edge-cloud machine learning in terms of both classification accuracy and visual information hiding.",
@@ -169,6 +193,10 @@
     "authors": "Koki Madono, Masayuki Tanaka, Masaki Onishi",
     "venue": "IEEE Global Conference on Consumer Electronics (GCCE)",
     "links": [
+      {
+        "label": "Project page",
+        "url": "projects/instance-center-loss/"
+      },
       {
         "label": "Paper",
         "url": "https://ieeexplore.ieee.org/document/10014037/"
@@ -194,6 +222,10 @@
     "venue": "IEEE Access",
     "links": [
       {
+        "label": "Project page",
+        "url": "projects/siagan/"
+      },
+      {
         "label": "Paper",
         "url": "https://doi.org/10.1109/ACCESS.2021.3112684"
       },
@@ -204,8 +236,17 @@
       {
         "label": "Code",
         "url": "https://github.com/MADONOKOUKI/SIA-GAN"
+      },
+      {
+        "label": "Code (integrated)",
+        "url": "https://github.com/MADONOKOUKI/scramblekit"
+      },
+      {
+        "label": "PyPI",
+        "url": "https://pypi.org/project/scramblekit/"
       }
     ],
+    "abstract": "This paper presents a scrambling inversion attack using a generative adversarial network (SIA-GAN). This method aims to evaluate the privacy protection level achieved by image scrambling method. For privacy-preserving machine learning, scrambled images are often used to protect visual information, assuming that searching the scramble parameters is highly difficult for an attacker due to the application of complex image scrambling operations. However, the security of such methods has not been thoroughly investigated. SIA-GAN learns the mapping between pairs of scrambled images and original images, then attempts to invert image scrambling. Therefore, the attacker is assumed to have real images whose domain is the same as that of scrambled images. Experimental results demonstrate that scrambled images cannot be recovered if block shuffling is applied as a scrambling operation. The experimental code of SIA-GAN is available at https://github.com/MADONOKOUKI/SIA-GAN.",
     "bibtex": "@ARTICLE{9537763,\n author={Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},\n journal={IEEE Access},\n title={SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network},\n year={2021},\n volume={9},\n number={},\n pages={129385-129393},\n keywords={Training;Feature extraction;Visualization;Generators;Generative adversarial networks;Transforms;Machine learning;Artificial intelligence;machine learning;computer vision;visual information hiding;image scrambling},\n doi={10.1109/ACCESS.2021.3112684}}",
     "thumb": "images/access2021.png"
   },
@@ -217,6 +258,10 @@
     "venue": "Electronic Imaging (HVEI)",
     "links": [
       {
+        "label": "Project page",
+        "url": "projects/spg/"
+      },
+      {
         "label": "Paper",
         "url": "https://library.imaging.org/ei/articles/33/11/art00007"
       },
@@ -227,6 +272,14 @@
       {
         "label": "Code",
         "url": "https://github.com/MADONOKOUKI/SPG_EI2020"
+      },
+      {
+        "label": "Code (integrated)",
+        "url": "https://github.com/MADONOKOUKI/scramblekit"
+      },
+      {
+        "label": "PyPI",
+        "url": "https://pypi.org/project/scramblekit/"
       }
     ],
     "abstract": "The present study proposes the method to improve the perceptual information hiding in image scramble approaches. Image scramble approaches have been used to overcome the privacy issues on the cloud-based machine learning approach. The performance of image scramble approaches are depending on the scramble parameters; because it decides the performance of perceptual information hiding. However, in existing image scramble approaches, the performance by scrambling parameters has not been quantitatively evaluated. This may be led to show private information in public. To overcome this issue, a suitable metric is investigated to hide PIH, and then scrambling parameter generation is proposed to combine image scramble approaches. Experimental comparisons using several image quality assessment metrics show that Learned Perceptual Image Patch Similarity (LPIPS) is suitable for PIH. Also, the proposed scrambling parameter generation is experimentally confirmed effective to hide PIH while keeping the classification performance.",
@@ -241,6 +294,10 @@
     "venue": "AAAI WS (Artificial Intelligence of Things)",
     "links": [
       {
+        "label": "Project page",
+        "url": "projects/blockscramble/"
+      },
+      {
         "label": "Paper",
         "url": "https://arxiv.org/abs/2001.07761"
       },
@@ -251,6 +308,14 @@
       {
         "label": "Code",
         "url": "https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition"
+      },
+      {
+        "label": "Code (integrated)",
+        "url": "https://github.com/MADONOKOUKI/scramblekit"
+      },
+      {
+        "label": "PyPI",
+        "url": "https://pypi.org/project/scramblekit/"
       }
     ],
     "abstract": "In this study, a perceptually hidden object-recognition method is investigated to generate secure images recognizable by humans but not machines. Hence, both the perceptual information hiding and the corresponding object recognition methods should be developed. Block-wise image scrambling is introduced to hide perceptual information from a third party. In addition, an adaptation network is proposed to recognize those scrambled images. Experimental comparisons conducted using CIFAR datasets demonstrated that the proposed adaptation network performed well in incorporating simple perceptual information hiding into DNN-based image classification.",

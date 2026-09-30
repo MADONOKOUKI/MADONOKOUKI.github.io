@@ -6,7 +6,7 @@
    image on the right. Entries are grouped by year, newest first.
    Link labels get icons automatically: Paper/PDF → document, Code → brackets,
    Patent → medal, Project/Page → globe, Video → camera, Demo → laptop,
-   Dataset/Data → database. */
+   Dataset/Data → database, PyPI/Library → package. */
 
 const PUB_ICONS = {
   doc: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h5L11.5 5v7.5h-8.5z"/><path d="M8 1.5V5h3.5"/></svg>',
@@ -18,12 +18,14 @@ const PUB_ICONS = {
   video: '<svg viewBox="0 0 14 14" aria-hidden="true"><rect x="1.5" y="3.5" width="8" height="7" rx="1.5"/><path d="M9.5 6.3 12.5 4.5v5L9.5 7.7"/></svg>',
   laptop: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 3.5h9v6h-9z"/><path d="M1 11h12"/></svg>',
   db: '<svg viewBox="0 0 14 14" aria-hidden="true"><ellipse cx="7" cy="3.2" rx="5" ry="1.7"/><path d="M2 3.2v7.6c0 .95 2.2 1.7 5 1.7s5-.75 5-1.7V3.2"/><path d="M2 7c0 .95 2.2 1.7 5 1.7S12 7.95 12 7"/></svg>',
+  pkg: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 1.5 12 4v6l-5 2.5L2 10V4z"/><path d="M2 4l5 2.5L12 4M7 6.5v6"/></svg>',
   trophy: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M4.5 2h5v3.2c0 1.7-1 2.9-2.5 2.9S4.5 6.9 4.5 5.2z"/><path d="M4.5 3H2.8a2.1 2.1 0 0 0 2 2.7M9.5 3h1.7a2.1 2.1 0 0 1-2 2.7"/><path d="M7 8.1v2.1M4.8 11.7h4.4M5.6 10.2h2.8"/></svg>',
 };
 
 function pubIconFor(label) {
   const l = label.toLowerCase();
   if (l.includes('code')) return PUB_ICONS.code;
+  if (l.includes('pypi') || l.includes('library')) return PUB_ICONS.pkg;
   if (l.includes('patent')) return PUB_ICONS.award;
   if (l.includes('project') || l.includes('page')) return PUB_ICONS.globe;
   if (l.includes('video')) return PUB_ICONS.video;

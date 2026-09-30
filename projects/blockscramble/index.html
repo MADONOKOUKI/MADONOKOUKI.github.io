@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Block-wise Scrambled Image Recognition — Koki Madono</title>
+  <meta name="description" content="Block-wise Scrambled Image Recognition Using Adaptation Network (AAAI-20 Workshop on AIoT). Project page: paper, method, results, code and the scramblekit library.">
+  <meta property="og:title" content="Block-wise Scrambled Image Recognition Using Adaptation Network">
+  <meta property="og:description" content="Block-wise Scrambled Image Recognition Using Adaptation Network (AAAI-20 Workshop on AIoT). Project page: paper, method, results, code and the scramblekit library.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://madonokouki.github.io/projects/blockscramble/">
+  <meta property="og:image" content="https://madonokouki.github.io/images/projects/blockscramble/concept.png">
+  <link rel="canonical" href="https://madonokouki.github.io/projects/blockscramble/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🐳%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/style.css?v=16">
+  <style>
+    .proj h1 { font-size: 1.6rem; line-height: 1.3; margin: 1.6rem 0 .4rem; }
+    .proj .meta { color: #4a5b6a; margin: 0 0 .2rem; }
+    .proj .meta a { color: inherit; }
+    .proj .venue { font-style: italic; margin: 0 0 .9rem; }
+    .proj figure { margin: 1.2rem 0; }
+    .proj figure img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,40,80,.08); }
+    .proj figcaption { font-size: .88rem; color: #4a5b6a; margin-top: .4rem; }
+    .proj h2 { font-size: 1.15rem; margin: 1.6rem 0 .5rem; }
+    .proj table { width: 100%; border-collapse: collapse; font-size: .82rem; margin: .6rem 0 1rem; }
+    .proj th, .proj td { padding: .3rem .45rem; border-bottom: 1px solid #dde6ee; text-align: right; white-space: nowrap; }
+    .proj th:first-child, .proj td:first-child, .proj th:nth-child(2), .proj td:nth-child(2) { text-align: left; }
+    .proj thead th { border-bottom: 2px solid #9fb6c9; }
+    .proj td.best { font-weight: 700; }
+    .proj .tblnote { font-size: .82rem; color: #4a5b6a; }
+    .proj pre { background: #f3f7fa; border-radius: 8px; padding: .8rem 1rem; overflow-x: auto; font-size: .82rem; }
+    .proj .video { position: relative; width: 100%; padding-top: 56.25%; margin: 1rem 0; }
+    .proj .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; border-radius: 10px; }
+    .proj .status { background: #eef6fb; border-left: 4px solid #6aa9d9; padding: .6rem .9rem; border-radius: 6px; margin: 1rem 0; }
+    .proj .back { display: inline-block; margin: 1.4rem 0 .4rem; }
+    @media (max-width: 640px) { .proj table { display: block; overflow-x: auto; } }
+  </style>
+  <style>.two-up{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}.two-up figure{margin:0}@media (max-width:700px){.two-up{grid-template-columns:1fr}}</style>
+  <style>
+    .proj .note { font-size: .88rem; color: #4a5b6a; }
+    .proj .related li { margin: .2rem 0; }
+    .proj td.grp { font-weight: 600; }
+    .proj .lic { font-size: .8rem; color: #6a7b8a; margin-top: 1.4rem; }
+    .proj figure.narrow { max-width: 560px; margin-left: auto; margin-right: auto; }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="Site">
+    <div class="bar">
+      <a class="brand" href="../../">
+        <span class="brand-mark" aria-hidden="true">🐳</span>
+        Koki Madono
+      </a>
+      <ul>
+        <li><a href="../../#about">About</a></li>
+        <li><a href="../../#news">News</a></li>
+        <li><a href="../../#publications">Publications</a></li>
+        <li><a href="../../blog/">Blog</a></li>
+        <li><a href="../../cv.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h5L11.5 5v7.5h-8.5z"/><path d="M8 1.5V5h3.5"/></svg>CV</a></li>
+        <li><button id="season-btn" class="season-btn" type="button" aria-label="Change season theme">🌊</button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="wrap blog-main proj">
+
+    <h1>Block-wise Scrambled Image Recognition Using Adaptation Network</h1>
+    <p class="meta"><a href="../../">Koki Madono</a> · Masayuki Tanaka · Masaki Onishi · Tetsuji Ogawa — Waseda University · National Institute of Advanced Industrial Science and Technology (AIST)</p>
+    <p class="venue">AAAI-20 Workshop on Artificial Intelligence of Things (AIoT), 2020 · <a href="https://arxiv.org/abs/2001.07761" target="_blank" rel="noopener">arXiv:2001.07761</a></p>
+    <ul class="chips"><li><a class="chip" href="https://arxiv.org/abs/2001.07761" target="_blank" rel="noopener">Paper (arXiv)</a></li><li><a class="chip" href="https://aiotworkshop.github.io/2020/published/Block-wise%20Scrambled%20Image%20Recognition%20Using%20Adaptation%20Network.pdf" target="_blank" rel="noopener">PDF (workshop)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition" target="_blank" rel="noopener">Code (GitHub)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">Code (integrated): scramblekit</a></li><li><a class="chip" href="https://pypi.org/project/scramblekit/" target="_blank" rel="noopener">Library: pip install scramblekit</a></li></ul>
+
+    <figure><img src="../../images/projects/blockscramble/concept.png" alt="Client scrambles images block by block and uploads them; the cloud trains an adaptation network and a classifier on the scrambled images" loading="lazy">
+      <figcaption><strong>Setting (Fig. 1 of the paper).</strong> The client scrambles every image block by block before it leaves the device. The cloud side stores only scrambled images and trains an <em>adaptation network</em> followed by an ordinary classifier on them, so the classification result comes back while a third party never sees the perceptual content.</figcaption></figure>
+
+    <h2>Abstract</h2>
+    <p>In this study, a perceptually hidden object-recognition method is investigated to generate secure images recognizable by humans but not machines. Hence, both the perceptual information hiding and the corresponding object recognition methods should be developed. Block-wise image scrambling is introduced to hide perceptual information from a third party. In addition, an adaptation network is proposed to recognize those scrambled images. Experimental comparisons conducted using CIFAR datasets demonstrated that the proposed adaptation network performed well in incorporating simple perceptual information hiding into DNN-based image classification.</p>
+
+    <h2>What the paper proposes</h2>
+    <ul>
+      <li><strong>Extended learnable encryption (ELE).</strong> The image is split into B×B blocks (4×4 for a 32×32 CIFAR image, i.e. 64 blocks), the block positions are shuffled, and the pixels inside every block are shuffled and intensity-inverted with a <em>different key for every block</em>. Its key space, (96!·2<sup>96</sup>)<sup>64</sup>·64!, is far larger than that of LE (96!·2<sup>96</sup>, one key shared by all blocks) and EtC (8<sup>64</sup>·2<sup>64</sup>·6<sup>64</sup>·64!).</li>
+      <li><strong>Adaptation network for block-wise scrambled images.</strong> Block-wise sub-networks with separate weights per block, a learnable <em>pseudo-permutation matrix</em> U that learns to undo block shuffling (kept sparse with an L<sub>1−2</sub> penalty), and a pixel-shuffle layer that re-assembles the feature map for a ShakeDrop classifier. The loss is L = L<sub>CE</sub> + λ<sub>U</sub>L<sub>U</sub> + λ<sub>s</sub>L<sub>s</sub> with a spatial-smoothness penalty L<sub>s</sub>, λ<sub>U</sub> = 0.001 and λ<sub>s</sub> = 0.1.</li>
+    </ul>
+    <figure><img src="../../images/projects/blockscramble/pipeline.png" alt="Block-wise image scrambling: segmentation into blocks, block shuffling, block-wise pixel operation, block integration" loading="lazy">
+      <figcaption><strong>Block-wise scrambling (Fig. 2).</strong> Segment into blocks → shuffle block positions → operate on the pixels of every block with its own key → integrate the blocks.</figcaption></figure>
+
+    <figure><img src="../../images/projects/blockscramble/network.png" alt="Adaptation network: block-wise sub-networks, block integration, permutation matrix, reshape, classification network" loading="lazy">
+      <figcaption><strong>Adaptation network (Fig. 3).</strong> Yellow boxes are trainable: one sub-network per block, the pseudo-permutation matrix f(·; U), and the classification network.</figcaption></figure>
+
+    <h2>Main result</h2>
+    <p>Top-1 accuracy on the CIFAR test sets. No AdaptNet feeds the scrambled image directly to the classifier; LE-AdaptNet is the adaptation network of Tanaka (2018), which shares one sub-network across blocks; ELE-AdaptNet is the proposed network. ELE-AdaptNet is the only system that recognises ELE-scrambled images reliably, and it is also the best on EtC.</p>
+    <table><thead><tr><th>Dataset</th><th>Adaptation network</th><th>Plain image</th><th>LE</th><th>EtC</th><th>ELE (proposed)</th></tr></thead><tbody>
+<tr><td class="grp">CIFAR-10</td><td>No AdaptNet</td><td class="best">96.70</td><td class="best">94.94</td><td>85.94</td><td>67.10</td></tr>
+<tr><td></td><td>LE-AdaptNet</td><td>95.64</td><td>94.49</td><td>80.16</td><td>48.39</td></tr>
+<tr><td></td><td>ELE-AdaptNet (proposed)</td><td>85.32</td><td>87.28</td><td class="best">89.09</td><td class="best">83.06</td></tr>
+<tr><td class="grp">CIFAR-100</td><td>No AdaptNet</td><td class="best">83.59</td><td class="best">78.25</td><td>61.90</td><td>43.05</td></tr>
+<tr><td></td><td>LE-AdaptNet</td><td>79.13</td><td>75.48</td><td>44.83</td><td>7.19</td></tr>
+<tr><td></td><td>ELE-AdaptNet (proposed)</td><td>60.36</td><td>71.30</td><td class="best">71.91</td><td class="best">62.97</td></tr>
+</tbody></table>
+    <p class="tblnote">Accuracy in %, values from Table 3 of the paper (ShakeDrop classifier; SGD with Nesterov momentum 0.9, batch 128, 300 epochs, learning rate 0.1 → 0.01 → 0.001 at epochs 150 and 225).</p>
+
+    <h2>Use it</h2>
+    <p>The scrambling schemes (LE, ELE, EtC and the block-wise operations) and the adaptation networks are available in <code>scramblekit</code>; the paper repository reproduces Table 3 with one command per cell.</p>
+    <pre>pip install &quot;scramblekit[torch]&quot;</pre>
+    <pre>import numpy as np
+import scramblekit
+from scramblekit.scramble import ELE
+from scramblekit.models import build_model
+
+img = scramblekit.sample_image()                    # 128×128 RGB sample image (uint8)
+ele = ELE(key=0, image_size=128)                    # ELE: its own key for every 4×4 block + block shuffling
+scrambled = ele(img)                                # also takes PIL images and (N, 3, H, W) tensors
+assert np.array_equal(ele.inverse(scrambled), img)  # the key restores the image exactly
+
+net = build_model(&quot;shakepyramidnet&quot;, num_classes=10, adaptation=&quot;ele&quot;)  # ELE-AdaptNet + ShakeDrop PyramidNet-110</pre>
+    <pre>git clone --depth 1 https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition
+cd Block-wise-Scrambled-Image-Recognition &amp;&amp; pip install -e .
+python train.py --dataset cifar10 --scramble ele --adaptation proposed   # one cell of Table 3</pre>
+    <p class="note">The last three lines reproduce one cell of Table 3 with the paper repository; <code>scripts/reproduce_table3.sh</code> lists all 24 runs.</p>
+
+    <h2>Citation</h2>
+    <pre>@inproceedings{madono2020block,
+  title         = {Block-wise Scrambled Image Recognition Using Adaptation Network},
+  author        = {Madono, Koki and Tanaka, Masayuki and Onishi, Masaki and Ogawa, Tetsuji},
+  booktitle     = {AAAI Workshop on Artificial Intelligence of Things (AIoT)},
+  year          = {2020},
+  eprint        = {2001.07761},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV}
+}</pre>
+
+    <h2>Related work in this series</h2>
+    <ul class="related">
+      <li><a href="../spg/">Scrambling Parameter Generation to Improve Perceptual Information Hiding</a> (Electronic Imaging 2021)</li>
+      <li><a href="../siagan/">SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network</a> (IEEE Access 2021)</li>
+      <li><a href="../scramblemix/">ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning</a> (PSIVT 2023)</li>
+    </ul>
+    <p class="note">All four image-scrambling papers are implemented in one pip-installable library, <a href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">scramblekit</a> (<code>pip install scramblekit</code>).</p>
+
+    <a class="back" href="../../#publications">← Back to the publication list</a>
+  </main>
+
+  <div class="sea-floor">
+    <svg class="footer-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,54 C130,26 260,18 400,36 C540,54 660,78 800,72 C940,66 1060,32 1200,28 C1320,25 1390,42 1440,52 L1440,90 L0,90 Z"/>
+    </svg>
+    <footer class="sea-footer">
+      <p class="colophon">© Koki Madono
+        <span class="whale-note">Site design inspired by a fossil gray whale unearthed from the river in my hometown. The kappa is here for the river, too.</span>
+      </p>
+    </footer>
+  </div>
+
+  <script src="../../assets/season.js?v=14"></script>
+</body>
+</html>
