@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ScrambleMix — Koki Madono</title>
-  <meta name="description" content="ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning (PSIVT 2023). Project page: paper, slides, method, results, code and the scramblekit library.">
+  <meta name="description" content="ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning (PSIVT 2023). Project page: paper, slides, method, results and code.">
   <meta property="og:title" content="ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning">
-  <meta property="og:description" content="ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning (PSIVT 2023). Project page: paper, slides, method, results, code and the scramblekit library.">
+  <meta property="og:description" content="ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning (PSIVT 2023). Project page: paper, slides, method, results and code.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://madonokouki.github.io/projects/scramblemix/">
   <meta property="og:image" content="https://madonokouki.github.io/images/projects/scramblemix/method.png">
@@ -71,7 +71,7 @@
     <h1>ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning</h1>
     <p class="meta"><a href="../../">Koki Madono</a> · Masayuki Tanaka · Masaki Onishi — Waseda University · AIST · Tokyo Institute of Technology</p>
     <p class="venue">Image and Video Technology — 11th Pacific-Rim Symposium, PSIVT 2023 (Auckland, New Zealand), LNCS 14403, pp. 326–340, Springer, 2024 · <a href="https://doi.org/10.1007/978-981-97-0376-0_25" target="_blank" rel="noopener">doi:10.1007/978-981-97-0376-0_25</a></p>
-    <ul class="chips"><li><a class="chip" href="https://doi.org/10.1007/978-981-97-0376-0_25" target="_blank" rel="noopener">Paper (DOI)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/psivt23_scramblemix/blob/main/psivt.pdf" target="_blank" rel="noopener">Slides (PDF)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/psivt23_scramblemix" target="_blank" rel="noopener">Code (GitHub)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">Code (integrated): scramblekit</a></li><li><a class="chip" href="https://pypi.org/project/scramblekit/" target="_blank" rel="noopener">Library: pip install scramblekit</a></li></ul>
+    <ul class="chips"><li><a class="chip" href="https://doi.org/10.1007/978-981-97-0376-0_25" target="_blank" rel="noopener">Paper (DOI)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/psivt23_scramblemix/blob/main/psivt.pdf" target="_blank" rel="noopener">Slides (PDF)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/psivt23_scramblemix" target="_blank" rel="noopener">Code (GitHub)</a></li></ul>
 
     <figure><img src="../../images/projects/scramblemix/method.png" alt="ScrambleMix: the input image is scrambled twice with keys k1 and k2 and the two scrambled images are mixed with a ratio m drawn from Beta(alpha, alpha)" loading="lazy">
       <figcaption><strong>ScrambleMix.</strong> Two copies of the input are scrambled with the two keys of a key pair sampled from a secret key set and mixed with a ratio m ∼ Beta(α, α). The edge device sends only the mixed image, and a single image is enough for a prediction (InstaHide needs two).</figcaption></figure>
@@ -121,26 +121,22 @@
       <figcaption>InstaHide-attack reconstructions of ScrambleMix images for mixing ratios m = 0.1, 0.3, 0.5 (slide 42).</figcaption></figure>
 
     <h2>Use it</h2>
-    <p>ScrambleMix, the self-teaching loss and multi-key test-time augmentation are available in <code>scramblekit</code>; the paper repository reproduces the tables above.</p>
-    <pre>pip install &quot;scramblekit[torch]&quot;</pre>
+    <p>ScrambleMix, the self-teaching loss and multi-key test-time augmentation are a pip-installable package in the paper repository, which reproduces the ScrambleMix rows of the tables above.</p>
+    <pre>pip install git+https://github.com/MADONOKOUKI/psivt23_scramblemix</pre>
     <pre>import torch
-import scramblekit
-from scramblekit.augment import ScrambleMix, scramblemix_loss, tta_logits
-from scramblekit.models import build_model
+from scramblemix import ScrambleMix, ScrambleMixViews, scramblemix_loss, predict_tta
 
-img = scramblekit.sample_image()[::4, ::4]           # a 32×32 RGB image (uint8)
-smix = ScrambleMix(keys=&quot;cifar10&quot;, num_views=4)      # key set of the original CIFAR-10 experiments (4 key pairs)
-views = torch.from_numpy(smix(img))[None]            # (B=1, D=4, 3, 32, 32): (1 − m) f(x; k1) + m f(x; k2)
+sm = ScrambleMix.random(num_pairs=4, key_seed=0)      # secret key set: 4 key pairs, kept on the edge side
+views = torch.stack([ScrambleMixViews(sm)(torch.rand(3, 32, 32)) for _ in range(8)])   # (B, D=4, 3, 32, 32)
 
-model = build_model(&quot;resnet18&quot;, num_classes=10)
-logits = [model(views[:, d]) for d in range(views.shape[1])]
-loss = scramblemix_loss(logits, torch.tensor([3]))[&quot;loss&quot;]   # cross-entropy + self-teaching loss
-tta = torch.from_numpy(smix.tta_views(img))[None]            # the T = 4 key pairs
-pred = tta_logits(model.eval(), tta).argmax(1)               # multi-key test-time augmentation</pre>
+model = torch.nn.Sequential(torch.nn.Flatten(), torch.nn.Linear(3 * 32 * 32, 10))     # any classifier
+logits = torch.stack([model(views[:, d]) for d in range(views.shape[1])])             # (D, B, classes)
+loss = scramblemix_loss(logits, torch.randint(0, 10, (8,)), lam=1.0)   # cross-entropy + self-teaching loss
+pred = predict_tta(model.eval(), torch.rand(8, 3, 32, 32), sm, num_keys=4).argmax(1)   # multi-key TTA</pre>
     <pre>git clone --depth 1 https://github.com/MADONOKOUKI/psivt23_scramblemix
 cd psivt23_scramblemix &amp;&amp; pip install -e .
 python train.py --dataset cifar10 --model shakedrop   # ScrambleMix, ShakeDrop, CIFAR-10 (slides 39–40)</pre>
-    <p class="note">The paper repository ships the original key sets and reproduces the ScrambleMix rows of the tables above (<code>scripts/reproduce_accuracy.sh</code>).</p>
+    <p class="note">The repository ships the original key sets and reproduces the ScrambleMix rows of the tables above (<code>scripts/reproduce_accuracy.sh</code>).</p>
 
     <h2>Citation</h2>
     <pre>@inproceedings{madono2024scramblemix,
@@ -161,7 +157,6 @@ python train.py --dataset cifar10 --model shakedrop   # ScrambleMix, ShakeDrop, 
       <li><a href="../spg/">Scrambling Parameter Generation to Improve Perceptual Information Hiding</a> (Electronic Imaging 2021)</li>
       <li><a href="../siagan/">SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network</a> (IEEE Access 2021)</li>
     </ul>
-    <p class="note">All four image-scrambling papers are implemented in one pip-installable library, <a href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">scramblekit</a> (<code>pip install scramblekit</code>).</p>
 
     <a class="back" href="../../#publications">← Back to the publication list</a>
   </main>

@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Scrambling Parameter Generation (SPG) — Koki Madono</title>
-  <meta name="description" content="Scrambling Parameter Generation to Improve Perceptual Information Hiding (Electronic Imaging 2021, HVEI). Project page: paper, method, results, code and the scramblekit library.">
+  <meta name="description" content="Scrambling Parameter Generation to Improve Perceptual Information Hiding (Electronic Imaging 2021, HVEI). Project page: paper, method, results and code.">
   <meta property="og:title" content="Scrambling Parameter Generation to Improve Perceptual Information Hiding">
-  <meta property="og:description" content="Scrambling Parameter Generation to Improve Perceptual Information Hiding (Electronic Imaging 2021, HVEI). Project page: paper, method, results, code and the scramblekit library.">
+  <meta property="og:description" content="Scrambling Parameter Generation to Improve Perceptual Information Hiding (Electronic Imaging 2021, HVEI). Project page: paper, method, results and code.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://madonokouki.github.io/projects/spg/">
   <meta property="og:image" content="https://madonokouki.github.io/images/projects/spg/concept.png">
@@ -71,7 +71,7 @@
     <h1>Scrambling Parameter Generation to Improve Perceptual Information Hiding</h1>
     <p class="meta"><a href="../../">Koki Madono</a> · Masayuki Tanaka · Masaki Onishi · Tetsuji Ogawa — Waseda University · AIST · Tokyo Institute of Technology</p>
     <p class="venue">IS&amp;T International Symposium on Electronic Imaging 2021, Human Vision and Electronic Imaging (HVEI) · Electronic Imaging 33(11), pp. 155-1–155-8 · <a href="https://doi.org/10.2352/ISSN.2470-1173.2021.11.HVEI-155" target="_blank" rel="noopener">doi:10.2352/ISSN.2470-1173.2021.11.HVEI-155</a></p>
-    <ul class="chips"><li><a class="chip" href="https://doi.org/10.2352/ISSN.2470-1173.2021.11.HVEI-155" target="_blank" rel="noopener">Paper (DOI)</a></li><li><a class="chip" href="https://library.imaging.org/admin/apis/public/api/ist/website/downloadArticle/ei/33/11/art00007" target="_blank" rel="noopener">PDF (open access)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/SPG_EI2020" target="_blank" rel="noopener">Code (GitHub)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">Code (integrated): scramblekit</a></li><li><a class="chip" href="https://pypi.org/project/scramblekit/" target="_blank" rel="noopener">Library: pip install scramblekit</a></li></ul>
+    <ul class="chips"><li><a class="chip" href="https://doi.org/10.2352/ISSN.2470-1173.2021.11.HVEI-155" target="_blank" rel="noopener">Paper (DOI)</a></li><li><a class="chip" href="https://library.imaging.org/admin/apis/public/api/ist/website/downloadArticle/ei/33/11/art00007" target="_blank" rel="noopener">PDF (open access)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/SPG_EI2020" target="_blank" rel="noopener">Code (GitHub)</a></li></ul>
 
     <figure><img src="../../images/projects/spg/concept.png" alt="Image scramble approach: the client scrambles training and test images with a scramble parameter; a third party trains an adaptation network and a classifier on the scrambled images" loading="lazy">
       <figcaption><strong>Image scramble approach (Fig. 1 of the paper).</strong> Every scrambler has a <em>scrambling parameter</em> (its key). How well the scrambled image hides its content depends on that parameter, yet existing methods simply draw it at random.</figcaption></figure>
@@ -111,21 +111,19 @@
     <p class="tblnote">Values from Table 2 of the paper (mean and standard deviation over repeated runs; batch 64, SGD with Nesterov momentum 0.9, 100 epochs, learning rate 0.1 → 0.01 → 0.001 at epochs 50 and 75). PE: pixel-based encryption; EtC: encryption-then-compression; LE: learnable encryption; ELE: extended learnable encryption.</p>
 
     <h2>Use it</h2>
-    <p>Scrambling parameter generation and the LPIPS-based PIH metric are available in <code>scramblekit</code> for every scrambler; the paper repository contains the experiment scripts.</p>
-    <pre>pip install &quot;scramblekit[all]&quot;</pre>
-    <pre>import numpy as np
-import scramblekit
-from scramblekit.spg import generate_parameter
+    <p>Scrambling parameter generation and the LPIPS-based PIH metric are a pip-installable package in the paper repository, together with the experiment scripts.</p>
+    <pre>pip install git+https://github.com/MADONOKOUKI/SPG_EI2020</pre>
+    <pre>import torch
+import spg
 
-img = scramblekit.sample_image()                                  # 128×128 RGB sample image
-images = np.stack([img[y:y + 32, x:x + 32] for y in range(0, 128, 32) for x in range(0, 128, 32)])  # 16 crops, 32×32
-res = generate_parameter(&quot;le&quot;, images, n_trials=20)             # Algorithm 1: keep the key with the highest mean LPIPS
-print(res.best_seed, res.best_score)                             # the generated scrambling parameter and its PIH metric
-scrambled = res.scrambler(images)</pre>
+x = torch.rand(16, 3, 32, 32)                    # a batch of images in [0, 1]
+res = spg.generate(&quot;le&quot;, x, trials=20, seed=0)   # Algorithm 1: keep the key with the highest mean LPIPS
+print(res.scores[0], &quot;-&gt;&quot;, res.score)            # random parameter vs. generated parameter
+x_s = res.scrambler(x)                           # scramble with the generated parameter</pre>
     <pre>git clone --depth 1 https://github.com/MADONOKOUKI/SPG_EI2020
 cd SPG_EI2020 &amp;&amp; pip install -e .
 python train.py --scheme le --trials 20   # Table 2, &quot;Proposed&quot; (--trials 1: &quot;Original&quot;)</pre>
-    <p class="note">The paper repository also reproduces Fig. 3 / Table 1 (<code>evaluate_iqa.py</code>) and Figs. 4–5 (<code>generate.py --sweep</code>).</p>
+    <p class="note">The repository also reproduces Fig. 3 / Table 1 (<code>evaluate_iqa.py</code>) and Figs. 4–5 (<code>generate.py --sweep</code>).</p>
 
     <h2>Citation</h2>
     <pre>@article{madono2021scrambling,
@@ -146,7 +144,6 @@ python train.py --scheme le --trials 20   # Table 2, &quot;Proposed&quot; (--tri
       <li><a href="../siagan/">SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network</a> (IEEE Access 2021)</li>
       <li><a href="../scramblemix/">ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning</a> (PSIVT 2023)</li>
     </ul>
-    <p class="note">All four image-scrambling papers are implemented in one pip-installable library, <a href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">scramblekit</a> (<code>pip install scramblekit</code>).</p>
 
     <a class="back" href="../../#publications">← Back to the publication list</a>
   </main>

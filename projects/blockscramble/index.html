@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Block-wise Scrambled Image Recognition — Koki Madono</title>
-  <meta name="description" content="Block-wise Scrambled Image Recognition Using Adaptation Network (AAAI-20 Workshop on AIoT). Project page: paper, method, results, code and the scramblekit library.">
+  <meta name="description" content="Block-wise Scrambled Image Recognition Using Adaptation Network (AAAI-20 Workshop on AIoT). Project page: paper, method, results and code.">
   <meta property="og:title" content="Block-wise Scrambled Image Recognition Using Adaptation Network">
-  <meta property="og:description" content="Block-wise Scrambled Image Recognition Using Adaptation Network (AAAI-20 Workshop on AIoT). Project page: paper, method, results, code and the scramblekit library.">
+  <meta property="og:description" content="Block-wise Scrambled Image Recognition Using Adaptation Network (AAAI-20 Workshop on AIoT). Project page: paper, method, results and code.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://madonokouki.github.io/projects/blockscramble/">
   <meta property="og:image" content="https://madonokouki.github.io/images/projects/blockscramble/concept.png">
@@ -71,7 +71,7 @@
     <h1>Block-wise Scrambled Image Recognition Using Adaptation Network</h1>
     <p class="meta"><a href="../../">Koki Madono</a> · Masayuki Tanaka · Masaki Onishi · Tetsuji Ogawa — Waseda University · National Institute of Advanced Industrial Science and Technology (AIST)</p>
     <p class="venue">AAAI-20 Workshop on Artificial Intelligence of Things (AIoT), 2020 · <a href="https://arxiv.org/abs/2001.07761" target="_blank" rel="noopener">arXiv:2001.07761</a></p>
-    <ul class="chips"><li><a class="chip" href="https://arxiv.org/abs/2001.07761" target="_blank" rel="noopener">Paper (arXiv)</a></li><li><a class="chip" href="https://aiotworkshop.github.io/2020/published/Block-wise%20Scrambled%20Image%20Recognition%20Using%20Adaptation%20Network.pdf" target="_blank" rel="noopener">PDF (workshop)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition" target="_blank" rel="noopener">Code (GitHub)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">Code (integrated): scramblekit</a></li><li><a class="chip" href="https://pypi.org/project/scramblekit/" target="_blank" rel="noopener">Library: pip install scramblekit</a></li></ul>
+    <ul class="chips"><li><a class="chip" href="https://arxiv.org/abs/2001.07761" target="_blank" rel="noopener">Paper (arXiv)</a></li><li><a class="chip" href="https://aiotworkshop.github.io/2020/published/Block-wise%20Scrambled%20Image%20Recognition%20Using%20Adaptation%20Network.pdf" target="_blank" rel="noopener">PDF (workshop)</a></li><li><a class="chip" href="https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition" target="_blank" rel="noopener">Code (GitHub)</a></li></ul>
 
     <figure><img src="../../images/projects/blockscramble/concept.png" alt="Client scrambles images block by block and uploads them; the cloud trains an adaptation network and a classifier on the scrambled images" loading="lazy">
       <figcaption><strong>Setting (Fig. 1 of the paper).</strong> The client scrambles every image block by block before it leaves the device. The cloud side stores only scrambled images and trains an <em>adaptation network</em> followed by an ordinary classifier on them, so the classification result comes back while a third party never sees the perceptual content.</figcaption></figure>
@@ -103,23 +103,21 @@
     <p class="tblnote">Accuracy in %, values from Table 3 of the paper (ShakeDrop classifier; SGD with Nesterov momentum 0.9, batch 128, 300 epochs, learning rate 0.1 → 0.01 → 0.001 at epochs 150 and 225).</p>
 
     <h2>Use it</h2>
-    <p>The scrambling schemes (LE, ELE, EtC and the block-wise operations) and the adaptation networks are available in <code>scramblekit</code>; the paper repository reproduces Table 3 with one command per cell.</p>
-    <pre>pip install &quot;scramblekit[torch]&quot;</pre>
-    <pre>import numpy as np
-import scramblekit
-from scramblekit.scramble import ELE
-from scramblekit.models import build_model
+    <p>The scrambling schemes and the adaptation networks are a pip-installable package in the paper repository, which also reproduces Table 3 with one command per cell.</p>
+    <pre>pip install git+https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition</pre>
+    <pre>import torch
+import blockscramble as bs
 
-img = scramblekit.sample_image()                    # 128×128 RGB sample image (uint8)
-ele = ELE(key=0, image_size=128)                    # ELE: its own key for every 4×4 block + block shuffling
-scrambled = ele(img)                                # also takes PIL images and (N, 3, H, W) tensors
-assert np.array_equal(ele.inverse(scrambled), img)  # the key restores the image exactly
+ele = bs.ELE()                                  # the paper&#x27;s block-wise scrambling with the paper&#x27;s keys
+x = torch.rand(8, 3, 32, 32)                    # images in [0, 1]; PIL images and numpy arrays work too
+x_scr = ele(x)                                  # ele.inverse(x_scr) decrypts it (8-bit exact)
 
-net = build_model(&quot;shakepyramidnet&quot;, num_classes=10, adaptation=&quot;ele&quot;)  # ELE-AdaptNet + ShakeDrop PyramidNet-110</pre>
+model = bs.build_model(adaptation=&quot;proposed&quot;, num_classes=10)   # ELE-AdaptNet + Shake-PyramidNet-110
+logits, feature = model(x_scr, return_feature=True)</pre>
     <pre>git clone --depth 1 https://github.com/MADONOKOUKI/Block-wise-Scrambled-Image-Recognition
 cd Block-wise-Scrambled-Image-Recognition &amp;&amp; pip install -e .
 python train.py --dataset cifar10 --scramble ele --adaptation proposed   # one cell of Table 3</pre>
-    <p class="note">The last three lines reproduce one cell of Table 3 with the paper repository; <code>scripts/reproduce_table3.sh</code> lists all 24 runs.</p>
+    <p class="note"><code>scripts/reproduce_table3.sh</code> in the repository lists all 24 runs of Table 3.</p>
 
     <h2>Citation</h2>
     <pre>@inproceedings{madono2020block,
@@ -138,7 +136,6 @@ python train.py --dataset cifar10 --scramble ele --adaptation proposed   # one c
       <li><a href="../siagan/">SIA-GAN: Scrambling Inversion Attack Using Generative Adversarial Network</a> (IEEE Access 2021)</li>
       <li><a href="../scramblemix/">ScrambleMix: A Privacy-Preserving Image Processing for Edge-Cloud Machine Learning</a> (PSIVT 2023)</li>
     </ul>
-    <p class="note">All four image-scrambling papers are implemented in one pip-installable library, <a href="https://github.com/MADONOKOUKI/scramblekit" target="_blank" rel="noopener">scramblekit</a> (<code>pip install scramblekit</code>).</p>
 
     <a class="back" href="../../#publications">← Back to the publication list</a>
   </main>
