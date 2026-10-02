@@ -162,9 +162,9 @@ reference run; the full-scale and training scripts expect the data and checkpoin
 <tr>
 <td>Table II/III baseline rows (PaintsTorch, Diffusart, ColorizeDiffusion v1/v2)</td>
 <td>no</td>
-<td>with the respective official code (<code>paper_experiments/</code>); Diffusart-retrain: v1.2 checkpoints</td>
-<td>the baselines' code and weights</td>
-<td>ColorizeDiffusion fine-tuned weights (not preserved)</td>
+<td>with the respective official code (<code>paper_experiments/</code>); ColorizeDiffusion: the fine-tuned weights of v1.5; Diffusart-retrain: v1.2 checkpoints</td>
+<td>the baselines' official code</td>
+<td>the trained PaintsTorch and Diffusart baseline weights</td>
 </tr>
 <tr>
 <td>Table III, DetFill scribble row</td>
@@ -517,7 +517,7 @@ not re-run a complete table row on different hardware; expect small differences 
   training loop, deterministic-hint loader, inference and evaluation; README inside) with the two released EMA
   checkpoints of release v1.2.</li>
 <li><strong>ColorizeDiffusion fine-tuning (Table II/III "200ep", supp. "7ep")</strong> — <code>paper_experiments/coldiff_finetune/</code>
-  (launchers for the official ColorizeDiffusion v1/v2 code; the fine-tuned weights were not preserved).</li>
+  (launchers for the official ColorizeDiffusion v1/v2 code; the fine-tuned weights are in release v1.5).</li>
 </ul>
 <h2 id="known-deviations-and-gaps-honest-list">Known deviations and gaps (honest list)</h2>
 <ul>
@@ -548,7 +548,7 @@ not re-run a complete table row on different hardware; expect small differences 
 <li><strong>Not covered by released per-ratio data:</strong> the Table II/III <em>dot</em> rows of DetFill, all baseline rows
   (PaintsTorch, Diffusart, ColorizeDiffusion v1/v2), the natural-image (ImageNet) tables and the legacy per-source
   tables of the supplement (earlier checkpoints). The dot row and the baselines can be regenerated with layer D and the
-  respective official code (the ColorizeDiffusion fine-tuned weights were not preserved). The natural-image DetFill
+  respective official code (the ColorizeDiffusion fine-tuned weights are in release v1.5). The natural-image DetFill
   models behind the printed ImageNet tables are the 64-channel models of release v1.4 (our re-evaluation on 24 test
   images matches the printed Hint-AUC within 0.7 dB; the 96-channel models of v1.2 are a later generation), and the
   ImageNet test hint maps are in v1.2; without the archived per-image record those tables remain "same protocol",
