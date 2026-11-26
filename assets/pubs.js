@@ -6,7 +6,8 @@
    image on the right. Entries are grouped by year, newest first.
    Link labels get icons automatically: Paper/PDF → document, Code → brackets,
    Patent → medal, Project/Page → globe, Video → camera, Demo → laptop,
-   Dataset/Data → database, PyPI/Library → package. */
+   Dataset/Data → database, PyPI/Library → package.
+   An optional "url" on an entry turns its title into a link (e.g. the project page). */
 
 const PUB_ICONS = {
   doc: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 1.5h5L11.5 5v7.5h-8.5z"/><path d="M8 1.5V5h3.5"/></svg>',
@@ -65,6 +66,21 @@ function showDialog(title, bodyEl) {
   dialog.addEventListener('close', () => dialog.remove());
 }
 
+function setTitle(el, p) {
+  if (!p.url) {
+    el.textContent = p.title;
+    return;
+  }
+  const a = document.createElement('a');
+  a.href = p.url;
+  a.textContent = p.title;
+  if (/^https?:/.test(p.url)) {
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+  }
+  el.appendChild(a);
+}
+
 function pubEntry(p) {
   const art = document.createElement('article');
   art.className = 'pub-entry';
@@ -74,7 +90,7 @@ function pubEntry(p) {
 
   const h3 = document.createElement('h3');
   h3.className = 'pub-title';
-  h3.textContent = p.title;
+  setTitle(h3, p);
   content.appendChild(h3);
 
   const authors = document.createElement('p');
@@ -177,7 +193,7 @@ async function renderCompactPublications(rootId, jsonUrl) {
 
     const title = document.createElement('span');
     title.className = 'pc-title';
-    title.textContent = p.title;
+    setTitle(title, p);
     li.appendChild(title);
     li.appendChild(document.createElement('br'));
 

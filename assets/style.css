@@ -348,6 +348,8 @@ main.wrap { padding-top: 4px; padding-bottom: 30px; }
 .pub-compact { margin: 9px 0 0; padding: 0; list-style: none; }
 .pub-compact li { margin: 0 0 7px; font-size: 13px; line-height: 1.5; }
 .pub-compact .pc-title { font-weight: 600; }
+.pub-title a, .pc-title a { color: inherit; text-decoration: none; }
+.pub-title a:hover, .pc-title a:hover { text-decoration: underline; }
 .pub-compact .pc-meta { color: var(--muted); }
 .pub-compact .pc-meta strong { color: var(--ink); font-weight: 600; }
 .pub-compact .pc-link { font-size: 12.5px; }

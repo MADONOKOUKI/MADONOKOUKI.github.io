@@ -42,6 +42,7 @@
     "year": 2024,
     "type": "domestic",
     "title": "Hint-AUC: Deterministic Region-based Hint Generation for Line Art Colorization Evaluation",
+    "url": "projects/hintauc/",
     "authors": "Koki Madono, Mingcheng Yuan, Edgar Simo-Serra",
     "venue": "Visual Computing 2024 (poster, P34), Tokyo",
     "award": "CyberAgent Company Award",
